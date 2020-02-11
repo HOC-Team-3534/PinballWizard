@@ -59,22 +59,12 @@ public class OI {
 
 	public static enum Buttons {
 
-		Shoot(new Callable<Boolean>(){
+		ShootFar(new Callable<Boolean>(){
 
             @Override
             public Boolean call() throws Exception{
 
-                return Boolean.valueOf(Robot.oi.getController1().getAButton());
-
-            }
-
-        }),
-		Intake(new Callable<Boolean>(){
-
-            @Override
-            public Boolean call() throws Exception{
-
-                return Boolean.valueOf(Robot.oi.getController1().getBButton());
+                return Boolean.valueOf(Robot.oi.getController1().getBumper(Hand.kRight));
 
             }
 
@@ -143,6 +133,46 @@ public class OI {
             public Double call() throws Exception{
 
                 return Robot.oi.getController1().getTriggerAxis(Hand.kRight);
+
+			}
+			
+		}),
+		ShootClose(new Callable<Double>(){
+
+            @Override
+            public Double call() throws Exception{
+
+                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft);
+
+			}
+			
+		}),
+		Intake(new Callable<Double>(){
+
+            @Override
+            public Double call() throws Exception{
+
+                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft);
+
+			}
+			
+		}),
+		Elevate_UpAndDown(new Callable<Double>(){
+
+            @Override
+            public Double call() throws Exception{
+
+                return -Robot.oi.getController2().getY(Hand.kRight);
+
+			}
+			
+		}),
+		Translate_FartherAndCloser(new Callable<Double>(){
+
+            @Override
+            public Double call() throws Exception{
+
+                return -Robot.oi.getController2().getY(Hand.kLeft);
 
 			}
 			
