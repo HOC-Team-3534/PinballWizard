@@ -3,7 +3,6 @@ package org.usfirst.frc3534.RobotBasic.systems;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Spinner extends SystemBase implements SystemInterface {
@@ -28,7 +27,7 @@ public class Spinner extends SystemBase implements SystemInterface {
 
         case off:
 
-        setSpinnerPower(spinnerState.value); 
+            setSpinnerPower(spinnerState.value); 
 
             break;
 
@@ -57,15 +56,15 @@ public class Spinner extends SystemBase implements SystemInterface {
 
     }
 
-    private void setSpinnerPower(double power){
-
-        spinner.set(ControlMode.PercentOutput, power);
-
-    }
-
     public SpinnerState getSpinnerState(){
 
         return spinnerState;
+
+    }
+
+    private void setSpinnerPower(double power){
+
+        spinner.set(ControlMode.PercentOutput, power);
 
     }
 

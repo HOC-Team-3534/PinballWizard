@@ -4,6 +4,7 @@ import org.usfirst.frc3534.RobotBasic.RobotMap;
 import org.usfirst.frc3534.RobotBasic.OI.Axes;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -37,16 +38,19 @@ public class Elevator extends SystemBase implements SystemInterface {
                 targetPosition = maxElevatorPosition;
             }
             setElevatorPosition(targetPosition);
+            elevator.setNeutralMode(NeutralMode.Brake);
 
         case position:
 
             setElevatorPosition(initialElevatorPosition + elevatorState.value); 
+            elevator.setNeutralMode(NeutralMode.Brake);
 
             break;
 
         case off:
 
-            setElevatorPower(elevatorState.value); 
+            setElevatorPower(elevatorState.value);
+            elevator.setNeutralMode(NeutralMode.Coast); 
 
             break;
 

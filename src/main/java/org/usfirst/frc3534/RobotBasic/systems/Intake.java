@@ -3,7 +3,6 @@ package org.usfirst.frc3534.RobotBasic.systems;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Intake extends SystemBase implements SystemInterface {
@@ -24,13 +23,19 @@ public class Intake extends SystemBase implements SystemInterface {
         switch(intakeArmState){
             case up:
 
-                setIntakeArmPower(intakeArmState.value); 
+                setIntakeArmPower(intakeArmState.value);
+                if(intakeArm.getSupplyCurrent() > RobotMap.intakeArmSpikeCurrent){
+                    setIntakeArmState(IntakeArmState.off);
+                } 
 
                 break;
             
             case down:
 
                 setIntakeArmPower(intakeArmState.value); 
+                if(intakeArm.getSupplyCurrent() > RobotMap.intakeArmSpikeCurrent){
+                    setIntakeArmState(IntakeArmState.off);
+                } 
 
                 break;
 

@@ -49,6 +49,8 @@ public class RobotMap {
 
 	public static final int elevator_maxHeight = 0;
 
+	public static final double intakeArmSpikeCurrent = 0.0;
+
 	public static final double maxVelocity = 6.6; //meters per second
 	public static final double maxAngularVelocity = Math.PI * 6; //radians per second
 
@@ -121,6 +123,7 @@ public class RobotMap {
 		winch = new WPI_TalonFX(13);
 
 		translator = new WPI_TalonSRX(14);
+		translator.setNeutralMode(NeutralMode.Brake);
 
 		spinner = new WPI_TalonSRX(15);
 		
@@ -190,6 +193,9 @@ public class RobotMap {
 		  */
 
 		shooter_shooter_shoot(15500),
+		shooter_topBelt_feed(1.0),
+		shooter_indexWheel_feed(1.0),
+		shooter_indexWheel_index(0.0),
 		intake_intakeRoller_intake(1.0),
 		intake_intakeArm_armUp(1.0),
 		intake_intakeArm_armDown(-1.0),

@@ -12,9 +12,11 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
 
-    ShooterState shooterState = ShooterState.STOP;
-    TopBeltState topBeltState = TopBeltState.STOP;
-    IndexWheelState indexWheelState = IndexWheelState.STOP;
+    int indexWheelTargetPosition = 0;
+
+    ShooterState shooterState = ShooterState.off;
+    TopBeltState topBeltState = TopBeltState.off;
+    IndexWheelState indexWheelState = IndexWheelState.off;
 
     public Shooter(){
 
@@ -24,13 +26,13 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void process(){
 
         switch(shooterState){
-        case SHOOT:
+        case shoot:
 
             setShooterPower(shooterState.value); 
 
             break;
 
-        case STOP:
+        case off:
 
             setShooterPower(shooterState.value); 
 
@@ -39,13 +41,13 @@ public class Shooter extends SystemBase implements SystemInterface {
         }
 
         switch(topBeltState){
-            case RUN:
+            case feed:
     
                 setTopBeltPower(topBeltState.value); 
     
                 break;
     
-            case STOP:
+            case off:
     
                 setTopBeltPower(topBeltState.value); 
     
@@ -54,13 +56,17 @@ public class Shooter extends SystemBase implements SystemInterface {
             }
 
         switch(indexWheelState){
-            case RUN:
+            case feed:
     
                 setIndexWheelPower(indexWheelState.value); 
     
                 break;
+
+            case index:
+
+                setIndexWheelPosition(indexWheelTargetPosition);
     
-            case STOP:
+            case off:
     
                 setIndexWheelPower(indexWheelState.value); 
     
@@ -71,8 +77,8 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public enum ShooterState{
         
-        SHOOT(RobotMap.PowerOutput.shooter_shooter_shoot.power),
-        STOP(RobotMap.PowerOutput.shooter_shooter_stop.power);
+        shoot(RobotMap.PowerOutput.shooter_shooter_shoot.power),
+        off(0.0);
 
         double value;
 
@@ -86,8 +92,8 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public enum TopBeltState{
         
-        RUN(RobotMap.PowerOutput.shooter_topBelt_run.power),
-        STOP(RobotMap.PowerOutput.shooter_topBelt_stop.power);
+        feed(RobotMap.PowerOutput.shooter_topBelt_feed.power),
+        off(0.0);
 
         double value;
 
@@ -101,8 +107,9 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public enum IndexWheelState{
         
-        RUN(RobotMap.PowerOutput.shooter_indexWheel_run.power),
-        STOP(RobotMap.PowerOutput.shooter_indexWheel_stop.power);
+        feed(RobotMap.PowerOutput.shooter_indexWheel_feed.power),
+        index(RobotMap.PowerOutput.shooter_indexWheel_index.power),
+        off(0.0);
 
         double value;
 
@@ -146,6 +153,13 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setIndexWheelState(IndexWheelState state){
 
         indexWheelState = state;
+        indexWheelTargetPosition = indexWheel.getSelectedSensorPosition() + (int)indexWheelState.value;
+
+    }
+
+    private void setIndexWheelPosition(int position){
+
+        indexWheel.set(ControlMode.Position, position);
 
     }
 

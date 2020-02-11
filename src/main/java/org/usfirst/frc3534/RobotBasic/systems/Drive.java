@@ -8,7 +8,6 @@ import org.usfirst.frc3534.RobotBasic.RobotMap;
 import org.usfirst.frc3534.RobotBasic.OI.Axes;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -31,8 +30,6 @@ public class Drive extends SystemBase implements SystemInterface {
 	private final MecanumDriveKinematics kinematics = new MecanumDriveKinematics(frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 	private final MecanumDriveOdometry odometry = new MecanumDriveOdometry(kinematics, getAngle());
 
-	private double rightPower, leftPower;
-
 	private double deadband = 0.15;				//the deadband on the controller (forward/backward)
 	private double sideDeadband = 0.15;
 	private double turningDeadband = 0.10;		//the deadband on the controller (left/right)
@@ -40,8 +37,6 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	private double longitudinal_input, latitudinal_input, rotational_input;			//used to store the direct input value of the respective axis on the controller
 	private double longitudinal_output, latitudinal_output, rotational_output;		//used to save the percentage output calculated from the initial inputs
-
-	private double left_command = 0.0, right_command = 0.0;		//used for autonomous power output
 
 	private double last_error, overall_error;	
 	
@@ -58,7 +53,6 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	private double heightOfLimeLight = 23.4375;
 	private double heightToTop = 8.1875 * 12;
-	private double viewingAngle = 49.7;
 	private double angleOfLimelight = 11.66;
 
 	public Drive() {
@@ -173,8 +167,6 @@ public class Drive extends SystemBase implements SystemInterface {
 				}else{
 
 					steering_adjust = 0.0;
-					left_command = 0.0;
-					right_command = 0.0;
 
 				}
 
@@ -284,18 +276,6 @@ public class Drive extends SystemBase implements SystemInterface {
 	public void updateOdometry() {
 
 		odometry.update(getAngle(), getCurrentState());
-
-	}
-
-	public void setRightPower(double power) {
-
-		rightPower = power;
-
-	}
-
-	public void setLeftPower(double power) {
-
-		leftPower = power;
 
 	}
 
