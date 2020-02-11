@@ -23,19 +23,20 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 public class RobotMap {
 
 	public static WPI_TalonFX frontLeftMotor;		//1
-	//spare talon srx								//2
-	public static WPI_TalonFX backLeftMotor;		//3
-	//spare talon srx								//4
-	//spare talon srx								//5
-	//spare talon srx								//6
-	//spare talon srx								//7
-	public static WPI_TalonFX backRightMotor;		//8
-	//spare talon srx								//9
-	public static WPI_TalonFX frontRightMotor;		//10
-	public static WPI_TalonFX shooter; 				//11
-	public static WPI_TalonSRX topBelt;				//12
-	public static WPI_TalonSRX indexWheel;			//13
-	public static WPI_TalonFX shooterSlave;			//14
+	public static WPI_TalonFX backLeftMotor;		//2
+	public static WPI_TalonFX backRightMotor;		//3
+	public static WPI_TalonFX frontRightMotor;		//4
+	public static WPI_TalonFX shooter; 				//5
+	public static WPI_TalonFX shooterSlave;			//6
+	public static WPI_TalonSRX hood;				//7
+	public static WPI_TalonSRX topBelt;				//8
+	public static WPI_TalonSRX indexWheel;			//9
+	public static WPI_TalonSRX intakeArm;			//10
+	public static WPI_TalonSRX intakeRoller;		//11
+	public static WPI_TalonSRX elevator;			//12
+	public static WPI_TalonFX winch;				//13
+	public static WPI_TalonSRX climbTranslate;		//14
+	public static WPI_TalonSRX colorWheel;			//15
 
 	public static ColorSensorV3 colorSensor;
 
@@ -72,16 +73,14 @@ public class RobotMap {
 		frontLeftMotor.config_kD(0, 80, 0);
 		frontLeftMotor.setNeutralMode(NeutralMode.Brake);
 
-		backLeftMotor = new WPI_TalonFX(3);
+		backLeftMotor = new WPI_TalonFX(2);
 		backLeftMotor.config_kF(0, 0.05, 0);
 		backLeftMotor.config_kP(0, 3, 0);
 		backLeftMotor.config_kI(0, 0, 0);
 		backLeftMotor.config_kD(0, 80, 0);
 		backLeftMotor.setNeutralMode(NeutralMode.Brake);
 
-		//shooter = new WPI_TalonFX(6);
-
-		backRightMotor = new WPI_TalonFX(8);
+		backRightMotor = new WPI_TalonFX(3);
 		backRightMotor.setInverted(true);
 		backRightMotor.config_kF(0, 0.05, 0);
 		backRightMotor.config_kP(0, 3, 0);
@@ -89,22 +88,39 @@ public class RobotMap {
 		backRightMotor.config_kD(0, 80, 0);
 		backRightMotor.setNeutralMode(NeutralMode.Brake);
 
-		frontRightMotor = new WPI_TalonFX(10);
+		frontRightMotor = new WPI_TalonFX(4);
 		frontRightMotor.setInverted(true);
 		frontRightMotor.config_kF(0, 0.05, 0);
 		frontRightMotor.config_kP(0, 3, 0);
 		frontRightMotor.config_kI(0, 0, 0);
 		frontRightMotor.config_kD(0, 80, 0);
 		frontRightMotor.setNeutralMode(NeutralMode.Brake);
-		shooter = new WPI_TalonFX(11);
-		shooterSlave = new WPI_TalonFX(15);
+
+		shooter = new WPI_TalonFX(5);
+		shooterSlave = new WPI_TalonFX(6);
 		shooterSlave.follow(shooter);
 		shooterSlave.setInverted(true);
-		topBelt = new WPI_TalonSRX(12);//12
+
+		hood = new WPI_TalonSRX(7);
+
+		topBelt = new WPI_TalonSRX(8);
 		topBelt.setInverted(true);
 		topBelt.setNeutralMode(NeutralMode.Brake);
-		indexWheel = new WPI_TalonSRX(13);//13
+
+		indexWheel = new WPI_TalonSRX(9);
 		indexWheel.setNeutralMode(NeutralMode.Brake);
+
+		intakeArm = new WPI_TalonSRX(10);
+
+		intakeRoller = new WPI_TalonSRX(11);
+
+		elevator = new WPI_TalonSRX(12);
+
+		winch = new WPI_TalonFX(13);
+
+		climbTranslate = new WPI_TalonSRX(14);
+
+		colorWheel = new WPI_TalonSRX(15);
 		
 		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
