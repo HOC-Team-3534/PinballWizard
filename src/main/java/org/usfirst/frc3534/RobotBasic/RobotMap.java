@@ -35,7 +35,7 @@ public class RobotMap {
 	public static WPI_TalonSRX intakeRoller;		//11
 	public static WPI_TalonSRX elevator;			//12
 	public static WPI_TalonFX winch;				//13
-	public static WPI_TalonSRX climbTranslate;		//14
+	public static WPI_TalonSRX translator;			//14
 	public static WPI_TalonSRX spinner;				//15
 
 	public static ColorSensorV3 colorSensor;
@@ -46,6 +46,8 @@ public class RobotMap {
 
 
 	public static AHRS navx;
+
+	public static final int elevator_maxHeight = 0;
 
 	public static final double maxVelocity = 6.6; //meters per second
 	public static final double maxAngularVelocity = Math.PI * 6; //radians per second
@@ -118,7 +120,7 @@ public class RobotMap {
 
 		winch = new WPI_TalonFX(13);
 
-		climbTranslate = new WPI_TalonSRX(14);
+		translator = new WPI_TalonSRX(14);
 
 		spinner = new WPI_TalonSRX(15);
 		
@@ -191,6 +193,10 @@ public class RobotMap {
 		intake_intakeRoller_intake(1.0),
 		intake_intakeArm_armUp(1.0),
 		intake_intakeArm_armDown(-1.0),
+		elevator_elevator_maxupdown(0.0),
+		elevator_elevator_colorWheelPosition(0.0),
+		elevator_winch_winch(1.0),
+		elevator_translator_maxOutput(1.0),
 		spinner_spinner_spin(1.0);
 
 		public double power;
