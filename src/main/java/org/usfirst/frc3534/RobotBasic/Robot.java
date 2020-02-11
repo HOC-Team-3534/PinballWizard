@@ -3,7 +3,7 @@ package org.usfirst.frc3534.RobotBasic;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Notifier; 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
