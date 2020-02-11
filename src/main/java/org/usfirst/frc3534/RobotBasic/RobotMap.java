@@ -190,7 +190,9 @@ public class RobotMap {
 		//intake_roller_intake(0.85), 
 		//intake_roller_stop(0.0),
 		shooter_shooter_shoot(15500),
-		shooter_shooter_stop(0.0);
+		intake_intakeRoller_intake(1.0),
+		intake_intakeArm_armUp(1.0),
+		intake_intakeArm_armDown(-1.0);
 
 		public double power;
 
