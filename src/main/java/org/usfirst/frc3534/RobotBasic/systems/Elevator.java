@@ -15,7 +15,6 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     private final int initialElevatorPosition = elevator.getSelectedSensorPosition();
     private final int maxElevatorPosition = initialElevatorPosition + RobotMap.elevator_maxHeight;
-    private int elevatorPosition = elevator.getSelectedSensorPosition();
 
     ElevatorState elevatorState = ElevatorState.off;
     WinchState winchState = WinchState.off;
