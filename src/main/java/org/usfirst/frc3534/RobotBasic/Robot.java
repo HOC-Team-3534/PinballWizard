@@ -13,11 +13,6 @@ import org.usfirst.frc3534.RobotBasic.systems.*;
 import Autons.AutonStateMachine0;
 import Autons.AutonStateMachineInterface;
 
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.PathfinderFRC;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.followers.EncoderFollower;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -39,7 +34,6 @@ public class Robot extends TimedRobot {
 	public static double designatedLoopPeriod = 20; // in milliseconds. milliseconds = seconds/1000. seconds to
 													// milliseconds . seconds * 1000 = milliseconds
 
-	EncoderFollower m_left_follower, m_right_follower;
 	Notifier m_follower_notifier;
 
 	public static boolean autonomous;
@@ -243,44 +237,6 @@ public class Robot extends TimedRobot {
 
 		}
 	}
-
-	private void followPath() {
-		if (m_left_follower.isFinished() || m_right_follower.isFinished()) {
-		  m_follower_notifier.stop();
-		} else {
-		  double left_speed = m_left_follower.calculate(RobotMap.frontRightMotor.getSelectedSensorPosition());
-		  double right_speed = m_right_follower.calculate(RobotMap.frontLeftMotor.getSelectedSensorPosition());
-		  double heading = RobotMap.navx.getAngle();
-		  double desired_heading = Pathfinder.r2d(m_left_follower.getHeading());
-		  double heading_difference = Pathfinder.boundHalfDegrees(desired_heading - heading);
-		  double turn =  0.8 * (-1.0/80.0) * heading_difference;
-		  RobotMap.frontLeftMotor.set(left_speed + turn);
-		  RobotMap.frontRightMotor.set(right_speed - turn);
-		}
-	}
-	
-	public void newPath(Trajectory left, Trajectory right, boolean forward) {
-		//Trajectory left_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".left");
-		//Trajectory right_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".right");
-	
-		m_left_follower = new EncoderFollower(left);
-		m_right_follower = new EncoderFollower(right);
-
-		int k_ticks_per_rev = 1440;
-		double k_wheel_diameter = 6.0;
-		double k_max_velocity = 160.0;
-	
-		m_left_follower.configureEncoder(RobotMap.frontLeftMotor.getSelectedSensorPosition(), k_ticks_per_rev, k_wheel_diameter);
-		// You must tune the PID values on the following line!
-		m_left_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-	
-		m_right_follower.configureEncoder(RobotMap.frontRightMotor.getSelectedSensorPosition(), k_ticks_per_rev, k_wheel_diameter);
-		// You must tune the PID values on the following line!
-		m_right_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-		
-		m_follower_notifier = new Notifier(this::followPath);
-		m_follower_notifier.startPeriodic(left.get(0).dt);
-	  }
 
 	public void RobotState(String state) {
 
