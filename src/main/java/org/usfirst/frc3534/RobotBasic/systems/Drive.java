@@ -48,6 +48,8 @@ public class Drive extends SystemBase implements SystemInterface {
 	private double KiAim = 0.0009;				
 	private double KdAim = 100.0; 
 
+	private boolean dtmEnabled = false;
+	private boolean dtmCorrected = false;
 
 	private long prevTime = System.currentTimeMillis();
 
@@ -128,7 +130,7 @@ public class Drive extends SystemBase implements SystemInterface {
 				overall_error = 0.0;
 				prevTime = System.currentTimeMillis();
 	
-			}else if(Axes.Drive_DriverTargetMode.getAxis() < 0.5){
+			}else if(dtmEnabled){
 
 				overall_error = 0.0;
 				negative = false;
@@ -283,5 +285,17 @@ public class Drive extends SystemBase implements SystemInterface {
 
 		return Rotation2d.fromDegrees(-RobotMap.navx.getAngle());
 
+	}
+
+	public void setDtmEnabled(boolean enabled) {
+
+		dtmEnabled = enabled;
+
+	}
+
+	public boolean getDtmCorrected(){
+
+		return dtmCorrected;
+		
 	}
 }

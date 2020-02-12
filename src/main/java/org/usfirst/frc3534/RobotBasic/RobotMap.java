@@ -47,9 +47,11 @@ public class RobotMap {
 
 	public static AHRS navx;
 
-	public static final int elevator_maxHeight = 0;
+	public static final int shooterVelocityDrop = 0;
 
 	public static final double intakeArmSpikeCurrent = 0.0;
+
+	public static final int elevator_maxHeight = 0;
 
 	public static final double maxVelocity = 6.6; //meters per second
 	public static final double maxAngularVelocity = Math.PI * 6; //radians per second

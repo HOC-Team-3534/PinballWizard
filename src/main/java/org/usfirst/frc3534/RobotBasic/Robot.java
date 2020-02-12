@@ -25,6 +25,9 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Drive drive;
 	public static Shooter shooter;
+	public static Intake intake;
+	public static Elevator elevator;
+	public static Spinner spinner;
 	public static FunctionProcessor functionProcessor;
 
 	private int loopPeriod = 0;
@@ -53,6 +56,9 @@ public class Robot extends TimedRobot {
 
 		drive = new Drive();
 		shooter = new Shooter();
+		intake = new Intake();
+		elevator = new Elevator();
+		spinner = new Spinner();
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
@@ -151,7 +157,10 @@ public class Robot extends TimedRobot {
 				// run processes
 				autonStateMachine.process();
 				drive.process();
-				//shooter.process();
+				shooter.process();
+				intake.process();
+				elevator.process();
+				spinner.process();
 
 			}
 
@@ -199,8 +208,11 @@ public class Robot extends TimedRobot {
 				
 				functionProcessor.process();
 				// run processes
-				//drive.process();
+				drive.process();
 				shooter.process();
+				intake.process();
+				elevator.process();
+				spinner.process();
 				/** Run subsystem process methods here */
 
 			}

@@ -12,6 +12,8 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
 
+    int shooterVelocity = 0;
+    int prevShooterVelocity = 0;
     int indexWheelTargetPosition = 0;
 
     ShooterState shooterState = ShooterState.off;
@@ -73,6 +75,10 @@ public class Shooter extends SystemBase implements SystemInterface {
                 break;
     
             }
+
+            prevShooterVelocity = shooterVelocity;
+            shooterVelocity = shooter.getSelectedSensorVelocity();
+
     }
 
     public enum ShooterState{
@@ -87,6 +93,11 @@ public class Shooter extends SystemBase implements SystemInterface {
             this.value = value;
 
         }
+    }
+
+    public double getShooterValue(){
+
+        return shooterState.value;
 
     }
 
@@ -126,9 +137,27 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
+    public ShooterState getShooterState(){
+
+        return shooterState;
+
+    }
+
     private void setShooterPower(double power){
 
         shooter.set(ControlMode.Velocity, power);
+
+    }
+
+    public int getShooterVelocity(){
+
+        return shooterVelocity;
+
+    }
+
+    public int getPrevShooterVelocity(){
+
+        return prevShooterVelocity;
 
     }
 

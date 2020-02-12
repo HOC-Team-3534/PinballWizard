@@ -10,6 +10,8 @@ public class Intake extends SystemBase implements SystemInterface {
     private WPI_TalonSRX intakeArm = RobotMap.intakeArm;
     private WPI_TalonSRX intakeRoller = RobotMap.intakeRoller;
 
+    int ballsInPossession = 0;
+
     IntakeArmState intakeArmState = IntakeArmState.off;
     IntakeRollerState intakeRollerState = IntakeRollerState.off;
 
@@ -131,4 +133,15 @@ public class Intake extends SystemBase implements SystemInterface {
 
     }
 
+    public void shotBall(){
+
+        ballsInPossession--;
+
+    }
+
+    public int getBallsInPossession(){
+        
+        return ballsInPossession;
+
+    }
 }
