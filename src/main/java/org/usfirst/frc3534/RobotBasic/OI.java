@@ -68,6 +68,26 @@ public class OI {
 
             }
 
+		}),
+		RotationControl(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getAButton());
+
+            }
+
+		}),
+		PositionControl(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getYButton());
+
+            }
+
         });
 		
 		/** Add in Functions Buttons here */
