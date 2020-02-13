@@ -32,7 +32,8 @@ public class Elevator extends SystemBase implements SystemInterface {
         switch(elevatorState){
         case up_down:
 
-            double input = Axes.Elevate_UpAndDown.getAxis() * (1 - deadband) + deadband;
+            double input = Axes.Elevate_UpAndDown.getAxis() - deadband;
+            input *= (1 / (1 - deadband));
             int targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
             if(targetPosition < initialElevatorPosition){
                 targetPosition = initialElevatorPosition;
