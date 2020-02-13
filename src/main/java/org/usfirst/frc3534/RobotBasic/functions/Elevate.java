@@ -26,7 +26,7 @@ public class Elevate extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= 0.25){
+        if(!running && Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= Robot.elevator.deadband){
 
             this.reset();
 
@@ -34,7 +34,7 @@ public class Elevate extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= 0.25){
+            if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= Robot.elevator.deadband){
 
                 this.started();
                 this.state = State.elevate.s;
