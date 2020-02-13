@@ -4,10 +4,13 @@ import org.usfirst.frc3534.RobotBasic.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
 public class Spinner extends SystemBase implements SystemInterface {
 
     private WPI_TalonSRX spinner = RobotMap.spinner;
+
+    private ColorSensorV3 colorSensor = RobotMap.colorSensor;
 
     SpinnerState spinnerState = SpinnerState.off;
 
