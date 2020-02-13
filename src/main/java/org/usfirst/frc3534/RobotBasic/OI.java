@@ -70,7 +70,7 @@ public class OI {
                 return Boolean.valueOf(Robot.oi.getController1().getPOV() == 180);
 
             }
-
+		}),
 		ShootFar(new Callable<Boolean>(){
 
             @Override
