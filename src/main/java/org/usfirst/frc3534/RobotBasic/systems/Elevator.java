@@ -40,10 +40,16 @@ public class Elevator extends SystemBase implements SystemInterface {
             setElevatorPosition(targetPosition);
             elevator.setNeutralMode(NeutralMode.Brake);
 
-        case position:
+        case colorPosition:
 
             setElevatorPosition(initialElevatorPosition + elevatorState.value); 
             elevator.setNeutralMode(NeutralMode.Brake);
+
+            break;
+
+        case startPosition:
+
+            setElevatorPosition(initialElevatorPosition);
 
             break;
 
@@ -92,7 +98,8 @@ public class Elevator extends SystemBase implements SystemInterface {
     public enum ElevatorState{
         
         up_down((int)RobotMap.PowerOutput.elevator_elevator_maxupdown.power),
-        position((int)RobotMap.PowerOutput.elevator_elevator_colorWheelPosition.power),
+        colorPosition((int)RobotMap.PowerOutput.elevator_elevator_colorWheelPosition.power),
+        startPosition((int)RobotMap.PowerOutput.elevator_elevator_maxupdown.power),//************check this******************
         off(0);
 
         int value;

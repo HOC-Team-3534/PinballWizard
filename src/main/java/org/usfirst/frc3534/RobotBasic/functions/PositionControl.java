@@ -13,11 +13,11 @@ import org.usfirst.frc3534.RobotBasic.systems.Shooter.ShooterState;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.TopBeltState;
 import org.usfirst.frc3534.RobotBasic.systems.Spinner.SpinnerState;
 
-public class RotationControl extends FunctionBase implements FunctionInterface{
+public class PositionControl extends FunctionBase implements FunctionInterface{
 
     long originalTime = 0;
 
-    public RotationControl(){
+    public PositionControl(){
 
         reset();
         completed();
@@ -27,7 +27,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Buttons.RotationControl.getButton()){
+        if(!running && Buttons.PositionControl.getButton()){
 
             this.reset();
 
@@ -35,7 +35,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Buttons.RotationControl.getButton()){
+            if(Buttons.PositionControl.getButton()){
 
                 this.started();
                 this.state = State.elevate.s;
@@ -65,7 +65,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
             Robot.spinner.setSpinnerState(SpinnerState.spin);
 
-            /*if(colors changed == 28){
+            /*if(color == color opposite of fms color){
 
                 Robot.spinner.setSpinnerState(SpinnerState.off);
                 this.state = State.dead.s;
@@ -78,7 +78,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(!Buttons.RotationControl.getButton()){
+        if(!Buttons.PositionControl.getButton()){
 
             this.state = State.end.s;
 
