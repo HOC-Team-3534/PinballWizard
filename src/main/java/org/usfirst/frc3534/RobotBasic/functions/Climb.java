@@ -6,6 +6,7 @@ import org.usfirst.frc3534.RobotBasic.OI.Axes;
 import org.usfirst.frc3534.RobotBasic.OI.Buttons;
 import org.usfirst.frc3534.RobotBasic.RobotMap.FunctionStateDelay;
 import org.usfirst.frc3534.RobotBasic.systems.Elevator.ElevatorState;
+import org.usfirst.frc3534.RobotBasic.systems.Elevator.WinchState;
 import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeArmState;
 import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeRollerState;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.IndexWheelState;
@@ -26,7 +27,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Buttons.Climb.{
+        if(!running && Buttons.Climb.getButton()){
 
             this.reset();
 
@@ -34,27 +35,26 @@ public class Climb extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= 0.25){
+            if(Buttons.Climb.getButton()){
 
                 this.started();
-                this.state = State.elevate.s;
+                this.state = State.climb.s;
                 
             }
 
         }
 
-        if(this.state == State.elevate.s){
+        if(this.state == State.climb.s){
 
-            Robot.elevator.setElevatorState(ElevatorState.up_down);
-            this.state = State.dead.s;
-
+            Robot.elevator.setWinchState(WinchState.winch);
+            Robot.elevator.setElevatorState(ElevatorState.off);
         }
 
         if(this.state == State.dead.s){
 
         }
 
-        if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) < 0.25){
+        if(!Buttons.Climb.getButton()){
 
             this.state = State.end.s;
 
@@ -62,6 +62,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.end.s){
 
+            Robot.elevator.setWinchState(WinchState.off);
             completed();
 
         }
@@ -69,9 +70,10 @@ public class Climb extends FunctionBase implements FunctionInterface{
     }
 
     private enum State{
+        
         dead(-1),
         ready(0),
-        elevate(10),
+        climb(10),
         end(100);
 
         int s;
