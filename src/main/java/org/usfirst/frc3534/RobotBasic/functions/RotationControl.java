@@ -51,7 +51,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(this.state == State.elevate.s){
+        if(this.state == State.searchForColor.s){
 
             /*if(colorsensor sees one of the colors){
 
@@ -80,6 +80,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         if(!Buttons.RotationControl.getButton()){
 
+             // if color == the color of nothing infront of the sensor then:
             this.state = State.end.s;
 
         }
