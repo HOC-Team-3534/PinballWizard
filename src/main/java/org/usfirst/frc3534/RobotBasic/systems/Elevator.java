@@ -16,6 +16,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     private final int initialElevatorPosition = elevator.getSelectedSensorPosition();
     private final int maxElevatorPosition = initialElevatorPosition + RobotMap.elevator_maxHeight;
+    public double deadband = 0.25;
 
     ElevatorState elevatorState = ElevatorState.off;
     WinchState winchState = WinchState.off;
@@ -31,7 +32,9 @@ public class Elevator extends SystemBase implements SystemInterface {
         switch(elevatorState){
         case up_down:
 
-            int targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(Axes.Elevate_UpAndDown.getAxis() * elevatorState.value);
+            double input = Axes.Elevate_UpAndDown.getAxis() - deadband;
+            input *= (1 / (1 - deadband));
+            int targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
             if(targetPosition < initialElevatorPosition){
                 targetPosition = initialElevatorPosition;
             }else if(targetPosition > maxElevatorPosition){

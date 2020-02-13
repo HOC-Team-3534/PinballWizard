@@ -115,7 +115,8 @@ public class Drive extends SystemBase implements SystemInterface {
 			if(latitudinal_output > sideDeadband){
 
 				latitudinal_output -= sideDeadband;
-				latitudinal_output *= Math.pow((1 / (1 - sideDeadband)), 2);
+				latitudinal_output *= (1 / (1 - sideDeadband));
+				latitudinal_output = Math.pow(latitudinal_output, 2);
 				if(negative) latitudinal_output = -latitudinal_output;
 
 			}else{
@@ -141,7 +142,8 @@ public class Drive extends SystemBase implements SystemInterface {
 				if(rotational_output > turningDeadband){
 
 					rotational_output -= turningDeadband;
-					rotational_output *= Math.pow((1 / (1 - turningDeadband)), 2);
+					rotational_output *= (1 / (1 - turningDeadband));
+					rotational_output = Math.pow(rotational_output, 2);
 					if(negative) rotational_output = -rotational_output;
 					last_rotational_angle = getAngle().getRadians();
 
