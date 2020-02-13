@@ -2,7 +2,10 @@ package org.usfirst.frc3534.RobotBasic;
 
 import java.util.concurrent.Callable;
 
+import org.usfirst.frc3534.RobotBasic.XboxPlusPOV.POV;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -58,6 +61,15 @@ public class OI {
 	}
 
 	public static enum Buttons {
+
+		Climb(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController1().getPOV() == 180);
+
+            }
 
 		ShootFar(new Callable<Boolean>(){
 
