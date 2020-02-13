@@ -25,7 +25,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Axes.Intake.getAxis() >= 0.5){
+        if(!running && Buttons.Intake.getButton()){
 
             this.reset();
 
@@ -33,7 +33,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Axes.Intake.getAxis() >= 0.5){
+            if(Buttons.Intake.getButton()){
 
                 this.started();
                 this.state = State.intake.s;
@@ -54,7 +54,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(Axes.Intake.getAxis() < 0.5){
+        if(Buttons.Intake.getButton()){
 
             this.state = State.end.s;
 
