@@ -17,6 +17,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     private final int initialElevatorPosition = elevator.getSelectedSensorPosition();
     private final int maxElevatorPosition = initialElevatorPosition + RobotMap.elevator_maxHeight;
     public double deadband = 0.25;
+    public double translateDeadband = 0.25;
 
     ElevatorState elevatorState = ElevatorState.off;
     WinchState winchState = WinchState.off;
@@ -32,8 +33,17 @@ public class Elevator extends SystemBase implements SystemInterface {
         switch(elevatorState){
         case up_down:
 
-            double input = Axes.Elevate_UpAndDown.getAxis() - deadband;
+            boolean negative = false;
+            double input = Axes.Elevate_UpAndDown.getAxis();
+            if(input < 0){
+                negative = true;
+            }
+            input = Math.abs(input);
+            input -= deadband;
             input *= (1 / (1 - deadband));
+            if(negative){
+                input = -input;
+            }
             int targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
             if(targetPosition < initialElevatorPosition){
                 targetPosition = initialElevatorPosition;
@@ -83,6 +93,17 @@ public class Elevator extends SystemBase implements SystemInterface {
         switch(translatorState){
             case farther_closer:
     
+                boolean negative = false;
+                double input = Axes.Translate_FartherAndCloser.getAxis();
+                if(input < 0){
+                    negative = true;
+                }
+                input = Math.abs(input);
+                input -= translateDeadband;
+                input *= (1 / (1 - translateDeadband));
+                if(negative){
+                    input = -input;
+                }
                 double targetPower = Axes.Translate_FartherAndCloser.getAxis() * translatorState.value;
                 //Need to add in logic for navx for field centric motion
                 setTranslatorPower(targetPower);

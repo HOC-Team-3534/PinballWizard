@@ -27,7 +27,7 @@ public class Translate extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Math.abs(Axes.Translate_FartherAndCloser.getAxis()) >= 0.25){
+        if(!running && Math.abs(Axes.Translate_FartherAndCloser.getAxis()) >= Robot.elevator.translateDeadband){
 
             this.reset();
 
@@ -35,7 +35,7 @@ public class Translate extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) >= 0.25){
+            if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) >= Robot.elevator.translateDeadband){
 
                 this.started();
                 this.state = State.translate.s;
@@ -55,7 +55,7 @@ public class Translate extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) < 0.25){
+        if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) < Robot.elevator.translateDeadband){
         
             this.state = State.end.s;
 
