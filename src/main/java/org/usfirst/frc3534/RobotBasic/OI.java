@@ -80,6 +80,26 @@ public class OI {
 
             }
 
+        }),
+        ShootClose(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft) >= 0.5;
+
+			}
+			
+		}),
+		Intake(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft) >= 0.5;
+
+			}
+			
 		}),
 		RotationControl(new Callable<Boolean>(){
 
@@ -165,26 +185,6 @@ public class OI {
             public Double call() throws Exception{
 
                 return Robot.oi.getController1().getTriggerAxis(Hand.kRight);
-
-			}
-			
-		}),
-		ShootClose(new Callable<Double>(){
-
-            @Override
-            public Double call() throws Exception{
-
-                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft);
-
-			}
-			
-		}),
-		Intake(new Callable<Double>(){
-
-            @Override
-            public Double call() throws Exception{
-
-                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft);
 
 			}
 			
