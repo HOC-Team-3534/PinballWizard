@@ -19,52 +19,33 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
         reset();
         completed();
+        started();
+        this.state = State.index.s;
 
     }
 
     @Override
     public void process(){
 
-        if(!running && Axes.Intake.getAxis() >= 0.5){
+        if(Robot.shooter.getLastDifference() < 2 && Robot.shooter.getDifference() < 2){
 
-            this.reset();
+            this.state = State.index.s;
 
-        }
-        
-        if(this.state == State.ready.s){
+        }else{
 
-            if(Axes.Intake.getAxis() >= 0.5){
-
-                this.started();
-                this.state = State.intake.s;
-                
-            }
-
-        }
-
-        if(this.state == State.intake.s){
-
-            Robot.intake.setIntakeArmState(IntakeArmState.down);
-            Robot.intake.setIntakeRollerState(IntakeRollerState.intake);
             this.state = State.dead.s;
+
+        }
+
+        if(this.state == State.index.s){
+
+            Robot.shooter.setIndexWheelState(IndexWheelState.feed);
 
         }
 
         if(this.state == State.dead.s){
 
-        }
-
-        if(Axes.Intake.getAxis() < 0.5){
-
-            this.state = State.end.s;
-
-        }
-
-        if(this.state == State.end.s){
-
-            Robot.intake.setIntakeArmState(IntakeArmState.up);
-            Robot.intake.setIntakeRollerState(IntakeRollerState.off);
-            completed();
+            Robot.shooter.setIndexWheelState(IndexWheelState.off);
 
         }
 
@@ -72,9 +53,7 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
     private enum State{
         dead(-1),
-        ready(0),
-        intake(10),
-        end(100);
+        index(10);
 
         int s;
 

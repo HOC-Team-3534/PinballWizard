@@ -48,4 +48,11 @@ public class FunctionBase implements FunctionInterface{
         return running;
 
     }
+
+    @Override
+    public void setState(int state){
+
+        this.state = state;
+
+    }
 }

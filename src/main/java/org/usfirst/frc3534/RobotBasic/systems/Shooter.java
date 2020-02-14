@@ -109,10 +109,6 @@ public class Shooter extends SystemBase implements SystemInterface {
                 setIndexWheelPower(indexWheelState.value); 
     
                 break;
-
-            case index:
-
-                setIndexWheelPosition(indexWheelTargetPosition);
     
             case off:
     
@@ -181,7 +177,6 @@ public class Shooter extends SystemBase implements SystemInterface {
     public enum IndexWheelState{
         
         feed(RobotMap.PowerOutput.shooter_indexWheel_feed.power),
-        index(RobotMap.PowerOutput.shooter_indexWheel_index.power),
         off(0.0);
 
         double value;
@@ -278,12 +273,6 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
-    private void setIndexWheelPosition(int position){
-
-        indexWheel.set(ControlMode.Position, position);
-
-    }
-
     private void setIndexWheelPower(double power){
 
         indexWheel.set(ControlMode.PercentOutput, power);
@@ -310,6 +299,19 @@ public class Shooter extends SystemBase implements SystemInterface {
     public int getDifference(){
 
         return ballsIndexed - ballsShot;
+
+    }
+
+    //may need to use this value for something in the future if number of index balls changes
+    public void setLastDifference(){
+
+        lastDifference = getDifference();
+
+    }
+
+    public int getLastDifference(){
+
+        return lastDifference;
 
     }
 

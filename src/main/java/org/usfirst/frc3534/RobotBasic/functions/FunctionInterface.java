@@ -14,4 +14,6 @@ public interface FunctionInterface{
 
     public boolean isRunning();
 
+    public void setState(int state);
+
 }

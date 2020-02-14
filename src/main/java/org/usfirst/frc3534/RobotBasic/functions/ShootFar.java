@@ -74,6 +74,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setShooterState(ShooterState.off);
             Robot.shooter.setTopBeltState(TopBeltState.off);
             Robot.shooter.setIndexWheelState(IndexWheelState.off);
+            Robot.shooter.setLastDifference();
             completed();
 
         }
