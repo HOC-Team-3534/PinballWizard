@@ -46,7 +46,8 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         if(this.state == State.prepare.s) {
 
             Robot.shooter.setShooterState(ShooterState.shoot);
-            if(Robot.shooter.getShooterVelocity() == RobotMap.PowerOutput.shooter_shooter_shoot.power) {
+            Robot.drive.setDtmEnabled(true);
+            if(Robot.shooter.getShooterVelocity() == RobotMap.PowerOutput.shooter_shooter_shoot.power && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
 
@@ -63,7 +64,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         }
 
         if(this.state == State.dead.s){
-            //should continue to shoot and stay alinged via dtm
+            
         }
 
         if(!Buttons.ShootFar.getButton()){
@@ -73,7 +74,8 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         }
 
         if(this.state == State.end.s){
-
+            
+            Robot.drive.setDtmEnabled(false);
             Robot.shooter.setShooterState(ShooterState.off);
             Robot.shooter.setTopBeltState(TopBeltState.off);
             Robot.shooter.setIndexWheelState(IndexWheelState.off);
