@@ -9,18 +9,23 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Shooter extends SystemBase implements SystemInterface {
 
     private WPI_TalonFX shooter = RobotMap.shooter;
+    private WPI_TalonSRX hood = RobotMap.hood;
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
 
     int shooterVelocity = 0;
     int prevShooterVelocity = 0;
+    int initialHoodPosition;
     int indexWheelTargetPosition = 0;
 
     ShooterState shooterState = ShooterState.off;
+    HoodState hoodState = HoodState.close;
     TopBeltState topBeltState = TopBeltState.off;
     IndexWheelState indexWheelState = IndexWheelState.off;
 
     public Shooter(){
+
+        initialHoodPosition = hood.getSelectedSensorPosition();
 
     }
 
@@ -41,6 +46,27 @@ public class Shooter extends SystemBase implements SystemInterface {
             break;
 
         }
+
+        switch(hoodState){
+            case far:
+    
+                setHoodPosition(initialHoodPosition + (int)hoodState.value);
+    
+                break;
+
+            case close:
+
+                setHoodPosition(initialHoodPosition + (int)hoodState.value);
+    
+                break;
+    
+            case off:
+    
+                setHoodPower(hoodState.value); 
+    
+                break;
+    
+            }
 
         switch(topBeltState){
             case feed:
@@ -101,6 +127,28 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
+    public enum HoodState{
+
+        far(RobotMap.PowerOutput.shooter_hood_far.power),
+        close(RobotMap.PowerOutput.shooter_hood_close.power),
+        off(0.0);
+
+        double value;
+
+        private HoodState(double value){
+
+            this.value = value;
+
+        }
+
+    }
+
+    public int getHoodValue(){
+
+        return initialHoodPosition + (int)hoodState.value;
+
+    }
+
     public enum TopBeltState{
         
         feed(RobotMap.PowerOutput.shooter_topBelt_feed.power),
@@ -158,6 +206,36 @@ public class Shooter extends SystemBase implements SystemInterface {
     public int getPrevShooterVelocity(){
 
         return prevShooterVelocity;
+
+    }
+
+    public void setHoodState(HoodState state){
+
+        hoodState = state;
+
+    }
+
+    public HoodState getHoodState(){
+
+        return hoodState;
+
+    }
+
+    private void setHoodPosition(int position){
+
+        hood.set(ControlMode.Position, position);
+
+    }
+
+    private void setHoodPower(double power){
+
+        hood.set(ControlMode.PercentOutput, power);
+
+    }
+
+    public boolean isHoodGood(){
+
+        return hood.getSelectedSensorPosition() >= getHoodValue() - 30 && hood.getSelectedSensorPosition() <= getHoodValue() + 30;
 
     }
 

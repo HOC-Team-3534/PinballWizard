@@ -198,6 +198,8 @@ public class RobotMap {
 		shooter_topBelt_feed(1.0),
 		shooter_indexWheel_feed(1.0),
 		shooter_indexWheel_index(0.0),
+		shooter_hood_far(0.0),
+		shooter_hood_close(0.0),
 		intake_intakeRoller_intake(1.0),
 		intake_intakeArm_armUp(1.0),
 		intake_intakeArm_armDown(-1.0),
