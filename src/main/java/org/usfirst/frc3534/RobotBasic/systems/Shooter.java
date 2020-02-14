@@ -273,9 +273,21 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
+    public IndexWheelState getIndexWheelState(){
+
+        return indexWheelState;
+
+    }
+
     private void setIndexWheelPower(double power){
 
         indexWheel.set(ControlMode.PercentOutput, power);
+
+    }
+
+    public boolean isBottomSensorBall(){
+
+        return matcher.matchClosestColor(indexBottom.getColor()).color == kBall;
 
     }
 

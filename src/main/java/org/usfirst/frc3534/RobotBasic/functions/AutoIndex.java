@@ -7,6 +7,8 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
     long originalTime = 0;
 
+    int difference = 0;
+
     public AutoIndex(){
 
         reset();
@@ -21,7 +23,12 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
         if(Robot.shooter.getLastDifference() < 2 && Robot.shooter.getDifference() < 2){
 
-            this.state = State.index.s;
+            if(Robot.shooter.getIndexWheelState() == IndexWheelState.off  && Robot.shooter.isBottomSensorBall()){
+
+                difference = Robot.shooter.getDifference();
+                this.state = State.index.s;
+
+            }
 
         }else{
 
@@ -31,7 +38,15 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.index.s){
 
-            Robot.shooter.setIndexWheelState(IndexWheelState.feed);
+            if(Robot.shooter.getDifference() == difference) {
+
+                Robot.shooter.setIndexWheelState(IndexWheelState.feed);
+
+            }else{
+
+                Robot.shooter.setIndexWheelState(IndexWheelState.off);
+
+            }
 
         }
 
