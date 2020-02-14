@@ -53,11 +53,11 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.searchForColor.s){
 
-            /*if(colorsensor sees one of the colors){
+            if(Robot.spinner.getColorCount() > 0){
 
             this.state = State.spin.s;
 
-            }*/
+            }
 
         }
 
@@ -65,12 +65,13 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
             Robot.spinner.setSpinnerState(SpinnerState.spin);
 
-            /*if(colors changed == 28){
+            if(Robot.spinner.getColorCount() >= 28){
 
                 Robot.spinner.setSpinnerState(SpinnerState.off);
+                Robot.spinner.resetColorCount();
                 this.state = State.dead.s;
 
-            } */
+            } 
 
         }
 
@@ -80,9 +81,12 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         if(!Buttons.RotationControl.getButton()){
 
-             // if color == the color of nothing infront of the sensor then:
-            this.state = State.end.s;
+            if(Robot.spinner.getColorCount() > 0){
 
+                this.state = State.end.s;
+
+            }
+            
         }
 
         if(this.state == State.end.s){

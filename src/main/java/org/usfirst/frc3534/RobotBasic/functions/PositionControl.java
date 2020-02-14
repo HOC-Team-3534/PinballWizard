@@ -65,12 +65,12 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
 
             Robot.spinner.setSpinnerState(SpinnerState.spin);
 
-            /*if(color == color opposite of fms color){
+            if(Robot.spinner.isColorCorrect()){
 
                 Robot.spinner.setSpinnerState(SpinnerState.off);
                 this.state = State.dead.s;
 
-            } */
+            } 
 
         }
 
@@ -80,9 +80,12 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
 
         if(!Buttons.PositionControl.getButton()){
 
-            // if color == the color of nothing infront of the sensor then:
-            this.state = State.end.s;
+            if(Robot.spinner.getColorCount() > 0){
 
+                this.state = State.end.s;
+
+            }
+            
         }
 
         if(this.state == State.end.s){

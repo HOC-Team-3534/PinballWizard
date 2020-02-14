@@ -3,6 +3,7 @@ package org.usfirst.frc3534.RobotBasic;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier; 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -205,6 +206,11 @@ public class Robot extends TimedRobot {
 				loopPeriod = (int) (currentTime - prevLoopTime);
 				prevLoopTime = currentTime;
 				loopCnt++;
+
+				String gameData = DriverStation.getInstance().getGameSpecificMessage();
+				if(gameData.length() > 0){
+					spinner.setCorrectColor(gameData);
+				}
 				
 				functionProcessor.process();
 				// run processes
