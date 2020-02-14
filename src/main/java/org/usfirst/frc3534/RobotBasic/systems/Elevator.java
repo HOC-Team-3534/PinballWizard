@@ -16,8 +16,10 @@ public class Elevator extends SystemBase implements SystemInterface {
     private WPI_TalonSRX translator = RobotMap.translator;
 
     private int initialElevatorPosition; 
-    private int maxElevatorPosition;  
-    public double deadband = 0.25;
+    private int maxElevatorPosition;
+    public double deadband = 0.25;      
+    private int initialWinchPosition;
+    private int maxWinchPosition;
     public double translateDeadband = 0.25;
 
     ElevatorState elevatorState = ElevatorState.off;
@@ -28,6 +30,8 @@ public class Elevator extends SystemBase implements SystemInterface {
 
         initialElevatorPosition = elevator.getSelectedSensorPosition();
         maxElevatorPosition = initialElevatorPosition + RobotMap.elevator_maxHeight;
+        initialWinchPosition = winch.getSelectedSensorPosition();
+        maxWinchPosition = initialWinchPosition + RobotMap.winch_maxPosition;
 
     }
 
@@ -222,6 +226,12 @@ public class Elevator extends SystemBase implements SystemInterface {
     private void setWinchPower(double power){
 
         winch.set(ControlMode.PercentOutput, power);
+
+    }
+
+    public int getWinchPosition(){
+
+        return winch.getSelectedSensorPosition() - initialWinchPosition;
 
     }
 
