@@ -2,12 +2,7 @@ package org.usfirst.frc3534.RobotBasic.functions;
 
 import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
-import org.usfirst.frc3534.RobotBasic.OI.Axes;
 import org.usfirst.frc3534.RobotBasic.OI.Buttons;
-import org.usfirst.frc3534.RobotBasic.RobotMap.FunctionStateDelay;
-import org.usfirst.frc3534.RobotBasic.systems.Shooter;
-import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeArmState;
-import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeRollerState;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.IndexWheelState;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.ShooterState;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.TopBeltState;
