@@ -205,6 +205,7 @@ public class RobotMap {
 		intake_intakeArm_armDown(-1.0),
 		elevator_elevator_maxupdown(0.0),
 		elevator_elevator_colorWheelPosition(0.0),
+		elevator_elevator_removeResistance(-1.0),
 		elevator_winch_winch(1.0),
 		elevator_translator_maxOutput(1.0),
 		spinner_spinner_spin(1.0);
