@@ -1,5 +1,6 @@
 package org.usfirst.frc3534.RobotBasic.systems;
 
+import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 import org.usfirst.frc3534.RobotBasic.OI.Axes;
 
@@ -105,7 +106,13 @@ public class Elevator extends SystemBase implements SystemInterface {
                     input = -input;
                 }
                 double targetPower = Axes.Translate_FartherAndCloser.getAxis() * translatorState.value;
-                //Need to add in logic for navx for field centric motion
+                
+                if(Robot.drive.getAngle().getDegrees() >= 180 && Robot.drive.getAngle().getDegrees() < 360){
+
+                    targetPower = -targetPower;
+
+                }
+
                 setTranslatorPower(targetPower);
     
                 break;
