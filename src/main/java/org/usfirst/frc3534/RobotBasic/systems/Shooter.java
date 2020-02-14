@@ -2,9 +2,13 @@ package org.usfirst.frc3534.RobotBasic.systems;
 
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorSensorV3;
 
 public class Shooter extends SystemBase implements SystemInterface {
 
@@ -12,11 +16,22 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonSRX hood = RobotMap.hood;
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
+    private ColorSensorV3 indexBottom = RobotMap.indexBottom;
+    private ColorSensorV3 indexTop = RobotMap.indexTop;
 
     int shooterVelocity = 0;
     int prevShooterVelocity = 0;
     int initialHoodPosition;
     int indexWheelTargetPosition = 0;
+
+    int ballsIndexed = 0;
+    int ballsShot = 0;
+    Color previousColor;
+    int lastDifference = 0;
+
+    ColorMatch matcher;
+    Color kBall = ColorMatch.makeColor(0.0, 0.0, 0.0);
+    Color kNoBall = ColorMatch.makeColor(0.0, 0.0, 0.0);
 
     ShooterState shooterState = ShooterState.off;
     HoodState hoodState = HoodState.close;
@@ -26,6 +41,11 @@ public class Shooter extends SystemBase implements SystemInterface {
     public Shooter(){
 
         initialHoodPosition = hood.getSelectedSensorPosition();
+
+        matcher = new ColorMatch();
+        matcher.addColorMatch(kBall);
+        matcher.addColorMatch(kNoBall);
+        previousColor = kBall;
 
     }
 
@@ -102,8 +122,8 @@ public class Shooter extends SystemBase implements SystemInterface {
     
             }
 
-            prevShooterVelocity = shooterVelocity;
-            shooterVelocity = shooter.getSelectedSensorVelocity();
+        ballShot();
+        ballIndexed();
 
     }
 
@@ -119,12 +139,6 @@ public class Shooter extends SystemBase implements SystemInterface {
             this.value = value;
 
         }
-    }
-
-    public double getShooterValue(){
-
-        return shooterState.value;
-
     }
 
     public enum HoodState{
@@ -275,4 +289,28 @@ public class Shooter extends SystemBase implements SystemInterface {
         indexWheel.set(ControlMode.PercentOutput, power);
 
     }
+
+    private void ballShot(){
+
+        prevShooterVelocity = shooterVelocity;
+        shooterVelocity = shooter.getSelectedSensorVelocity();
+        int velocityDropLine = (int)shooterState.value - 500;
+        ballsShot = (prevShooterVelocity > velocityDropLine && shooterVelocity <= velocityDropLine) ? ballsShot++ : ballsShot;
+
+    }
+
+    public void ballIndexed(){
+
+        Color currentColor = matcher.matchClosestColor(indexTop.getColor()).color;
+        ballsIndexed = (currentColor == kBall && previousColor == kNoBall) ? ballsIndexed++ : ballsIndexed;
+        previousColor = currentColor;
+
+    }
+
+    public int getDifference(){
+
+        return ballsIndexed - ballsShot;
+
+    }
+
 }

@@ -39,6 +39,8 @@ public class RobotMap {
 	public static WPI_TalonSRX spinner;				//15
 
 	public static ColorSensorV3 colorSensor;
+	public static ColorSensorV3 indexBottom;
+	public static ColorSensorV3 indexTop;
 
 	public static Spark blinkin;
 
@@ -130,6 +132,8 @@ public class RobotMap {
 		spinner = new WPI_TalonSRX(15);
 		
 		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+		indexBottom = new ColorSensorV3(I2C.Port.kOnboard);
+		indexTop = new ColorSensorV3(I2C.Port.kOnboard);
 
 		blinkin = new Spark(1);
 
