@@ -209,7 +209,7 @@ public class RobotMap {
 		intake_intakeArm_armUp(0.5),
 		intake_intakeArm_armDown(-0.5),
 		elevator_elevator_maxupdown(0.0),
-		elevator_elevator_colorWheelPosition(0.0),
+		elevator_elevator_colorWheel(0.5),
 		elevator_elevator_removeResistance(-0.1),
 		elevator_winch_winch(1.0),
 		elevator_translator_maxOutput(1.0),

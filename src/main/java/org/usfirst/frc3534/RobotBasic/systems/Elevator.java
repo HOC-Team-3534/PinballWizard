@@ -17,7 +17,9 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     private int initialElevatorPosition; 
     private int maxElevatorPosition;
-    public double deadband = 0.25;      
+    public double deadband = 0.25;
+    int targetPosition;
+    private boolean colorWheelHeightReached = false;      
     private int initialWinchPosition;
     private int maxWinchPosition;
     public double translateDeadband = 0.25;
@@ -52,7 +54,7 @@ public class Elevator extends SystemBase implements SystemInterface {
             if(negative){
                 input = -input;
             }
-            int targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
+            targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
             if(targetPosition < initialElevatorPosition){
                 targetPosition = initialElevatorPosition;
             }else if(targetPosition > maxElevatorPosition){
@@ -63,15 +65,26 @@ public class Elevator extends SystemBase implements SystemInterface {
 
         case colorPosition:
 
-            setElevatorPosition(initialElevatorPosition + (int)elevatorState.value); 
-            elevator.setNeutralMode(NeutralMode.Brake);
+            if(colorWheelHeightReached){
+
+            }else{
+
+                targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(elevatorState.value * RobotMap.PowerOutput.elevator_elevator_maxupdown.power);
+                if(targetPosition > maxElevatorPosition){
+                    targetPosition = maxElevatorPosition;
+                }
+                setElevatorPosition(targetPosition); 
+                elevator.setNeutralMode(NeutralMode.Brake);
+        
+            }
 
             break;
 
         case startPosition:
 
             setElevatorPosition(initialElevatorPosition);
-
+            elevator.setNeutralMode(NeutralMode.Brake);
+            
             break;
 
         case removeResistance:
@@ -142,7 +155,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public enum ElevatorState{
         
         up_down(RobotMap.PowerOutput.elevator_elevator_maxupdown.power),
-        colorPosition(RobotMap.PowerOutput.elevator_elevator_colorWheelPosition.power),
+        colorPosition(RobotMap.PowerOutput.elevator_elevator_colorWheel.power),
         startPosition(RobotMap.PowerOutput.elevator_elevator_maxupdown.power),
         removeResistance(RobotMap.PowerOutput.elevator_elevator_removeResistance.power),
         off(0.0);
