@@ -51,7 +51,7 @@ public class RobotMap {
 
 	public static final int shooterVelocityDrop = 0;
 
-	public static final double intakeArmSpikeCurrent = 0.0;
+	public static final double spikeCurrent = 0.0;
 
 	public static final int elevator_maxHeight = 0;
 	public static final int winch_maxPosition = 0;
@@ -203,14 +203,14 @@ public class RobotMap {
 		shooter_shooter_shoot(15500),
 		shooter_topBelt_feed(1.0),
 		shooter_indexWheel_feed(1.0),
-		shooter_hood_far(0.0),
-		shooter_hood_close(0.0),
+		shooter_hood_far(0.5),
+		shooter_hood_close(-0.5),
 		intake_intakeRoller_intake(1.0),
-		intake_intakeArm_armUp(1.0),
-		intake_intakeArm_armDown(-1.0),
+		intake_intakeArm_armUp(0.5),
+		intake_intakeArm_armDown(-0.5),
 		elevator_elevator_maxupdown(0.0),
 		elevator_elevator_colorWheelPosition(0.0),
-		elevator_elevator_removeResistance(-1.0),
+		elevator_elevator_removeResistance(-0.1),
 		elevator_winch_winch(1.0),
 		elevator_translator_maxOutput(1.0),
 		spinner_spinner_spin(1.0);

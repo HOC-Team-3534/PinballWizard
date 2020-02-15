@@ -70,13 +70,19 @@ public class Shooter extends SystemBase implements SystemInterface {
         switch(hoodState){
             case far:
     
-                setHoodPosition(initialHoodPosition + (int)hoodState.value);
+                setHoodPower(hoodState.value);
+                if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
+                    setHoodState(HoodState.off);
+                } 
     
                 break;
 
             case close:
 
-                setHoodPosition(initialHoodPosition + (int)hoodState.value);
+                setHoodPower(hoodState.value);
+                if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
+                    setHoodState(HoodState.off);
+                } 
     
                 break;
     
@@ -227,12 +233,6 @@ public class Shooter extends SystemBase implements SystemInterface {
     public HoodState getHoodState(){
 
         return hoodState;
-
-    }
-
-    private void setHoodPosition(int position){
-
-        hood.set(ControlMode.Position, position);
 
     }
 

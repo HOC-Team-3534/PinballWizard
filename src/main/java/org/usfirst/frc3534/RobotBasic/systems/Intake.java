@@ -26,7 +26,7 @@ public class Intake extends SystemBase implements SystemInterface {
             case up:
 
                 setIntakeArmPower(intakeArmState.value);
-                if(intakeArm.getSupplyCurrent() > RobotMap.intakeArmSpikeCurrent){
+                if(intakeArm.getSupplyCurrent() > RobotMap.spikeCurrent){
                     setIntakeArmState(IntakeArmState.off);
                 } 
 
@@ -35,7 +35,7 @@ public class Intake extends SystemBase implements SystemInterface {
             case down:
 
                 setIntakeArmPower(intakeArmState.value); 
-                if(intakeArm.getSupplyCurrent() > RobotMap.intakeArmSpikeCurrent){
+                if(intakeArm.getSupplyCurrent() > RobotMap.spikeCurrent){
                     setIntakeArmState(IntakeArmState.off);
                 } 
 
