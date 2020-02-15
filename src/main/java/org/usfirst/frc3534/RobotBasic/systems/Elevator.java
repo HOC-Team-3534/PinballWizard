@@ -229,9 +229,9 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     }
 
-    public int getWinchPosition(){
+    public boolean isWinchClimbing(){
 
-        return winch.getSelectedSensorPosition() - initialWinchPosition;
+        return winch.getSelectedSensorPosition() - initialWinchPosition > RobotMap.winchLimit;
 
     }
 

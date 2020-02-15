@@ -55,6 +55,7 @@ public class RobotMap {
 
 	public static final int elevator_maxHeight = 0;
 	public static final int winch_maxPosition = 0;
+	public static final int winchLimit = 0;
 
 	public static final double maxVelocity = 6.6; //meters per second
 	public static final double maxAngularVelocity = Math.PI * 6; //radians per second
