@@ -24,6 +24,8 @@ public class Intake extends FunctionBase implements FunctionInterface{
             this.reset();
 
         }
+
+        System.out.println(this.state);
         
         if(this.state == State.ready.s){
 
@@ -46,18 +48,19 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.dead.s){
 
-        }
+            if(!Buttons.Intake.getButton()){
 
-        if(Buttons.Intake.getButton()){
-
-            this.state = State.end.s;
+                this.state = State.end.s;
+    
+            }
 
         }
 
         if(this.state == State.end.s){
-
+            
             Robot.intake.setIntakeArmState(IntakeArmState.up);
             Robot.intake.setIntakeRollerState(IntakeRollerState.off);
+            reset();
             completed();
 
         }

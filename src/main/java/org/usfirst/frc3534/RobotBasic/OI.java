@@ -67,7 +67,7 @@ public class OI {
             @Override
             public Boolean call() throws Exception{
 
-                return Boolean.valueOf(Robot.oi.getController1().getPOV() == 180);
+                return Boolean.valueOf(Robot.oi.getController2().getPOV() == 180);
 
             }
 		}),
@@ -154,7 +154,7 @@ public class OI {
             @Override
             public Double call() throws Exception{
 
-                return -Robot.oi.getController1().getY(Hand.kLeft);
+                return Robot.oi.getController1().getY(Hand.kLeft);
 
             }
 
@@ -164,7 +164,7 @@ public class OI {
             @Override
             public Double call() throws Exception{
 
-                return -Robot.oi.getController1().getX(Hand.kLeft);
+                return Robot.oi.getController1().getX(Hand.kLeft);
 
             }
 
@@ -174,7 +174,7 @@ public class OI {
             @Override
             public Double call() throws Exception{
 
-                return -Robot.oi.getController1().getX(Hand.kRight);
+                return Robot.oi.getController1().getX(Hand.kRight);
 
             }
 

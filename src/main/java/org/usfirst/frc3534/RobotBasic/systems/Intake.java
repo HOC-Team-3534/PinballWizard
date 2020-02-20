@@ -10,9 +10,11 @@ public class Intake extends SystemBase implements SystemInterface {
     private WPI_TalonSRX intakeArm = RobotMap.intakeArm;
     private WPI_TalonSRX intakeRoller = RobotMap.intakeRoller;
 
+    long originalRollerTime;
+
     int ballsInPossession = 0;
 
-    IntakeArmState intakeArmState = IntakeArmState.off;
+    IntakeArmState intakeArmState = IntakeArmState.up;
     IntakeRollerState intakeRollerState = IntakeRollerState.off;
 
     public Intake(){
@@ -24,37 +26,59 @@ public class Intake extends SystemBase implements SystemInterface {
 
         switch(intakeArmState){
             case up:
-
-                setIntakeArmPower(intakeArmState.value);
+        
                 if(intakeArm.getSupplyCurrent() > RobotMap.spikeCurrent){
+
+                    System.out.println(intakeArm.getSupplyCurrent());   
                     setIntakeArmState(IntakeArmState.off);
-                } 
+
+                }
+                setIntakeArmPower(intakeArmState.value);
 
                 break;
             
             case down:
 
-                setIntakeArmPower(intakeArmState.value); 
                 if(intakeArm.getSupplyCurrent() > RobotMap.spikeCurrent){
                     setIntakeArmState(IntakeArmState.off);
-                } 
+                }
+                setIntakeArmPower(intakeArmState.value); 
 
                 break;
 
             case off:
-
+                
                 setIntakeArmPower(intakeArmState.value);  
 
                 break;
 
         }
 
+        //System.out.println(intakeArm.getSupplyCurrent());
+
         switch(intakeRollerState){
             case intake:
+
+                if(intakeRoller.getSupplyCurrent() > RobotMap.rollerSpikeCurrent){
+
+                    setIntakeRollerState(IntakeRollerState.burp);
+                    originalRollerTime = System.currentTimeMillis();
+
+                }
     
                 setIntakeRollerPower(intakeRollerState.value);
     
                 break;
+
+            case burp:
+
+                if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
+
+                    setIntakeRollerState(IntakeRollerState.intake);
+
+                }
+
+                setIntakeRollerPower(intakeRollerState.value);
     
             case off:
     
@@ -85,6 +109,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public enum IntakeRollerState{
         
         intake(RobotMap.PowerOutput.intake_intakeRoller_intake.power),
+        burp(RobotMap.PowerOutput.intake_intakeRoller_burp.power),
         off(0.0);
 
         double value;

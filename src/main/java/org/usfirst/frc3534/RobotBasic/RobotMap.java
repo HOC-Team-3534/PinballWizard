@@ -51,9 +51,10 @@ public class RobotMap {
 
 	public static final int shooterVelocityDrop = 0;
 
-	public static final double spikeCurrent = 0.0;
+	public static final double spikeCurrent = 6.0;
+	public static final double rollerSpikeCurrent = 3.0;
 
-	public static final int elevator_maxHeight = 0;
+	public static final int elevator_maxHeight = 10000;
 	public static final int winch_maxPosition = 0;
 	public static final int winchLimit = 0;
 
@@ -109,6 +110,7 @@ public class RobotMap {
 		shooter = new WPI_TalonFX(5);
 		shooterSlave = new WPI_TalonFX(6);
 		shooterSlave.follow(shooter);
+		shooter.setInverted(false);
 		shooterSlave.setInverted(true);
 
 		hood = new WPI_TalonSRX(7);
@@ -119,12 +121,18 @@ public class RobotMap {
 
 		indexWheel = new WPI_TalonSRX(9);
 		indexWheel.setNeutralMode(NeutralMode.Brake);
+		indexWheel.setInverted(true);
 
 		intakeArm = new WPI_TalonSRX(10);
+		intakeArm.setInverted(true);
 
 		intakeRoller = new WPI_TalonSRX(11);
 
 		elevator = new WPI_TalonSRX(12);
+		elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		elevator.setSelectedSensorPosition(0);
+		elevator.setInverted(true);
+		elevator.setSensorPhase(true);
 
 		winch = new WPI_TalonFX(13);
 
@@ -182,7 +190,8 @@ public class RobotMap {
 		hatchPlace_hatchIntakeRelease_to_hatchPanelApparatusExtended(0.05), 
 		hatchPlace_hatchPanelApparatusExtended_to_hatchPanelApparatusCollapsed(0.25),
 		hatchPlace_hatchPanelApparatusCollapsed_to_hatchPlaceCompleted(3.0),
-		xButtonReset_armLiftMid_to_armExtendCollapsed(1.0);
+		xButtonReset_armLiftMid_to_armExtendCollapsed(1.0),
+		intakeRoller_burpDelay(1.0);
 
 		public double time;
 
@@ -200,17 +209,18 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shoot(15500),
-		shooter_topBelt_feed(1.0),
-		shooter_indexWheel_feed(1.0),
+		shooter_shooter_shoot(17750),
+		shooter_topBelt_feed(.75),
+		shooter_indexWheel_feed(0.40),
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),
-		intake_intakeRoller_intake(1.0),
-		intake_intakeArm_armUp(0.5),
-		intake_intakeArm_armDown(-0.5),
-		elevator_elevator_maxupdown(0.0),
+		intake_intakeRoller_intake(.75),
+		intake_intakeRoller_burp(-1.0),
+		intake_intakeArm_armUp(0.75),
+		intake_intakeArm_armDown(-0.75),
+		elevator_elevator_maxupdown(25),
 		elevator_elevator_colorWheel(0.5),
-		elevator_elevator_removeResistance(-0.1),
+		elevator_elevator_removeResistance(0.0),
 		elevator_winch_winch(1.0),
 		elevator_translator_maxOutput(1.0),
 		spinner_spinner_spin(1.0);

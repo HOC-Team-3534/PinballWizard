@@ -50,7 +50,7 @@ public class FunctionProcessor{
             shootFar.process();
 
         }
-        if(!shootFar.isRunning() && !Robot.elevator.isWinchClimbing()){
+        if(!shootFar.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
             shootClose.process();
 
@@ -60,12 +60,12 @@ public class FunctionProcessor{
             intake.process();
 
         }
-        if(!elevate.isRunning() && !climb.isRunning() && !positionControl.isRunning() && !Robot.elevator.isWinchClimbing()){
+        if(!elevate.isRunning() && !climb.isRunning() && !positionControl.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
             rotationControl.process();
 
         }
-        if(!elevate.isRunning() && !climb.isRunning() && !rotationControl.isRunning() && !Robot.elevator.isWinchClimbing()){
+        if(!elevate.isRunning() && !climb.isRunning() && !rotationControl.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
             positionControl.process();
 
@@ -85,7 +85,7 @@ public class FunctionProcessor{
             elevate.process();
 
         }
-        if(!shootFar.isRunning() && !shootClose.isRunning()){
+        if(!shootFar.isRunning() && !shootClose.isRunning() && false){
 
             autoIndex.process();
 

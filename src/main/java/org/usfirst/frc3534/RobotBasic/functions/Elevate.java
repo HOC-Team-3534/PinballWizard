@@ -44,16 +44,18 @@ public class Elevate extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.dead.s){
 
-        }
+            if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) < Robot.elevator.deadband){
 
-        if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) < Robot.elevator.deadband){
-
-            this.state = State.end.s;
+                this.state = State.end.s;
+    
+            }
 
         }
 
         if(this.state == State.end.s){
 
+            //Robot.elevator.setElevatorState(ElevatorState.stop);
+            reset();
             completed();
 
         }

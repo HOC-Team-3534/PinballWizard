@@ -18,6 +18,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     private int initialElevatorPosition; 
     private int maxElevatorPosition;
     public double deadband = 0.25;
+    int elevatorTargetPosition;
     int targetPosition;
     private boolean colorWheelHeightReached = false;      
     private int initialWinchPosition;
@@ -40,6 +41,8 @@ public class Elevator extends SystemBase implements SystemInterface {
     @Override
     public void process(){
 
+        System.out.println("Elevator State : " + elevatorState);
+
         switch(elevatorState){
         case up_down:
 
@@ -49,18 +52,41 @@ public class Elevator extends SystemBase implements SystemInterface {
                 negative = true;
             }
             input = Math.abs(input);
-            input -= deadband;
-            input *= (1 / (1 - deadband));
+            if(input >= deadband){
+                input -= deadband;
+                input *= (1 / (1 - deadband));
+            }else{
+                input = 0;
+            }
+
+            System.out.println("input number before negation" + input);
+
             if(negative){
                 input = -input;
             }
-            targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(input * elevatorState.value);
-            if(targetPosition < initialElevatorPosition){
-                targetPosition = initialElevatorPosition;
-            }else if(targetPosition > maxElevatorPosition){
-                targetPosition = maxElevatorPosition;
+
+            System.out.println("input number after negation" + input);
+
+            System.out.println("amount to add or subtract from position" + (int)Math.floor(input * elevatorState.value));
+            System.out.println("elevator position " + elevator.getSelectedSensorPosition());
+
+            int amountPosition = (int)Math.floor(input * elevatorState.value);
+
+            if(Math.abs(amountPosition) > 0){
+                elevatorTargetPosition = elevator.getSelectedSensorPosition() + amountPosition;
             }
-            setElevatorPosition(targetPosition);
+            if(elevatorTargetPosition < initialElevatorPosition){
+                elevatorTargetPosition = initialElevatorPosition;
+            }else if(elevatorTargetPosition > maxElevatorPosition){
+                elevatorTargetPosition = maxElevatorPosition;
+            }
+
+            System.out.print("controller: " + Axes.Elevate_UpAndDown.getAxis());
+            System.out.print(", target: " + elevatorTargetPosition);
+            System.out.print(", power out: " + elevator.get());
+            System.out.println(", initial: " + initialElevatorPosition);
+
+            setElevatorPosition(elevatorTargetPosition);
             elevator.setNeutralMode(NeutralMode.Brake);
 
         case colorPosition:
@@ -90,6 +116,7 @@ public class Elevator extends SystemBase implements SystemInterface {
         case removeResistance:
 
             setElevatorPower(elevatorState.value);    
+            elevator.setNeutralMode(NeutralMode.Coast); 
 
             break;
 

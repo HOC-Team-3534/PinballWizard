@@ -40,15 +40,17 @@ public class Climb extends FunctionBase implements FunctionInterface{
 
             Robot.elevator.setWinchState(WinchState.winch);
             Robot.elevator.setElevatorState(ElevatorState.removeResistance);
+            this.state = State.dead.s;
+
         }
 
         if(this.state == State.dead.s){
 
-        }
+            if(!Buttons.Climb.getButton()){
 
-        if(!Buttons.Climb.getButton()){
-
-            this.state = State.end.s;
+                this.state = State.end.s;
+    
+            }
 
         }
 
@@ -56,6 +58,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
 
             Robot.elevator.setWinchState(WinchState.off);
             Robot.elevator.setElevatorState(ElevatorState.off);
+            reset();
             completed();
 
         }

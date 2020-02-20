@@ -22,10 +22,10 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	private WPI_TalonFX frontLeft = RobotMap.frontLeftMotor, frontRight = RobotMap.frontRightMotor, backLeft = RobotMap.backLeftMotor, backRight = RobotMap.backRightMotor;
 
-	private final Translation2d frontLeftLocation = new Translation2d(0.381, 0.381);
-	private final Translation2d frontRightLocation = new Translation2d(0.381, -0.381);
-	private final Translation2d backLeftLocation = new Translation2d(-0.381, 0.381);
-	private final Translation2d backRightLocation = new Translation2d(-0.381, -0.381);
+	private final Translation2d frontLeftLocation = new Translation2d(0.279, 0.327);
+	private final Translation2d frontRightLocation = new Translation2d(0.279, -0.327);
+	private final Translation2d backLeftLocation = new Translation2d(-0.279, 0.327);
+	private final Translation2d backRightLocation = new Translation2d(-0.279, -0.327);
 
 	private final MecanumDriveKinematics kinematics = new MecanumDriveKinematics(frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 	private final MecanumDriveOdometry odometry = new MecanumDriveOdometry(kinematics, getAngle());
@@ -49,7 +49,7 @@ public class Drive extends SystemBase implements SystemInterface {
 	private double KdAim = 100.0; 
 
 	private boolean dtmEnabled = false;
-	private boolean dtmCorrected = false;
+	private boolean dtmCorrected = true;
 
 	private long prevTime = System.currentTimeMillis();
 
@@ -131,7 +131,7 @@ public class Drive extends SystemBase implements SystemInterface {
 				overall_error = 0.0;
 				prevTime = System.currentTimeMillis();
 	
-			}else if(dtmEnabled){
+			}else if(!dtmEnabled){
 
 				overall_error = 0.0;
 				negative = false;
@@ -285,6 +285,7 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public Rotation2d getAngle(){
 
+		System.out.println(-RobotMap.navx.getAngle());
 		return Rotation2d.fromDegrees(-RobotMap.navx.getAngle());
 
 	}

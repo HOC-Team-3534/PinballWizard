@@ -42,7 +42,8 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
 
             Robot.shooter.setShooterState(ShooterState.shoot);
             Robot.drive.setDtmEnabled(true);
-            if(Robot.shooter.getShooterVelocity() == RobotMap.PowerOutput.shooter_shooter_shoot.power && Robot.drive.getDtmCorrected()) {
+            //System.out.println(Robot.shooter.getShooterVelocity());
+            if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
 
