@@ -25,12 +25,15 @@ public class Climb extends FunctionBase implements FunctionInterface{
 
         }
         
+        System.out.println("Climb Cycle Start State: " + this.state);
+        
         if(this.state == State.ready.s){
 
             if(Buttons.Climb.getButton()){
 
                 this.started();
                 this.state = State.climb.s;
+                System.out.println("Climb Changed to State: " + this.state);
                 
             }
 
@@ -41,6 +44,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
             Robot.elevator.setWinchState(WinchState.winch);
             Robot.elevator.setElevatorState(ElevatorState.removeResistance);
             this.state = State.dead.s;
+            System.out.println("Climb Changed to State: " + this.state);
 
         }
 
@@ -49,6 +53,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
             if(!Buttons.Climb.getButton()){
 
                 this.state = State.end.s;
+                System.out.println("Climb Changed to State: " + this.state);
     
             }
 
@@ -60,6 +65,7 @@ public class Climb extends FunctionBase implements FunctionInterface{
             Robot.elevator.setElevatorState(ElevatorState.off);
             reset();
             completed();
+            System.out.println("Climb Changed to State: " + this.state);
 
         }
 
