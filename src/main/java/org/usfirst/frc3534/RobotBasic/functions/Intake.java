@@ -25,7 +25,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         }
 
-        System.out.println(this.state);
+        System.out.println("Intake Cycle Start State: " + this.state);
         
         if(this.state == State.ready.s){
 
@@ -33,6 +33,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
                 this.started();
                 this.state = State.intake.s;
+                System.out.println("Intake Changed to State: " + this.state);
                 
             }
 
@@ -43,6 +44,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeArmState(IntakeArmState.down);
             Robot.intake.setIntakeRollerState(IntakeRollerState.intake);
             this.state = State.dead.s;
+            System.out.println("Intake Changed to State: " + this.state);
 
         }
 
@@ -51,6 +53,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             if(!Buttons.Intake.getButton()){
 
                 this.state = State.end.s;
+                System.out.println("Intake Changed to State: " + this.state);
     
             }
 
@@ -62,6 +65,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeRollerState(IntakeRollerState.off);
             reset();
             completed();
+            System.out.println("Intake Changed to State: " + this.state);
 
         }
 
