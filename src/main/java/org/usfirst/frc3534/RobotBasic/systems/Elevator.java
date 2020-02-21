@@ -41,7 +41,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     @Override
     public void process(){
 
-        System.out.println("Elevator State : " + elevatorState);
+        //System.out.println("Elevator State : " + elevatorState);
 
         switch(elevatorState){
         case up_down:
@@ -86,7 +86,7 @@ public class Elevator extends SystemBase implements SystemInterface {
             System.out.print(", power out: " + elevator.getMotorOutputVoltage());
             System.out.println(", initial: " + initialElevatorPosition);*/
 
-            System.out.println("elevator input : " + input);
+            //System.out.println("elevator input : " + input);
 
             if(input > 0){
 
@@ -296,7 +296,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
         translatorState = state;
         System.out.println("Translator State set at " + translatorState);
-        
+
     }
 
     public TranslatorState getTranslatorState(){
