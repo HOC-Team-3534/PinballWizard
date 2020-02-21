@@ -54,20 +54,28 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		RobotMap.init();
+		System.out.print("Initialized: RobotMap, ");
 
 		drive = new Drive();
+		System.out.print("Drive, ");
 		shooter = new Shooter();
+		System.out.print("Shooter, ");
 		intake = new Intake();
+		System.out.print("Intake, ");
 		elevator = new Elevator();
+		System.out.print("Elevator, ");
 		spinner = new Spinner();
+		System.out.print("Spinner, ");
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
 		oi = new OI();
+		System.out.print("OI, ");
 
 		functionProcessor = new FunctionProcessor();
+		System.out.println("and FunctionProcessor");
 
 		SmartDashboard.putNumber("kf", .05);
 		SmartDashboard.putNumber("kp", 0.125);
