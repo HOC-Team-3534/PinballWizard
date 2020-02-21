@@ -63,6 +63,7 @@ public class Intake extends SystemBase implements SystemInterface {
 
                     setIntakeRollerState(IntakeRollerState.burp);
                     originalRollerTime = System.currentTimeMillis();
+                    
 
                 }
     
@@ -125,6 +126,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public void setIntakeArmState(IntakeArmState state){
 
         intakeArmState = state;
+        System.out.println("Intake arm State set at " + intakeArmState);
 
     }
 
@@ -143,6 +145,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public void setIntakeRollerState(IntakeRollerState state){
 
         intakeRollerState = state;
+        System.out.println("Intake Roller State set at " + intakeRollerState);
 
     }
 

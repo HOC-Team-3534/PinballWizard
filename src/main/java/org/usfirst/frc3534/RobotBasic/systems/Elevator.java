@@ -251,6 +251,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setElevatorState(ElevatorState state){
 
         elevatorState = state;
+        System.out.println("Elevator State set at " + elevatorState);
 
     }
 
@@ -269,6 +270,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setWinchState(WinchState state){
 
         winchState = state;
+        System.out.println("Winch State set at " + winchState);
 
     }
 
@@ -293,7 +295,8 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setTranslatorState(TranslatorState state){
 
         translatorState = state;
-
+        System.out.println("Translator State set at " + translatorState);
+        
     }
 
     public TranslatorState getTranslatorState(){

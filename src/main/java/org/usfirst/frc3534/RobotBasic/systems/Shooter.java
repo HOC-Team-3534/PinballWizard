@@ -197,6 +197,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setShooterState(ShooterState state){
 
         shooterState = state;
+        System.out.println("Shooter State set at " + shooterState);
 
     }
 
@@ -227,6 +228,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setHoodState(HoodState state){
 
         hoodState = state;
+        System.out.println("Hood State set at " + hoodState);
 
     }
 
@@ -251,6 +253,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setTopBeltState(TopBeltState state){
 
         topBeltState = state;
+        System.out.println("Top Belt State set at " + topBeltState);
 
     }
 
@@ -270,6 +273,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         indexWheelState = state;
         indexWheelTargetPosition = indexWheel.getSelectedSensorPosition() + (int)indexWheelState.value;
+        System.out.println("Index Wheel State set at " + indexWheelState);
 
     }
 
