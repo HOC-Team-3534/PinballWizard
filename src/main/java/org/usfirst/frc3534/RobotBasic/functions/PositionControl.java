@@ -25,12 +25,15 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
 
         }
         
+        System.out.println("PositionControl Cycle Start State: " + this.state);
+        
         if(this.state == State.ready.s){
 
             if(Buttons.PositionControl.getButton()){
 
                 this.started();
                 this.state = State.elevate.s;
+                System.out.println("PositionControl Changed to State: " + this.state);
                 
             }
 
@@ -40,6 +43,7 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
 
             Robot.elevator.setElevatorState(ElevatorState.colorPosition);
             this.state = State.searchForColor.s;
+            System.out.println("PositionControl Changed to State: " + this.state);
 
         }
 
@@ -48,6 +52,7 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
             /*if(colorsensor sees one of the colors){
 
             this.state = State.spin.s;
+            System.out.println("PositionControl Changed to State: " + this.state);
 
             }*/
 
@@ -61,29 +66,32 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
 
                 Robot.spinner.setSpinnerState(SpinnerState.off);
                 this.state = State.dead.s;
+                System.out.println("PositionControl Changed to State: " + this.state);
 
             } 
 
         }
 
         if(this.state == State.dead.s){
-
-        }
-
-        if(!Buttons.PositionControl.getButton()){
-
-            if(Robot.spinner.getColorCount() > 0){
-
-                this.state = State.end.s;
-
-            }
             
+            if(!Buttons.PositionControl.getButton()){
+
+                if(Robot.spinner.getColorCount() > 0){
+
+                    this.state = State.end.s;
+                    System.out.println("PositionControl Changed to State: " + this.state);
+
+                }
+            
+            }
+
         }
 
         if(this.state == State.end.s){
 
             Robot.elevator.setElevatorState(ElevatorState.startPosition);
             completed();
+            System.out.println("PositionControl Changed to State: " + this.state);
 
         }
 
