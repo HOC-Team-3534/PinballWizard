@@ -285,7 +285,7 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public Rotation2d getAngle(){
 
-		System.out.println(-RobotMap.navx.getAngle());
+		//System.out.println(-RobotMap.navx.getAngle());
 		return Rotation2d.fromDegrees(-RobotMap.navx.getAngle());
 
 	}

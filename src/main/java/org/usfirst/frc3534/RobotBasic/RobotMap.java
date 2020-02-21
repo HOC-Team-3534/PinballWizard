@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
@@ -41,6 +42,7 @@ public class RobotMap {
 	public static ColorSensorV3 colorSensor;
 	public static ColorSensorV3 indexBottom;
 	public static ColorSensorV3 indexTop;
+	public static DigitalInput beamBreakSensor;
 
 	public static Spark blinkin;
 
@@ -129,10 +131,11 @@ public class RobotMap {
 		intakeRoller = new WPI_TalonSRX(11);
 
 		elevator = new WPI_TalonSRX(12);
-		elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		elevator.setSelectedSensorPosition(0);
+		//elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		//elevator.setSelectedSensorPosition(0, 0, 0);
 		elevator.setInverted(true);
-		elevator.setSensorPhase(true);
+		//elevator.setSensorPhase(true);
+		//elevator.selectProfileSlot(0, 0);
 
 		winch = new WPI_TalonFX(13);
 
@@ -144,6 +147,7 @@ public class RobotMap {
 		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 		indexBottom = new ColorSensorV3(I2C.Port.kOnboard);
 		indexTop = new ColorSensorV3(I2C.Port.kOnboard);
+		beamBreakSensor = new DigitalInput(0);
 
 		blinkin = new Spark(1);
 
@@ -218,7 +222,9 @@ public class RobotMap {
 		intake_intakeRoller_burp(-1.0),
 		intake_intakeArm_armUp(0.75),
 		intake_intakeArm_armDown(-0.75),
-		elevator_elevator_maxupdown(25),
+		elevator_elevator_maxup(0.65),
+		elevator_elevator_maxdown(0.5),
+		elevator_elevator_stop(0.1),
 		elevator_elevator_colorWheel(0.5),
 		elevator_elevator_removeResistance(0.0),
 		elevator_winch_winch(1.0),

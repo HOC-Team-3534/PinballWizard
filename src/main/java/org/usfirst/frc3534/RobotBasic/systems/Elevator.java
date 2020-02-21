@@ -18,7 +18,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     private int initialElevatorPosition; 
     private int maxElevatorPosition;
     public double deadband = 0.25;
-    int elevatorTargetPosition;
+    double elevatorTargetPower;
     int targetPosition;
     private boolean colorWheelHeightReached = false;      
     private int initialWinchPosition;
@@ -59,12 +59,13 @@ public class Elevator extends SystemBase implements SystemInterface {
                 input = 0;
             }
 
-            System.out.println("input number before negation" + input);
+            //System.out.println("input number before negation" + input);
 
             if(negative){
                 input = -input;
             }
 
+            /*
             System.out.println("input number after negation" + input);
 
             System.out.println("amount to add or subtract from position" + (int)Math.floor(input * elevatorState.value));
@@ -72,21 +73,41 @@ public class Elevator extends SystemBase implements SystemInterface {
 
             int amountPosition = (int)Math.floor(input * elevatorState.value);
 
-            if(Math.abs(amountPosition) > 0){
-                elevatorTargetPosition = elevator.getSelectedSensorPosition() + amountPosition;
-            }
-            if(elevatorTargetPosition < initialElevatorPosition){
-                elevatorTargetPosition = initialElevatorPosition;
-            }else if(elevatorTargetPosition > maxElevatorPosition){
-                elevatorTargetPosition = maxElevatorPosition;
+            elevatorTargetPower = amountPosition;
+            
+            if(elevator.getSelectedSensorPosition() <= initialElevatorPosition){
+                elevatorTargetPower = 0;
+            }else if(elevator.getSelectedSensorPosition() >= maxElevatorPosition){
+                elevatorTargetPower = 0;
             }
 
             System.out.print("controller: " + Axes.Elevate_UpAndDown.getAxis());
-            System.out.print(", target: " + elevatorTargetPosition);
-            System.out.print(", power out: " + elevator.get());
-            System.out.println(", initial: " + initialElevatorPosition);
+            System.out.print(", target: " + elevatorTargetPower);
+            System.out.print(", power out: " + elevator.getMotorOutputVoltage());
+            System.out.println(", initial: " + initialElevatorPosition);*/
 
-            setElevatorPosition(elevatorTargetPosition);
+            System.out.println("elevator input : " + input);
+
+            if(input > 0){
+
+                elevatorTargetPower = input * RobotMap.PowerOutput.elevator_elevator_maxup.power;
+
+                elevatorTargetPower = (elevatorTargetPower < RobotMap.PowerOutput.elevator_elevator_stop.power) ? RobotMap.PowerOutput.elevator_elevator_stop.power: elevatorTargetPower;
+
+            } else if(input < 0){
+
+                elevatorTargetPower = input * RobotMap.PowerOutput.elevator_elevator_maxdown.power;
+
+            } else if(input == 0){
+
+                elevatorTargetPower = RobotMap.PowerOutput.elevator_elevator_stop.power;
+
+            }
+
+            System.out.println("power output : " + elevatorTargetPower);
+
+            //setElevatorPower(elevatorTargetPower);
+            elevator.set(elevatorTargetPower);
             elevator.setNeutralMode(NeutralMode.Brake);
 
         case colorPosition:
@@ -95,11 +116,11 @@ public class Elevator extends SystemBase implements SystemInterface {
 
             }else{
 
-                targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(elevatorState.value * RobotMap.PowerOutput.elevator_elevator_maxupdown.power);
+                //targetPosition = elevator.getSelectedSensorPosition() + (int)Math.floor(elevatorState.value * RobotMap.PowerOutput.elevator_elevator_maxupdown.power);
                 if(targetPosition > maxElevatorPosition){
                     targetPosition = maxElevatorPosition;
                 }
-                setElevatorPosition(targetPosition); 
+                //setElevatorPosition(targetPosition); 
                 elevator.setNeutralMode(NeutralMode.Brake);
         
             }
@@ -108,7 +129,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
         case startPosition:
 
-            setElevatorPosition(initialElevatorPosition);
+            //setElevatorPosition(initialElevatorPosition);
             elevator.setNeutralMode(NeutralMode.Brake);
             
             break;
@@ -181,9 +202,9 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     public enum ElevatorState{
         
-        up_down(RobotMap.PowerOutput.elevator_elevator_maxupdown.power),
+        up_down(0.0),
         colorPosition(RobotMap.PowerOutput.elevator_elevator_colorWheel.power),
-        startPosition(RobotMap.PowerOutput.elevator_elevator_maxupdown.power),
+        startPosition(0.0),
         removeResistance(RobotMap.PowerOutput.elevator_elevator_removeResistance.power),
         off(0.0);
 
@@ -236,12 +257,6 @@ public class Elevator extends SystemBase implements SystemInterface {
     public ElevatorState getElevatorState(){
 
         return elevatorState;
-
-    }
-
-    private void setElevatorPosition(int position){
-
-        elevator.set(ControlMode.Position, position);
 
     }
 

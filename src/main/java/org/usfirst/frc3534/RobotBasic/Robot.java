@@ -251,6 +251,8 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Right Front Encoder Position", RobotMap.frontRightMotor.getSelectedSensorVelocity());
 			SmartDashboard.putNumber("Right Rear Encoder Position", RobotMap.backRightMotor.getSelectedSensorVelocity());
 
+			SmartDashboard.putBoolean("Beam Break Sensor", RobotMap.beamBreakSensor.get());
+
 			logCounter = 0;
 
 		}
