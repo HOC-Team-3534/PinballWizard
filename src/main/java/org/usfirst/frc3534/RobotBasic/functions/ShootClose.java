@@ -30,6 +30,13 @@ public class ShootClose extends FunctionBase implements FunctionInterface{
         
         System.out.println("ShootClose Cycle Start State: " + this.state);
         
+        if(!Buttons.ShootFar.getButton() && running){
+
+            this.state = State.end.s;
+            System.out.println("ShootClose Changed to State: " + this.state);
+
+        }
+        
         if(this.state == State.ready.s){
 
             if(Buttons.ShootClose.getButton()){
@@ -66,13 +73,6 @@ public class ShootClose extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.dead.s){
             
-        }
-
-        if(!Buttons.ShootFar.getButton()){
-
-            this.state = State.end.s;
-            System.out.println("ShootClose Changed to State: " + this.state);
-
         }
 
         if(this.state == State.end.s){

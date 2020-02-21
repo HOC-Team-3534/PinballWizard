@@ -26,6 +26,13 @@ public class Intake extends FunctionBase implements FunctionInterface{
         }
 
         System.out.println("Intake Cycle Start State: " + this.state);
+
+        if(!Buttons.Intake.getButton() && running){
+
+            this.state = State.end.s;
+            System.out.println("Intake Changed to State: " + this.state);
+
+        }
         
         if(this.state == State.ready.s){
 
@@ -49,13 +56,6 @@ public class Intake extends FunctionBase implements FunctionInterface{
         }
 
         if(this.state == State.dead.s){
-
-            if(!Buttons.Intake.getButton()){
-
-                this.state = State.end.s;
-                System.out.println("Intake Changed to State: " + this.state);
-    
-            }
 
         }
 

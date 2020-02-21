@@ -25,6 +25,13 @@ public class Translate extends FunctionBase implements FunctionInterface{
         }
         
         System.out.println("Translate Cycle Start State: " + this.state);
+                
+        if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) < Robot.elevator.translateDeadband && running){
+        
+            this.state = State.end.s;
+            System.out.println("Translate Changed to State: " + this.state);
+
+        }
         
         if(this.state == State.ready.s){
 
@@ -47,13 +54,6 @@ public class Translate extends FunctionBase implements FunctionInterface{
         }
 
         if(this.state == State.dead.s){
-
-        }
-
-        if(Math.abs(Axes.Translate_FartherAndCloser.getAxis()) < Robot.elevator.translateDeadband){
-        
-            this.state = State.end.s;
-            System.out.println("Translate Changed to State: " + this.state);
 
         }
 

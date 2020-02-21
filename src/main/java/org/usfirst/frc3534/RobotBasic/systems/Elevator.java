@@ -267,6 +267,12 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     }
 
+    public boolean isCreepModeEnabled(){
+
+        return elevator.getSelectedSensorPosition() - initialElevatorPosition >= RobotMap.elevatorCreepHeight;
+
+    }
+
     public void setWinchState(WinchState state){
 
         winchState = state;

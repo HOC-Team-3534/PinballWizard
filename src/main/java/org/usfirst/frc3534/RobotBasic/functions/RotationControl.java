@@ -27,6 +27,13 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
         
         System.out.println("RotationControl Cycle Start State: " + this.state);
         
+        if(!Buttons.RotationControl.getButton() && running && Robot.spinner.colorNoColor()){
+
+            this.state = State.end.s;
+            System.out.println("RotationControl Changed to State: " + this.state);
+
+        }
+        
         if(this.state == State.ready.s){
 
             if(Buttons.RotationControl.getButton()){
@@ -75,17 +82,6 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.dead.s){
 
-        }
-
-        if(!Buttons.RotationControl.getButton()){
-
-            if(Robot.spinner.getColorCount() > 0){
-
-                this.state = State.end.s;
-                System.out.println("RotationControl Changed to State: " + this.state);
-
-            }
-            
         }
 
         if(this.state == State.end.s){

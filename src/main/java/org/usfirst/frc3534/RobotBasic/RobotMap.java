@@ -57,6 +57,7 @@ public class RobotMap {
 	public static final double rollerSpikeCurrent = 3.0;
 
 	public static final int elevator_maxHeight = 10000;
+	public static final int elevatorCreepHeight = 500;
 	public static final int winch_maxPosition = 0;
 	public static final int winchLimit = 0;
 

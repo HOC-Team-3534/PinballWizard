@@ -184,7 +184,7 @@ public class Drive extends SystemBase implements SystemInterface {
 			rotational_output = (2 * Math.pow(total_output, 2) - 2 * total_output + 1) * rotational_output;
 			
 
-			if(Robot.oi.getController1().getTriggerAxis(Hand.kRight) >= 0.5){
+			if(Robot.elevator.isCreepModeEnabled()){
 				
 				drive(longitudinal_output * 0.4 * RobotMap.maxVelocity, latitudinal_output * 0.4 * RobotMap.maxVelocity, rotational_output * RobotMap.maxAngularVelocity, true);
 

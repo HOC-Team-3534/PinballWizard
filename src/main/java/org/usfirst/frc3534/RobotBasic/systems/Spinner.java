@@ -19,6 +19,7 @@ public class Spinner extends SystemBase implements SystemInterface {
     private Color previousColor;
     private boolean isColorCorrect = false;
     private Color correctColor;
+    private Color currentColor;
 
     ColorMatch matcher;
     private final Color kBlue = ColorMatch.makeColor(0.121, 0.430, 0.447);
@@ -149,5 +150,12 @@ public class Spinner extends SystemBase implements SystemInterface {
         }
 
     }
+
+    public boolean colorNoColor(){
+
+        return currentColor == kNoColor;
+
+    }
+
 
 }

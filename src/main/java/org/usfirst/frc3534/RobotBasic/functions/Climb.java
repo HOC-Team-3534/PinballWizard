@@ -27,6 +27,13 @@ public class Climb extends FunctionBase implements FunctionInterface{
         
         System.out.println("Climb Cycle Start State: " + this.state);
         
+        if(!Buttons.Climb.getButton() && running){
+
+            this.state = State.end.s;
+            System.out.println("Climb Changed to State: " + this.state);
+
+        }
+        
         if(this.state == State.ready.s){
 
             if(Buttons.Climb.getButton()){
@@ -50,12 +57,6 @@ public class Climb extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.dead.s){
 
-            if(!Buttons.Climb.getButton()){
-
-                this.state = State.end.s;
-                System.out.println("Climb Changed to State: " + this.state);
-    
-            }
 
         }
 

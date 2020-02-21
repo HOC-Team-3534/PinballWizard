@@ -26,6 +26,14 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
         }
         
         System.out.println("PositionControl Cycle Start State: " + this.state);
+                    
+        if(!Buttons.PositionControl.getButton() && running && Robot.spinner.colorNoColor()){
+
+            this.state = State.end.s;
+            System.out.println("PositionControl Changed to State: " + this.state);
+
+        
+        }
         
         if(this.state == State.ready.s){
 
@@ -73,17 +81,7 @@ public class PositionControl extends FunctionBase implements FunctionInterface{
         }
 
         if(this.state == State.dead.s){
-            
-            if(!Buttons.PositionControl.getButton()){
 
-                if(Robot.spinner.getColorCount() > 0){
-
-                    this.state = State.end.s;
-                    System.out.println("PositionControl Changed to State: " + this.state);
-
-                }
-            
-            }
 
         }
 
