@@ -27,12 +27,15 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
 
         }
         
+        System.out.println("ShootFar Cycle Start State: " + this.state);
+        
         if(this.state == State.ready.s){
 
             if(Buttons.ShootFar.getButton()){
 
                 this.started();
                 this.state = State.prepare.s;
+                System.out.println("ShootFar Changed to State: " + this.state);
                 
             }
 
@@ -46,6 +49,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
+                System.out.println("ShootFar Changed to State: " + this.state);
 
             }
 
@@ -56,6 +60,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setTopBeltState(TopBeltState.feed);
             Robot.shooter.setIndexWheelState(IndexWheelState.feed);
             this.state = State.dead.s;
+            System.out.println("ShootFar Changed to State: " + this.state);
 
         }
 
@@ -66,6 +71,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         if(!Buttons.ShootFar.getButton()){
 
             this.state = State.end.s;
+            System.out.println("ShootFar Changed to State: " + this.state);
 
         }
 
@@ -76,7 +82,9 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setTopBeltState(TopBeltState.off);
             Robot.shooter.setIndexWheelState(IndexWheelState.off);
             Robot.shooter.setLastDifference();
+            reset();
             completed();
+            System.out.println("ShootFar Changed to State: " + this.state);
 
         }
 
