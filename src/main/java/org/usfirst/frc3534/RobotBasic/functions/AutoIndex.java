@@ -20,6 +20,8 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
     @Override
     public void process(){
+        
+        System.out.println("AutoIndex Cycle Start State: " + this.state);
 
         if(Robot.shooter.getLastDifference() < 2 && Robot.shooter.getDifference() < 2){
 
@@ -27,12 +29,14 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
                 difference = Robot.shooter.getDifference();
                 this.state = State.index.s;
+                System.out.println("AutoIndex Changed to State: " + this.state);
 
             }
 
         }else{
 
             this.state = State.dead.s;
+            System.out.println("AutoIndex Changed to State: " + this.state);
 
         }
 
