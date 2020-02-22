@@ -53,9 +53,18 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	private long prevTime = System.currentTimeMillis();
 
-	private double heightOfLimeLight = 23.4375;
+	private double heightOfLimeLight = 23.25;
 	private double heightToTop = 8.1875 * 12;
-	private double angleOfLimelight = 11.66;
+	private double angleOfLimelight = 10.4;//10.29 was close for close
+	private double limelightX = 0;
+	private double limelightY = 0;
+	private double kLimelightToCenterAngle = 140.9 / 180 * Math.PI;
+	private double kLimelightToCenterDist = 10.3;
+	private double centerOfRobotY = 0.0;
+	private double centerOfRobotX = 0.0;
+
+	private Direction rotDirection;
+	private Direction posDirection;
 
 	public Drive() {
 	}
@@ -72,14 +81,63 @@ public class Drive extends SystemBase implements SystemInterface {
 			//Network 
 			//Attempt at calling the Network Tables for Limelight and setting it 
 			NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-			double tx = table.getEntry("tx").getDouble(0.0);
+			double tx = table.getEntry("tx").getDouble(0.0) / 180 * Math.PI;
 			double height = table.getEntry("tvert").getDouble(0.0);
 			double width = table.getEntry("thor").getDouble(0.0);
+			double skew = table.getEntry("ts").getDouble(0.0);
 
 			double pixelAngle = table.getEntry("ty").getDouble(0.0);
 
 			double distance = (heightToTop - heightOfLimeLight) * Math.tan(Math.PI / 180 * (90 - (angleOfLimelight + pixelAngle)));
+			distance = distance / Math.cos(Math.abs(tx) / 180 * Math.PI);
+			double navxAngle = getRawAngle();
+			navxAngle = (navxAngle > Math.PI) ? Math.PI * 2 - navxAngle:navxAngle;
+			posDirection = (skew > -45) ? Direction.right: Direction.left;
+			rotDirection = (getRawAngle() > Math.PI) ? Direction.right: Direction.left;
+			navxAngle = (posDirection == rotDirection) ? -navxAngle: navxAngle;
+			tx = (posDirection == Direction.right) ? -tx: tx;
+			double totalAngle = navxAngle + tx;
+			SmartDashboard.putNumber("TotalAngle", totalAngle);
+			limelightX = distance * Math.sin(totalAngle);
+			limelightX = (posDirection == Direction.left) ? -limelightX: limelightX;
+			limelightY = distance * Math.cos(totalAngle);
 
+			double limelightToCenter;
+			boolean subtract = false;
+			navxAngle = getRawAngle();
+			if(navxAngle > Math.PI){
+
+				navxAngle = Math.PI * 2 - navxAngle;
+				limelightToCenter = navxAngle + kLimelightToCenterAngle;
+
+			} else {
+
+				limelightToCenter = -navxAngle + kLimelightToCenterAngle;
+
+			}
+
+			if(limelightToCenter > Math.PI){
+
+				subtract = true;
+				limelightToCenter -= Math.PI;
+
+			} else if(limelightToCenter < 0){
+				limelightToCenter = -limelightToCenter;
+			}
+
+			double distance1 = Math.sqrt(Math.pow(limelightY, 2) + Math.pow(kLimelightToCenterDist, 2) - 2 * limelightY * kLimelightToCenterDist * Math.cos(limelightToCenter));
+			double angle2 = Math.asin(Math.sin(limelightToCenter)/distance1 * kLimelightToCenterDist);
+			double angle3 = Math.PI / 2 - angle2;
+			centerOfRobotY = distance1 * Math.sin(angle3);
+			centerOfRobotX = (subtract) ? limelightX - distance1 * Math.cos(angle3):limelightX + distance1 * Math.cos(angle3);
+
+			SmartDashboard.putNumber("tx", tx);
+			SmartDashboard.putNumber("navx angle", getAngle().getDegrees());
+			SmartDashboard.putNumber("skew", skew);
+			SmartDashboard.putNumber("limelight y", limelightY);
+			SmartDashboard.putNumber("limelight x", limelightX);
+			SmartDashboard.putNumber("center of bot y", centerOfRobotY);
+			SmartDashboard.putNumber("center of bot x", centerOfRobotX);
 			SmartDashboard.putNumber("ty value", pixelAngle);
 			SmartDashboard.putNumber("distance", distance);
 
@@ -145,7 +203,7 @@ public class Drive extends SystemBase implements SystemInterface {
 					rotational_output *= (1 / (1 - turningDeadband));
 					rotational_output = Math.pow(rotational_output, 2);
 					if(negative) rotational_output = -rotational_output;
-					last_rotational_angle = getAngle().getRadians();
+					last_rotational_angle = getRawAngle();
 
 				}else{
 
@@ -300,5 +358,25 @@ public class Drive extends SystemBase implements SystemInterface {
 
 		return dtmCorrected;
 		
+	}
+	public double getRawAngle(){
+
+		double rawAngle = (Rotation2d.fromDegrees(-RobotMap.navx.getAngle()).getRadians() % (2 * Math.PI));
+		return (rawAngle < 0) ? 2 * Math.PI + rawAngle:rawAngle;
+
+	}
+
+	private enum Direction{
+
+		left,right
+
+	}
+
+	public double getCurrentX(){
+		return centerOfRobotX;
+	}
+
+	public double getCurrentY(){
+		return centerOfRobotY;
 	}
 }
