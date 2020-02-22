@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -53,8 +54,8 @@ public class RobotMap {
 	public static final int shooterVelocityDrop = 0;
 
 	public static final double spikeCurrent = 6.0;
-	public static final double rollerSpikeCurrent = 3.0;
-
+	public static final double rollerSpikeCurrent = 55.0;
+	
 	public static final int elevator_maxHeight = 10000;
 	public static final int elevatorCreepHeight = -500;
 	public static final int winch_maxPosition = 0;
@@ -194,7 +195,7 @@ public class RobotMap {
 		hatchPlace_hatchPanelApparatusExtended_to_hatchPanelApparatusCollapsed(0.25),
 		hatchPlace_hatchPanelApparatusCollapsed_to_hatchPlaceCompleted(3.0),
 		xButtonReset_armLiftMid_to_armExtendCollapsed(1.0),
-		intakeRoller_burpDelay(1.0);
+		intakeRoller_burpDelay(0.15);
 
 		public double time;
 
@@ -219,7 +220,7 @@ public class RobotMap {
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),
 		intake_intakeRoller_intake(.75),
-		intake_intakeRoller_burp(-1.0),
+		intake_intakeRoller_burp(-0.5),
 		intake_intakeArm_armUp(0.75),
 		intake_intakeArm_armDown(-0.75),
 		elevator_elevator_maxup(0.65),

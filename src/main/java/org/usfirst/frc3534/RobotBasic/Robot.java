@@ -266,6 +266,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Real NavX Angle", RobotMap.navx.getAngle());
 
 			SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
+			SmartDashboard.putString("Deployed", "yes");
 
 			logCounter = 0;
 

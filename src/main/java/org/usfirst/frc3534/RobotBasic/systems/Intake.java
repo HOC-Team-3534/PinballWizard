@@ -2,6 +2,8 @@ package org.usfirst.frc3534.RobotBasic.systems;
 
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -58,14 +60,14 @@ public class Intake extends SystemBase implements SystemInterface {
 
         switch(intakeRollerState){
             case intake:
-
-                /*if(intakeRoller.getSupplyCurrent() > RobotMap.rollerSpikeCurrent){
+            SmartDashboard.putNumber("Intake Roller current ", intakeRoller.getSupplyCurrent());
+                if(intakeRoller.getSupplyCurrent() > RobotMap.rollerSpikeCurrent){
 
                     setIntakeRollerState(IntakeRollerState.burp);
                     originalRollerTime = System.currentTimeMillis();
                     
 
-                }*/
+                }
     
                 setIntakeRollerPower(intakeRollerState.value);
     
@@ -73,11 +75,11 @@ public class Intake extends SystemBase implements SystemInterface {
 
             case burp:
 
-                /*if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
+                if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
 
                     setIntakeRollerState(IntakeRollerState.intake);
 
-                }*/
+                }
 
                 setIntakeRollerPower(intakeRollerState.value);
     
