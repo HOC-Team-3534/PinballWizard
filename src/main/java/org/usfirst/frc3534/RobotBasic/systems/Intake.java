@@ -59,13 +59,13 @@ public class Intake extends SystemBase implements SystemInterface {
         switch(intakeRollerState){
             case intake:
 
-                if(intakeRoller.getSupplyCurrent() > RobotMap.rollerSpikeCurrent){
+                /*if(intakeRoller.getSupplyCurrent() > RobotMap.rollerSpikeCurrent){
 
                     setIntakeRollerState(IntakeRollerState.burp);
                     originalRollerTime = System.currentTimeMillis();
                     
 
-                }
+                }*/
     
                 setIntakeRollerPower(intakeRollerState.value);
     
@@ -73,11 +73,11 @@ public class Intake extends SystemBase implements SystemInterface {
 
             case burp:
 
-                if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
+                /*if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
 
                     setIntakeRollerState(IntakeRollerState.intake);
 
-                }
+                }*/
 
                 setIntakeRollerPower(intakeRollerState.value);
     

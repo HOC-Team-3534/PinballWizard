@@ -93,7 +93,7 @@ public class FunctionProcessor{
             elevate.process();
 
         }
-        if(!shootFar.isRunning() && !shootClose.isRunning() && false){
+        if(!shootFar.isRunning() && !shootClose.isRunning()){
 
             System.out.println("AutoIndex Processing...");
             autoIndex.process();

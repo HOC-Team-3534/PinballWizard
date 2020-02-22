@@ -4,6 +4,8 @@ import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 import org.usfirst.frc3534.RobotBasic.OI.Axes;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -269,7 +271,8 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     public boolean isCreepModeEnabled(){
 
-        return elevator.getSelectedSensorPosition() - initialElevatorPosition >= RobotMap.elevatorCreepHeight;
+        SmartDashboard.putNumber("Elevator Position", elevator.getSelectedSensorPosition() - initialElevatorPosition);
+        return elevator.getSelectedSensorPosition() - initialElevatorPosition <= RobotMap.elevatorCreepHeight;
 
     }
 

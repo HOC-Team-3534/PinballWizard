@@ -40,9 +40,8 @@ public class RobotMap {
 	public static WPI_TalonSRX spinner;				//15
 
 	public static ColorSensorV3 colorSensor;
-	public static ColorSensorV3 indexBottom;
-	public static ColorSensorV3 indexTop;
-	public static DigitalInput beamBreakSensor;
+	public static DigitalInput indexBottom;
+	public static DigitalInput indexTop;
 
 	public static Spark blinkin;
 
@@ -57,7 +56,7 @@ public class RobotMap {
 	public static final double rollerSpikeCurrent = 3.0;
 
 	public static final int elevator_maxHeight = 10000;
-	public static final int elevatorCreepHeight = 500;
+	public static final int elevatorCreepHeight = -500;
 	public static final int winch_maxPosition = 0;
 	public static final int winchLimit = 0;
 
@@ -146,9 +145,8 @@ public class RobotMap {
 		spinner = new WPI_TalonSRX(15);
 		
 		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-		indexBottom = new ColorSensorV3(I2C.Port.kOnboard);
-		indexTop = new ColorSensorV3(I2C.Port.kOnboard);
-		beamBreakSensor = new DigitalInput(0);
+		indexBottom = new DigitalInput(1);
+		indexTop = new DigitalInput(0);
 
 		blinkin = new Spark(1);
 
@@ -214,9 +212,10 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shoot(17750),
+		shooter_shooter_shoot(15500), //17750
 		shooter_topBelt_feed(.75),
 		shooter_indexWheel_feed(0.40),
+		shooter_indexWheel_index(0.35),
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),
 		intake_intakeRoller_intake(.75),

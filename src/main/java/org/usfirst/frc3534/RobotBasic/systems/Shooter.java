@@ -2,6 +2,8 @@ package org.usfirst.frc3534.RobotBasic.systems;
 
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,8 +18,8 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonSRX hood = RobotMap.hood;
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
-    private ColorSensorV3 indexBottom = RobotMap.indexBottom;
-    private ColorSensorV3 indexTop = RobotMap.indexTop;
+    private DigitalInput indexBottom = RobotMap.indexBottom;
+    private DigitalInput indexTop = RobotMap.indexTop;
 
     int shooterVelocity = 0;
     int prevShooterVelocity = 0;
@@ -25,13 +27,9 @@ public class Shooter extends SystemBase implements SystemInterface {
     int indexWheelTargetPosition = 0;
 
     int ballsIndexed = 0;
+    boolean lastCheck = true;
     int ballsShot = 0;
-    Color previousColor;
     int lastDifference = 0;
-
-    ColorMatch matcher;
-    Color kBall = ColorMatch.makeColor(0.0, 0.0, 0.0);
-    Color kNoBall = ColorMatch.makeColor(0.0, 0.0, 0.0);
 
     ShooterState shooterState = ShooterState.off;
     HoodState hoodState = HoodState.close;
@@ -41,11 +39,6 @@ public class Shooter extends SystemBase implements SystemInterface {
     public Shooter(){
 
         initialHoodPosition = hood.getSelectedSensorPosition();
-
-        matcher = new ColorMatch();
-        matcher.addColorMatch(kBall);
-        matcher.addColorMatch(kNoBall);
-        previousColor = kBall;
 
     }
 
@@ -115,6 +108,12 @@ public class Shooter extends SystemBase implements SystemInterface {
                 setIndexWheelPower(indexWheelState.value); 
     
                 break;
+
+            case index:
+
+                setIndexWheelPower(indexWheelState.value); 
+
+                break;
     
             case off:
     
@@ -125,7 +124,9 @@ public class Shooter extends SystemBase implements SystemInterface {
             }
 
         ballShot();
+        System.out.print("BallShot Called... ");
         ballIndexed();
+        System.out.println("BallIndexed Called...");
 
     }
 
@@ -183,6 +184,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public enum IndexWheelState{
         
         feed(RobotMap.PowerOutput.shooter_indexWheel_feed.power),
+        index(RobotMap.PowerOutput.shooter_indexWheel_index.power),
         off(0.0);
 
         double value;
@@ -291,7 +293,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public boolean isBottomSensorBall(){
 
-        return matcher.matchClosestColor(indexBottom.getColor()).color == kBall;
+        return !RobotMap.indexBottom.get();
 
     }
 
@@ -299,16 +301,30 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         prevShooterVelocity = shooterVelocity;
         shooterVelocity = shooter.getSelectedSensorVelocity();
-        int velocityDropLine = (int)shooterState.value - 500;
-        ballsShot = (prevShooterVelocity > velocityDropLine && shooterVelocity <= velocityDropLine) ? ballsShot++ : ballsShot;
+        SmartDashboard.putNumber("Shooter Velocity", shooterVelocity);
+        int velocityDropLine = (int)shooterState.value - 400;
+        if(prevShooterVelocity > velocityDropLine && shooterVelocity <= velocityDropLine){
+
+            ballsShot++;
+
+
+        }
+
+        SmartDashboard.putNumber("Balls Shot", ballsShot);
 
     }
 
     public void ballIndexed(){
 
-        Color currentColor = matcher.matchClosestColor(indexTop.getColor()).color;
-        ballsIndexed = (currentColor == kBall && previousColor == kNoBall) ? ballsIndexed++ : ballsIndexed;
-        previousColor = currentColor;
+        if(!RobotMap.indexTop.get() && lastCheck) {
+
+            ballsIndexed++;
+
+        }
+        
+        lastCheck = RobotMap.indexTop.get();
+        SmartDashboard.putNumber("Balls Indexed", ballsIndexed);
+        SmartDashboard.putBoolean("Last Check Top Sensor", lastCheck);
 
     }
 

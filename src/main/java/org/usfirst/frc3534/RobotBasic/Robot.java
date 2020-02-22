@@ -259,7 +259,13 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Right Front Encoder Position", RobotMap.frontRightMotor.getSelectedSensorVelocity());
 			SmartDashboard.putNumber("Right Rear Encoder Position", RobotMap.backRightMotor.getSelectedSensorVelocity());
 
-			SmartDashboard.putBoolean("Beam Break Sensor", RobotMap.beamBreakSensor.get());
+			SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
+			SmartDashboard.putBoolean("Bottom Sensor", RobotMap.indexBottom.get());
+			SmartDashboard.putBoolean("Top Sensor", RobotMap.indexTop.get());
+
+			SmartDashboard.putNumber("Real NavX Angle", RobotMap.navx.getAngle());
+
+			SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
 
 			logCounter = 0;
 

@@ -14,7 +14,7 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
         reset();
         completed();
         started();
-        this.state = State.index.s;
+        this.state = State.dead.s;
 
     }
 
@@ -44,7 +44,7 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
             if(Robot.shooter.getDifference() == difference) {
 
-                Robot.shooter.setIndexWheelState(IndexWheelState.feed);
+                Robot.shooter.setIndexWheelState(IndexWheelState.index);
 
             }else{
 
