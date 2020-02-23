@@ -31,7 +31,7 @@ public class Intake extends SystemBase implements SystemInterface {
         
                 if(intakeArm.getSupplyCurrent() > RobotMap.spikeCurrent){
 
-                    System.out.println(intakeArm.getSupplyCurrent());   
+                   //System.out.println(intakeArm.getSupplyCurrent());   
                     setIntakeArmState(IntakeArmState.off);
 
                 }
@@ -128,7 +128,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public void setIntakeArmState(IntakeArmState state){
 
         intakeArmState = state;
-        System.out.println("Intake arm State set at " + intakeArmState);
+       //System.out.println("Intake arm State set at " + intakeArmState);
 
     }
 
@@ -147,7 +147,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public void setIntakeRollerState(IntakeRollerState state){
 
         intakeRollerState = state;
-        System.out.println("Intake Roller State set at " + intakeRollerState);
+       //System.out.println("Intake Roller State set at " + intakeRollerState);
 
     }
 

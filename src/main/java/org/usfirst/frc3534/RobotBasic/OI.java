@@ -76,17 +76,26 @@ public class OI {
             @Override
             public Boolean call() throws Exception{
 
-                return Boolean.valueOf(Robot.oi.getController1().getBumper(Hand.kRight));
+                return Boolean.valueOf(Robot.oi.getController1().getTriggerAxis(Hand.kRight) >= 0.5);
 
             }
 
+        }),
+        ShootFarBackUp(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Robot.oi.getController1().getBumper(Hand.kRight);
+
+			}
         }),
         ShootClose(new Callable<Boolean>(){
 
             @Override
             public Boolean call() throws Exception{
 
-                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft) >= 0.5;
+                return Robot.oi.getController1().getBumper(Hand.kLeft);
 
 			}
 			

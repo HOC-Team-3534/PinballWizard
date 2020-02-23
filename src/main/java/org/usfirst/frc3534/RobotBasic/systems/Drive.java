@@ -44,18 +44,18 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public double setLFVelocity, setLRVelocity, setRFVelocity, setRRVelocity;
 
-	private double KpAim = 0.4;
-	private double KiAim = 0.0009;				
-	private double KdAim = 100.0; 
+	private double KpAim = 0.05;
+	private double KiAim = 0.0;				
+	private double KdAim = 7; 
 
 	private boolean dtmEnabled = false;
-	private boolean dtmCorrected = true;
+	private boolean dtmCorrected = false;
 
 	private long prevTime = System.currentTimeMillis();
 
 	private double heightOfLimeLight = 23.25;
 	private double heightToTop = 8.1875 * 12;
-	private double angleOfLimelight = 10.4;//10.29 was close for close
+	private double angleOfLimelight = 13.2;//10.29 was close for close
 	private double limelightX = 0;
 	private double limelightY = 0;
 	private double kLimelightToCenterAngle = 140.9 / 180 * Math.PI;
@@ -81,6 +81,7 @@ public class Drive extends SystemBase implements SystemInterface {
 			//Network 
 			//Attempt at calling the Network Tables for Limelight and setting it 
 			NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+			double regTx = table.getEntry("tx").getDouble(0.0);
 			double tx = table.getEntry("tx").getDouble(0.0) / 180 * Math.PI;
 			double height = table.getEntry("tvert").getDouble(0.0);
 			double width = table.getEntry("thor").getDouble(0.0);
@@ -101,6 +102,11 @@ public class Drive extends SystemBase implements SystemInterface {
 			limelightX = distance * Math.sin(totalAngle);
 			limelightX = (posDirection == Direction.left) ? -limelightX: limelightX;
 			limelightY = distance * Math.cos(totalAngle);
+
+			double targetAngle = Math.atan(Math.abs(limelightX) / limelightY);
+			targetAngle = (limelightX > 0) ? -targetAngle: targetAngle;
+			navxAngle = (navxAngle > Math.PI) ? Math.PI * 2 - navxAngle:navxAngle;
+			double aimError = navxAngle - targetAngle;
 
 			double limelightToCenter;
 			boolean subtract = false;
@@ -211,28 +217,37 @@ public class Drive extends SystemBase implements SystemInterface {
 					
 				}
 
-			}else{
+				dtmCorrected = false;
 
-				double heading_error = -tx;
+			}
+			
+			if(dtmEnabled){
+
+				//System.out.println("im getting here");
+				aimError = regTx; // temporary fix;
 				double steering_adjust = 0.0;
-				overall_error += heading_error;
+				overall_error += aimError;
 
-				if ( tx > 1.0 ) {
+				System.out.println("...and the aimError is: " + aimError);
 
-					steering_adjust = KpAim * heading_error + KiAim * overall_error + (heading_error - last_error) * KdAim ;
+				if (aimError > 0.1 ) {
+
+					steering_adjust = KpAim * aimError + KiAim * overall_error + (aimError - last_error) * KdAim;
+					dtmCorrected = false;
 		
-				}
-				else if ( tx < -1.0 ) {
+				}else if (aimError < -.1) {
 
-					steering_adjust = KpAim * heading_error + KiAim * overall_error + (heading_error - last_error) * KdAim;
+					steering_adjust = KpAim * aimError + KiAim * overall_error + (aimError - last_error) * KdAim;
+					dtmCorrected = false;
 				
 				}else{
 
 					steering_adjust = 0.0;
+					dtmCorrected = true;
 
 				}
 
-				last_error = heading_error;
+				last_error = aimError;
 
 				rotational_output = steering_adjust;
 
@@ -240,7 +255,7 @@ public class Drive extends SystemBase implements SystemInterface {
 			
 			double total_output = longitudinal_output * latitudinal_output;
 			rotational_output = (2 * Math.pow(total_output, 2) - 2 * total_output + 1) * rotational_output;
-			
+			System.out.println("******************Rotational OutPut: " + rotational_output);
 
 			if(Robot.elevator.isCreepModeEnabled()){
 				

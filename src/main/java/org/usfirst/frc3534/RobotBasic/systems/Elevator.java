@@ -106,7 +106,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
             }
 
-            System.out.println("power output : " + elevatorTargetPower);
+            //System.out.println("power output : " + elevatorTargetPower);
 
             //setElevatorPower(elevatorTargetPower);
             elevator.set(elevatorTargetPower);
@@ -189,7 +189,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
                 }
 
-                setTranslatorPower(targetPower);
+                setTranslatorPower(-targetPower);
     
                 break;
     
@@ -253,7 +253,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setElevatorState(ElevatorState state){
 
         elevatorState = state;
-        System.out.println("Elevator State set at " + elevatorState);
+        //System.out.println("Elevator State set at " + elevatorState);
 
     }
 
@@ -279,7 +279,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setWinchState(WinchState state){
 
         winchState = state;
-        System.out.println("Winch State set at " + winchState);
+        //System.out.println("Winch State set at " + winchState);
 
     }
 
@@ -304,7 +304,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setTranslatorState(TranslatorState state){
 
         translatorState = state;
-        System.out.println("Translator State set at " + translatorState);
+        //System.out.println("Translator State set at " + translatorState);
 
     }
 

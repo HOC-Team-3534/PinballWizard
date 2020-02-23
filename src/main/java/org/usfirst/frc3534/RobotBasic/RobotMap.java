@@ -43,6 +43,7 @@ public class RobotMap {
 	public static ColorSensorV3 colorSensor;
 	public static DigitalInput indexBottom;
 	public static DigitalInput indexTop;
+	public static DigitalInput shootCounter;
 
 	public static Spark blinkin;
 
@@ -146,8 +147,10 @@ public class RobotMap {
 		spinner = new WPI_TalonSRX(15);
 		
 		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+		shootCounter = new DigitalInput(4);
 		indexBottom = new DigitalInput(1);
 		indexTop = new DigitalInput(0);
+
 
 		blinkin = new Spark(1);
 
@@ -213,9 +216,9 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shoot(15500), //17750
+		shooter_shooter_shoot(14750), //17750
 		shooter_topBelt_feed(.75),
-		shooter_indexWheel_feed(0.40),
+		shooter_indexWheel_feed(0.30),
 		shooter_indexWheel_index(0.35),
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),
@@ -223,7 +226,7 @@ public class RobotMap {
 		intake_intakeRoller_burp(-0.5),
 		intake_intakeArm_armUp(0.75),
 		intake_intakeArm_armDown(-0.75),
-		elevator_elevator_maxup(0.65),
+		elevator_elevator_maxup(0.9),
 		elevator_elevator_maxdown(0.5),
 		elevator_elevator_stop(0.1),
 		elevator_elevator_colorWheel(0.5),

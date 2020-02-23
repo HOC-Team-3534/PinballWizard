@@ -54,28 +54,28 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		RobotMap.init();
-		System.out.print("Initialized: RobotMap, ");
+		// System.out.print("Initialized: RobotMap, ");
 
 		drive = new Drive();
-		System.out.print("Drive, ");
+		// System.out.print("Drive, ");
 		shooter = new Shooter();
-		System.out.print("Shooter, ");
+		// System.out.print("Shooter, ");
 		intake = new Intake();
-		System.out.print("Intake, ");
+		// System.out.print("Intake, ");
 		elevator = new Elevator();
-		System.out.print("Elevator, ");
+		// System.out.print("Elevator, ");
 		spinner = new Spinner();
-		System.out.print("Spinner, ");
+		// System.out.print("Spinner, ");
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
 		oi = new OI();
-		System.out.print("OI, ");
+		// System.out.print("OI, ");
 
 		functionProcessor = new FunctionProcessor();
-		System.out.println("and FunctionProcessor");
+		// System.out.println("and FunctionProcessor");
 
 		SmartDashboard.putNumber("kf", .05);
 		SmartDashboard.putNumber("kp", 0.125);
@@ -253,6 +253,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Red", RobotMap.colorSensor.getColor().red);
 			SmartDashboard.putNumber("Green", RobotMap.colorSensor.getColor().green);
 			SmartDashboard.putNumber("Blue", RobotMap.colorSensor.getColor().blue);
+			
 			SmartDashboard.putNumber("Wheel Shooter Speed", RobotMap.shooter.getSelectedSensorVelocity());
 			SmartDashboard.putNumber("Left Front Encoder Position", RobotMap.frontLeftMotor.getSelectedSensorVelocity());
 			SmartDashboard.putNumber("Left Rear Encoder Position", RobotMap.backLeftMotor.getSelectedSensorVelocity());
@@ -262,11 +263,13 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
 			SmartDashboard.putBoolean("Bottom Sensor", RobotMap.indexBottom.get());
 			SmartDashboard.putBoolean("Top Sensor", RobotMap.indexTop.get());
+			SmartDashboard.putBoolean("Shoot Counter Sensor", RobotMap.shootCounter.get());
 
 			SmartDashboard.putNumber("Real NavX Angle", RobotMap.navx.getAngle());
 
 			SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
 			SmartDashboard.putString("Deployed", "yes");
+			
 
 			logCounter = 0;
 

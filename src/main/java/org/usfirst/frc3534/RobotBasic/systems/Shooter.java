@@ -20,6 +20,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
     private DigitalInput indexBottom = RobotMap.indexBottom;
     private DigitalInput indexTop = RobotMap.indexTop;
+    private DigitalInput shootCounter = RobotMap.shootCounter;
 
     int shooterVelocity = 0;
     int prevShooterVelocity = 0;
@@ -27,7 +28,8 @@ public class Shooter extends SystemBase implements SystemInterface {
     int indexWheelTargetPosition = 0;
 
     int ballsIndexed = 0;
-    boolean lastCheck = true;
+    boolean lastIndexCheck = true;
+    boolean lastShootCheck = true;
     int ballsShot = 0;
     int lastDifference = 0;
 
@@ -124,9 +126,9 @@ public class Shooter extends SystemBase implements SystemInterface {
             }
 
         ballShot();
-        System.out.print("BallShot Called... ");
+       //System.out.print("BallShot Called... ");
         ballIndexed();
-        System.out.println("BallIndexed Called...");
+       //System.out.println("BallIndexed Called...");
 
     }
 
@@ -199,7 +201,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setShooterState(ShooterState state){
 
         shooterState = state;
-        System.out.println("Shooter State set at " + shooterState);
+       //System.out.println("Shooter State set at " + shooterState);
 
     }
 
@@ -217,7 +219,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public int getShooterVelocity(){
 
-        return shooterVelocity;
+        return shooter.getSelectedSensorVelocity();//shooterVelocity;
 
     }
 
@@ -230,7 +232,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setHoodState(HoodState state){
 
         hoodState = state;
-        System.out.println("Hood State set at " + hoodState);
+       //System.out.println("Hood State set at " + hoodState);
 
     }
 
@@ -255,7 +257,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setTopBeltState(TopBeltState state){
 
         topBeltState = state;
-        System.out.println("Top Belt State set at " + topBeltState);
+       //System.out.println("Top Belt State set at " + topBeltState);
 
     }
 
@@ -275,7 +277,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         indexWheelState = state;
         indexWheelTargetPosition = indexWheel.getSelectedSensorPosition() + (int)indexWheelState.value;
-        System.out.println("Index Wheel State set at " + indexWheelState);
+       //System.out.println("Index Wheel State set at " + indexWheelState);
 
     }
 
@@ -299,16 +301,13 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     private void ballShot(){
 
-        prevShooterVelocity = shooterVelocity;
-        shooterVelocity = shooter.getSelectedSensorVelocity();
-        SmartDashboard.putNumber("Shooter Velocity", shooterVelocity);
-        int velocityDropLine = (int)shooterState.value - 400;
-        if(prevShooterVelocity > velocityDropLine && shooterVelocity <= velocityDropLine){
+        if(!RobotMap.shootCounter.get() && lastShootCheck){
 
             ballsShot++;
 
-
         }
+
+        lastShootCheck = RobotMap.shootCounter.get();
 
         SmartDashboard.putNumber("Balls Shot", ballsShot);
 
@@ -316,15 +315,15 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public void ballIndexed(){
 
-        if(!RobotMap.indexTop.get() && lastCheck) {
+        if(!RobotMap.indexTop.get() && lastIndexCheck) {
 
             ballsIndexed++;
 
         }
         
-        lastCheck = RobotMap.indexTop.get();
+        lastIndexCheck = RobotMap.indexTop.get();
         SmartDashboard.putNumber("Balls Indexed", ballsIndexed);
-        SmartDashboard.putBoolean("Last Check Top Sensor", lastCheck);
+        SmartDashboard.putBoolean("Last Check Top Sensor", lastIndexCheck);
 
     }
 
