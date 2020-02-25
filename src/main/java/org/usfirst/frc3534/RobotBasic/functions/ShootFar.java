@@ -21,34 +21,34 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && (Buttons.ShootFar.getButton() || Buttons.ShootFarBackUp.getButton())){
+        if(!running && (Buttons.ShootFar.getButton() || Buttons.ShootFarBackUp.getButton() || Robot.autonomous)){
 
             this.reset();
 
         }
         
-        System.out.println("ShootFar Cycle Start State: " + this.state);
+        // System.out.println("ShootFar Cycle Start State: " + this.state);
         
         if((!Buttons.ShootFar.getButton() && !Buttons.ShootFarBackUp.getButton()) && running){
 
             this.state = State.end.s;
-            System.out.println("ShootFar Changed to State: " + this.state);
+            // System.out.println("ShootFar Changed to State: " + this.state);
 
         }
         
         if(this.state == State.ready.s){
 
-            if(Buttons.ShootFar.getButton()){
+            if(Buttons.ShootFar.getButton() || Robot.autonomous){
 
                 this.started();
                 this.state = State.prepare.s;
-                System.out.println("ShootFar Changed to State: " + this.state);
+                // System.out.println("ShootFar Changed to State: " + this.state);
                 
             } else if (Buttons.ShootFarBackUp.getButton()){
 
                 this.started();
                 this.state = State.prepareBackUp.s;
-                System.out.println("ShootFar Changed to State: " + this.state);
+                // System.out.println("ShootFar Changed to State: " + this.state);
 
             }
 
@@ -58,11 +58,11 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
 
             Robot.shooter.setShooterState(ShooterState.shoot);
             Robot.drive.setDtmEnabled(true);
-            //System.out.println(Robot.shooter.getShooterVelocity());
+            //// System.out.println(Robot.shooter.getShooterVelocity());
             if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power - 250 && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
-                System.out.println("ShootFar Changed to State: " + this.state);
+                // System.out.println("ShootFar Changed to State: " + this.state);
 
             }
 
@@ -71,11 +71,11 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         if(this.state == State.prepareBackUp.s) {
 
             Robot.shooter.setShooterState(ShooterState.shoot);
-            //System.out.println(Robot.shooter.getShooterVelocity());
+            //// System.out.println(Robot.shooter.getShooterVelocity());
             if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power - 250) {
 
                 this.state = State.shoot.s;
-                System.out.println("ShootFar Changed to State: " + this.state);
+                // System.out.println("ShootFar Changed to State: " + this.state);
 
             }
 
@@ -86,7 +86,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setTopBeltState(TopBeltState.feed);
             Robot.shooter.setIndexWheelState(IndexWheelState.feed);
             this.state = State.dead.s;
-            System.out.println("ShootFar Changed to State: " + this.state);
+            // System.out.println("ShootFar Changed to State: " + this.state);
 
         }
 
@@ -103,13 +103,13 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setLastDifference();
             reset();
             completed();
-            System.out.println("ShootFar Changed to State: " + this.state);
+            // System.out.println("ShootFar Changed to State: " + this.state);
 
         }
 
     }
 
-    private enum State{
+    public enum State{
         dead(-1),
         ready(0),
         prepare(10),
@@ -122,6 +122,10 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         private State(int s){
             this.s = s;
         }
+    }
+
+    public void setState(State selectedState){
+        this.state = selectedState.s;
     }
 
 }

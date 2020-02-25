@@ -9,8 +9,8 @@ public class FunctionProcessor{
      * Create a new variable of each of the functions
      */
 
-    ShootFar shootFar;
-    ShootClose shootClose;
+    public ShootFar shootFar;
+    //ShootClose shootClose;
     Intake intake;
     RotationControl rotationControl;
     PositionControl positionControl;
@@ -26,7 +26,7 @@ public class FunctionProcessor{
         */
 
         shootFar = new ShootFar();
-        shootClose = new ShootClose();
+      //  shootClose = new ShootClose();
         intake = new Intake();
         rotationControl = new RotationControl();
         positionControl = new PositionControl();
@@ -45,57 +45,57 @@ public class FunctionProcessor{
         * methods are called
         */
 
-        if(!shootClose.isRunning()){
+        if(true){
 
-            System.out.println("Shoot Far Processing...");
+            // System.out.println("Shoot Far Processing...");
             shootFar.process();
 
         }
-        if(!shootFar.isRunning() && !Robot.elevator.isWinchClimbing() && false){
+        // if(!shootFar.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
-            System.out.println("Shoot Close Processing...");
-            shootClose.process();
+        //     // System.out.println("Shoot Close Processing...");
+        //     shootClose.process();
 
-        }
+        // }
         if(!Robot.elevator.isWinchClimbing()){
 
-            System.out.println("Intake Processing...");
+            // System.out.println("Intake Processing...");
             intake.process();
 
         }
         if(!elevate.isRunning() && !climb.isRunning() && !positionControl.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
-            System.out.println("Rotation Control Processing...");
+            // System.out.println("Rotation Control Processing...");
             rotationControl.process();
 
         }
         if(!elevate.isRunning() && !climb.isRunning() && !rotationControl.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
-            System.out.println("Position Control Processing...");
+            // System.out.println("Position Control Processing...");
             positionControl.process();
 
         }
         if(!climb.isRunning()){
 
-            System.out.println("Translate Processing...");
+            // System.out.println("Translate Processing...");
             translate.process();
 
         }
         if(!elevate.isRunning() && !positionControl.isRunning() && !rotationControl.isRunning() && !translate.isRunning()){
 
-            System.out.println("Climb Processing...");
+            // System.out.println("Climb Processing...");
             climb.process();
 
         }
         if(!climb.isRunning() && !positionControl.isRunning() && !rotationControl.isRunning() && !translate.isRunning() && !Robot.elevator.isWinchClimbing()){
 
-            System.out.println("Elevate Processing...");
+            // System.out.println("Elevate Processing...");
             elevate.process();
 
         }
-        if(!shootFar.isRunning() && !shootClose.isRunning()){
+        if(!shootFar.isRunning()/* && !shootClose.isRunning()*/){
 
-            System.out.println("AutoIndex Processing...");
+            // System.out.println("AutoIndex Processing...");
             autoIndex.process();
 
         }

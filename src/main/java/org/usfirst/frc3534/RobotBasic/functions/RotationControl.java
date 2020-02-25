@@ -25,12 +25,12 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
         }
         
-        System.out.println("RotationControl Cycle Start State: " + this.state);
+        // System.out.println("RotationControl Cycle Start State: " + this.state);
         
         if(!Buttons.RotationControl.getButton() && running && Robot.spinner.colorNoColor()){
 
             this.state = State.end.s;
-            System.out.println("RotationControl Changed to State: " + this.state);
+            // System.out.println("RotationControl Changed to State: " + this.state);
 
         }
         
@@ -40,7 +40,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
                 this.started();
                 this.state = State.elevate.s;
-                System.out.println("RotationControl Changed to State: " + this.state);
+                // System.out.println("RotationControl Changed to State: " + this.state);
                 
             }
 
@@ -50,7 +50,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
 
             Robot.elevator.setElevatorState(ElevatorState.colorPosition);
             this.state = State.searchForColor.s;
-            System.out.println("RotationControl Changed to State: " + this.state);
+            // System.out.println("RotationControl Changed to State: " + this.state);
 
         }
 
@@ -59,7 +59,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
             if(Robot.spinner.getColorCount() > 0){
 
                 this.state = State.spin.s;
-                System.out.println("RotationControl Changed to State: " + this.state);
+                // System.out.println("RotationControl Changed to State: " + this.state);
 
             }
 
@@ -74,7 +74,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
                 Robot.spinner.setSpinnerState(SpinnerState.off);
                 Robot.spinner.resetColorCount();
                 this.state = State.dead.s;
-                System.out.println("RotationControl Changed to State: " + this.state);
+                // System.out.println("RotationControl Changed to State: " + this.state);
 
             } 
 
@@ -89,7 +89,7 @@ public class RotationControl extends FunctionBase implements FunctionInterface{
             Robot.elevator.setElevatorState(ElevatorState.startPosition);
             reset();
             completed();
-            System.out.println("RotationControl Changed to State: " + this.state);
+            // System.out.println("RotationControl Changed to State: " + this.state);
 
         }
 

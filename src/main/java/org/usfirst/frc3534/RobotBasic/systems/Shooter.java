@@ -15,7 +15,7 @@ import com.revrobotics.ColorSensorV3;
 public class Shooter extends SystemBase implements SystemInterface {
 
     private WPI_TalonFX shooter = RobotMap.shooter;
-    private WPI_TalonSRX hood = RobotMap.hood;
+   // private WPI_TalonSRX hood = RobotMap.hood;
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
     private DigitalInput indexBottom = RobotMap.indexBottom;
@@ -24,7 +24,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     int shooterVelocity = 0;
     int prevShooterVelocity = 0;
-    int initialHoodPosition;
+    //int initialHoodPosition;
     int indexWheelTargetPosition = 0;
 
     int ballsIndexed = 0;
@@ -34,13 +34,13 @@ public class Shooter extends SystemBase implements SystemInterface {
     int lastDifference = 0;
 
     ShooterState shooterState = ShooterState.off;
-    HoodState hoodState = HoodState.close;
+    //HoodState hoodState = HoodState.close;
     TopBeltState topBeltState = TopBeltState.off;
     IndexWheelState indexWheelState = IndexWheelState.off;
 
     public Shooter(){
 
-        initialHoodPosition = hood.getSelectedSensorPosition();
+       // initialHoodPosition = hood.getSelectedSensorPosition();
 
     }
 
@@ -62,32 +62,32 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         }
 
-        switch(hoodState){
-            case far:
+        // switch(hoodState){
+        //     case far:
     
-                setHoodPower(hoodState.value);
-                if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
-                    setHoodState(HoodState.off);
-                } 
+        //         setHoodPower(hoodState.value);
+        //         if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
+        //             setHoodState(HoodState.off);
+        //         } 
     
-                break;
+        //         break;
 
-            case close:
+        //     case close:
 
-                setHoodPower(hoodState.value);
-                if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
-                    setHoodState(HoodState.off);
-                } 
+        //         setHoodPower(hoodState.value);
+        //         if(hood.getSupplyCurrent() > RobotMap.spikeCurrent){
+        //             setHoodState(HoodState.off);
+        //         } 
     
-                break;
+        //         break;
     
-            case off:
+        //     case off:
     
-                setHoodPower(hoodState.value); 
+        //         setHoodPower(hoodState.value); 
     
-                break;
+        //         break;
     
-            }
+        //     }
 
         switch(topBeltState){
             case feed:
@@ -128,7 +128,7 @@ public class Shooter extends SystemBase implements SystemInterface {
         ballShot();
        //System.out.print("BallShot Called... ");
         ballIndexed();
-       //System.out.println("BallIndexed Called...");
+       //// System.out.println("BallIndexed Called...");
 
     }
 
@@ -146,27 +146,27 @@ public class Shooter extends SystemBase implements SystemInterface {
         }
     }
 
-    public enum HoodState{
+    // public enum HoodState{
 
-        far(RobotMap.PowerOutput.shooter_hood_far.power),
-        close(RobotMap.PowerOutput.shooter_hood_close.power),
-        off(0.0);
+    //     far(RobotMap.PowerOutput.shooter_hood_far.power),
+    //     close(RobotMap.PowerOutput.shooter_hood_close.power),
+    //     off(0.0);
 
-        double value;
+    //     double value;
 
-        private HoodState(double value){
+    //     private HoodState(double value){
 
-            this.value = value;
+    //         this.value = value;
 
-        }
+    //     }
 
-    }
+    // }
 
-    public int getHoodValue(){
+    // public int getHoodValue(){
 
-        return initialHoodPosition + (int)hoodState.value;
+    //     return initialHoodPosition + (int)hoodState.value;
 
-    }
+    // }
 
     public enum TopBeltState{
         
@@ -201,7 +201,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void setShooterState(ShooterState state){
 
         shooterState = state;
-       //System.out.println("Shooter State set at " + shooterState);
+       //// System.out.println("Shooter State set at " + shooterState);
 
     }
 
@@ -229,35 +229,35 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
-    public void setHoodState(HoodState state){
+    // public void setHoodState(HoodState state){
 
-        hoodState = state;
-       //System.out.println("Hood State set at " + hoodState);
+    //     hoodState = state;
+    //    //// System.out.println("Hood State set at " + hoodState);
 
-    }
+    // }
 
-    public HoodState getHoodState(){
+    // public HoodState getHoodState(){
 
-        return hoodState;
+    //     return hoodState;
 
-    }
+    // }
 
-    private void setHoodPower(double power){
+    // private void setHoodPower(double power){
 
-        hood.set(ControlMode.PercentOutput, power);
+    //     hood.set(ControlMode.PercentOutput, power);
 
-    }
+    // }
 
-    public boolean isHoodGood(){
+    // public boolean isHoodGood(){
 
-        return hood.getSelectedSensorPosition() >= getHoodValue() - 30 && hood.getSelectedSensorPosition() <= getHoodValue() + 30;
+    //     return hood.getSelectedSensorPosition() >= getHoodValue() - 30 && hood.getSelectedSensorPosition() <= getHoodValue() + 30;
 
-    }
+    // }
 
     public void setTopBeltState(TopBeltState state){
 
         topBeltState = state;
-       //System.out.println("Top Belt State set at " + topBeltState);
+       //// System.out.println("Top Belt State set at " + topBeltState);
 
     }
 
@@ -277,7 +277,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         indexWheelState = state;
         indexWheelTargetPosition = indexWheel.getSelectedSensorPosition() + (int)indexWheelState.value;
-       //System.out.println("Index Wheel State set at " + indexWheelState);
+       //// System.out.println("Index Wheel State set at " + indexWheelState);
 
     }
 
@@ -309,7 +309,13 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         lastShootCheck = RobotMap.shootCounter.get();
 
-        SmartDashboard.putNumber("Balls Shot", ballsShot);
+        // SmartDashboard.putNumber("Balls Shot", ballsShot);
+
+    }
+
+    public int getBallsShot(){
+
+        return ballsShot;
 
     }
 
@@ -322,8 +328,8 @@ public class Shooter extends SystemBase implements SystemInterface {
         }
         
         lastIndexCheck = RobotMap.indexTop.get();
-        SmartDashboard.putNumber("Balls Indexed", ballsIndexed);
-        SmartDashboard.putBoolean("Last Check Top Sensor", lastIndexCheck);
+        // SmartDashboard.putNumber("Balls Indexed", ballsIndexed);
+        // SmartDashboard.putBoolean("Last Check Top Sensor", lastIndexCheck);
 
     }
 

@@ -73,8 +73,8 @@ public class Drive extends SystemBase implements SystemInterface {
 	public void process() {
 
 		updateOdometry();
-		SmartDashboard.putNumber("Odometry X Displacement", odometry.getPoseMeters().getTranslation().getX() / 1.537);
-		SmartDashboard.putNumber("Odometry Y Displacement", odometry.getPoseMeters().getTranslation().getY() / 1.537);
+		// SmartDashboard.putNumber("Odometry X Displacement", odometry.getPoseMeters().getTranslation().getX() / 1.537);
+		// SmartDashboard.putNumber("Odometry Y Displacement", odometry.getPoseMeters().getTranslation().getY() / 1.537);
 
 		if (Robot.teleop && Robot.enabled) {
 
@@ -98,7 +98,7 @@ public class Drive extends SystemBase implements SystemInterface {
 			navxAngle = (posDirection == rotDirection) ? -navxAngle: navxAngle;
 			tx = (posDirection == Direction.right) ? -tx: tx;
 			double totalAngle = navxAngle + tx;
-			SmartDashboard.putNumber("TotalAngle", totalAngle);
+			// SmartDashboard.putNumber("TotalAngle", totalAngle);
 			limelightX = distance * Math.sin(totalAngle);
 			limelightX = (posDirection == Direction.left) ? -limelightX: limelightX;
 			limelightY = distance * Math.cos(totalAngle);
@@ -137,15 +137,15 @@ public class Drive extends SystemBase implements SystemInterface {
 			centerOfRobotY = distance1 * Math.sin(angle3);
 			centerOfRobotX = (subtract) ? limelightX - distance1 * Math.cos(angle3):limelightX + distance1 * Math.cos(angle3);
 
-			SmartDashboard.putNumber("tx", tx);
-			SmartDashboard.putNumber("navx angle", getAngle().getDegrees());
-			SmartDashboard.putNumber("skew", skew);
-			SmartDashboard.putNumber("limelight y", limelightY);
-			SmartDashboard.putNumber("limelight x", limelightX);
-			SmartDashboard.putNumber("center of bot y", centerOfRobotY);
-			SmartDashboard.putNumber("center of bot x", centerOfRobotX);
-			SmartDashboard.putNumber("ty value", pixelAngle);
-			SmartDashboard.putNumber("distance", distance);
+			// SmartDashboard.putNumber("tx", tx);
+			// SmartDashboard.putNumber("navx angle", getAngle().getDegrees());
+			// SmartDashboard.putNumber("skew", skew);
+			// SmartDashboard.putNumber("limelight y", limelightY);
+			// SmartDashboard.putNumber("limelight x", limelightX);
+			// SmartDashboard.putNumber("center of bot y", centerOfRobotY);
+			// SmartDashboard.putNumber("center of bot x", centerOfRobotX);
+			// SmartDashboard.putNumber("ty value", pixelAngle);
+			// SmartDashboard.putNumber("distance", distance);
 
 //-----------------------------------------------------------------------------------------------------
 
@@ -153,7 +153,7 @@ public class Drive extends SystemBase implements SystemInterface {
 
 			negative = false;
 			longitudinal_input = Axes.Drive_ForwardBackward.getAxis();
-			SmartDashboard.putNumber("longitudinal input", longitudinal_input);
+			// SmartDashboard.putNumber("longitudinal input", longitudinal_input);
 			if(longitudinal_input < 0) negative = true;
 
 			longitudinal_output = Math.abs(longitudinal_input);
@@ -223,12 +223,12 @@ public class Drive extends SystemBase implements SystemInterface {
 			
 			if(dtmEnabled){
 
-				//System.out.println("im getting here");
+				//// System.out.println("im getting here");
 				aimError = regTx; // temporary fix;
 				double steering_adjust = 0.0;
 				overall_error += aimError;
 
-				System.out.println("...and the aimError is: " + aimError);
+				// System.out.println("...and the aimError is: " + aimError);
 
 				if (aimError > 0.1 ) {
 
@@ -255,7 +255,7 @@ public class Drive extends SystemBase implements SystemInterface {
 			
 			double total_output = longitudinal_output * latitudinal_output;
 			rotational_output = (2 * Math.pow(total_output, 2) - 2 * total_output + 1) * rotational_output;
-			System.out.println("******************Rotational OutPut: " + rotational_output);
+			// System.out.println("******************Rotational OutPut: " + rotational_output);
 
 			if(Robot.elevator.isCreepModeEnabled()){
 				
@@ -358,7 +358,7 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public Rotation2d getAngle(){
 
-		//System.out.println(-RobotMap.navx.getAngle());
+		//// System.out.println(-RobotMap.navx.getAngle());
 		return Rotation2d.fromDegrees(-RobotMap.navx.getAngle());
 
 	}

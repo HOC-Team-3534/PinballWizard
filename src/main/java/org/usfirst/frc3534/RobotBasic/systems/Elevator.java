@@ -43,7 +43,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     @Override
     public void process(){
 
-        //System.out.println("Elevator State : " + elevatorState);
+        //// System.out.println("Elevator State : " + elevatorState);
 
         switch(elevatorState){
         case up_down:
@@ -61,17 +61,17 @@ public class Elevator extends SystemBase implements SystemInterface {
                 input = 0;
             }
 
-            //System.out.println("input number before negation" + input);
+            //// System.out.println("input number before negation" + input);
 
             if(negative){
                 input = -input;
             }
 
             /*
-            System.out.println("input number after negation" + input);
+            // System.out.println("input number after negation" + input);
 
-            System.out.println("amount to add or subtract from position" + (int)Math.floor(input * elevatorState.value));
-            System.out.println("elevator position " + elevator.getSelectedSensorPosition());
+            // System.out.println("amount to add or subtract from position" + (int)Math.floor(input * elevatorState.value));
+            // System.out.println("elevator position " + elevator.getSelectedSensorPosition());
 
             int amountPosition = (int)Math.floor(input * elevatorState.value);
 
@@ -86,9 +86,9 @@ public class Elevator extends SystemBase implements SystemInterface {
             System.out.print("controller: " + Axes.Elevate_UpAndDown.getAxis());
             System.out.print(", target: " + elevatorTargetPower);
             System.out.print(", power out: " + elevator.getMotorOutputVoltage());
-            System.out.println(", initial: " + initialElevatorPosition);*/
+            // System.out.println(", initial: " + initialElevatorPosition);*/
 
-            //System.out.println("elevator input : " + input);
+            //// System.out.println("elevator input : " + input);
 
             if(input > 0){
 
@@ -106,7 +106,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
             }
 
-            //System.out.println("power output : " + elevatorTargetPower);
+            //// System.out.println("power output : " + elevatorTargetPower);
 
             //setElevatorPower(elevatorTargetPower);
             elevator.set(elevatorTargetPower);
@@ -253,7 +253,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setElevatorState(ElevatorState state){
 
         elevatorState = state;
-        //System.out.println("Elevator State set at " + elevatorState);
+        //// System.out.println("Elevator State set at " + elevatorState);
 
     }
 
@@ -271,7 +271,7 @@ public class Elevator extends SystemBase implements SystemInterface {
 
     public boolean isCreepModeEnabled(){
 
-        SmartDashboard.putNumber("Elevator Position", elevator.getSelectedSensorPosition() - initialElevatorPosition);
+        // SmartDashboard.putNumber("Elevator Position", elevator.getSelectedSensorPosition() - initialElevatorPosition);
         return elevator.getSelectedSensorPosition() - initialElevatorPosition <= RobotMap.elevatorCreepHeight;
 
     }
@@ -279,7 +279,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setWinchState(WinchState state){
 
         winchState = state;
-        //System.out.println("Winch State set at " + winchState);
+        //// System.out.println("Winch State set at " + winchState);
 
     }
 
@@ -304,7 +304,7 @@ public class Elevator extends SystemBase implements SystemInterface {
     public void setTranslatorState(TranslatorState state){
 
         translatorState = state;
-        //System.out.println("Translator State set at " + translatorState);
+        //// System.out.println("Translator State set at " + translatorState);
 
     }
 

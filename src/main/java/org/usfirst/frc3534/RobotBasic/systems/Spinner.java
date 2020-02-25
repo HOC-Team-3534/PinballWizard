@@ -89,7 +89,7 @@ public class Spinner extends SystemBase implements SystemInterface {
     public void setSpinnerState(SpinnerState state){
 
         spinnerState = state;
-       //System.out.println("Spinner State set at " + spinnerState);
+       //// System.out.println("Spinner State set at " + spinnerState);
 
     }
 

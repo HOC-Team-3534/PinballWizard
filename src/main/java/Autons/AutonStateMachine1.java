@@ -2,6 +2,9 @@ package Autons;
 
 import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
+import org.usfirst.frc3534.RobotBasic.functions.ShootFar.State;
+import org.usfirst.frc3534.RobotBasic.systems.Shooter;
+
 import Autons.AutonCalculations;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -9,7 +12,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-public class AutonStateMachine0 extends AutonStateMachineBase implements AutonStateMachineInterface {
+public class AutonStateMachine1 extends AutonStateMachineBase implements AutonStateMachineInterface {
 
 	int state = 1;
 	int stateCnt = 0;
@@ -24,7 +27,7 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 	//double part1Heading = Math.PI / 6;
 	//double part1Rotation = Math.PI;
 
-	public AutonStateMachine0() {
+	public AutonStateMachine1() {
 
 	}
 
@@ -79,12 +82,21 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 			Robot.drive.drive(part1.getXVelocity(false), part1.getYVelocity(true), rotationalVelocity, true);
 
 			if(part1.isFinished()){
-				nextState = 100;
+				nextState = 30;
 			}
 			break;
 
+		case 30:
+			
+			Robot.functionProcessor.shootFar.process();
+			
+			if(Robot.shooter.getBallsShot() == 3){
+				nextState = 100;
+			}
+
 		case 100:
 
+			Robot.functionProcessor.shootFar.setState(State.end);
 			RobotMap.frontLeftMotor.set(ControlMode.Velocity, 0);
 			RobotMap.frontRightMotor.set(ControlMode.Velocity, 0);
 			RobotMap.backLeftMotor.set(ControlMode.Velocity, 0);

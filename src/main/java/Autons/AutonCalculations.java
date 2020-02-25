@@ -75,7 +75,7 @@ public class AutonCalculations{
         total_distance = acceleration_distance * 2 + cruising_distance;
         total_cycles = (cycles_of_acceleration + 1) * 2 + cycles_of_cruising;
 
-        System.out.println(total_cycles);
+        // System.out.println(total_cycles);
 
     }
 
@@ -103,7 +103,7 @@ public class AutonCalculations{
 
         }else{
 
-            System.out.println("The autonomous cycle has completed. You can stop calling the getVelocity() method");
+            // System.out.println("The autonomous cycle has completed. You can stop calling the getVelocity() method");
 
         }
 

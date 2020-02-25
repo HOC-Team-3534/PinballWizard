@@ -30,7 +30,7 @@ public class RobotMap {
 	public static WPI_TalonFX frontRightMotor;		//4
 	public static WPI_TalonFX shooter; 				//5
 	public static WPI_TalonFX shooterSlave;			//6
-	public static WPI_TalonSRX hood;				//7
+	//public static WPI_TalonSRX hood;				//7
 	public static WPI_TalonSRX topBelt;				//8
 	public static WPI_TalonSRX indexWheel;			//9
 	public static WPI_TalonSRX intakeArm;			//10
@@ -117,7 +117,7 @@ public class RobotMap {
 		shooter.setInverted(false);
 		shooterSlave.setInverted(true);
 
-		hood = new WPI_TalonSRX(7);
+		//hood = new WPI_TalonSRX(7);
 
 		topBelt = new WPI_TalonSRX(8);
 		topBelt.setInverted(true);

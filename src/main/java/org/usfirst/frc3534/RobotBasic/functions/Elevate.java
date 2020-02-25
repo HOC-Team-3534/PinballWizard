@@ -24,12 +24,12 @@ public class Elevate extends FunctionBase implements FunctionInterface{
 
         }
         
-        System.out.println("Elevate Cycle Start State: " + this.state);
+        // System.out.println("Elevate Cycle Start State: " + this.state);
 
         if((Math.abs(Axes.Elevate_UpAndDown.getAxis()) < Robot.elevator.deadband) && running){
 
             this.state = State.end.s;
-            System.out.println("Elevate Changed to State: " + this.state);
+            // System.out.println("Elevate Changed to State: " + this.state);
 
         }
         
@@ -39,7 +39,7 @@ public class Elevate extends FunctionBase implements FunctionInterface{
 
                 this.started();
                 this.state = State.elevate.s;
-                System.out.println("Elevate Changed to State: " + this.state);
+                // System.out.println("Elevate Changed to State: " + this.state);
                 
             }
 
@@ -49,7 +49,7 @@ public class Elevate extends FunctionBase implements FunctionInterface{
 
             Robot.elevator.setElevatorState(ElevatorState.up_down);
             this.state = State.dead.s;
-            System.out.println("Elevate Changed to State: " + this.state);
+            // System.out.println("Elevate Changed to State: " + this.state);
 
         }
 
@@ -62,7 +62,7 @@ public class Elevate extends FunctionBase implements FunctionInterface{
             //Robot.elevator.setElevatorState(ElevatorState.stop);
             reset();
             completed();
-            System.out.println("Elevate Changed to State: " + this.state);
+            // System.out.println("Elevate Changed to State: " + this.state);
 
         }
 

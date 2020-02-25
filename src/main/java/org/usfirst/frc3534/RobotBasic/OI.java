@@ -90,16 +90,16 @@ public class OI {
 
 			}
         }),
-        ShootClose(new Callable<Boolean>(){
+        // ShootClose(new Callable<Boolean>(){
 
-            @Override
-            public Boolean call() throws Exception{
+        //     @Override
+        //     public Boolean call() throws Exception{
 
-                return Robot.oi.getController1().getBumper(Hand.kLeft);
+        //         return Robot.oi.getController1().getBumper(Hand.kLeft);
 
-			}
+		// 	}
 			
-		}),
+		// }),
 		Intake(new Callable<Boolean>(){
 
             @Override

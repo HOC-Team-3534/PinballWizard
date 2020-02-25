@@ -19,18 +19,18 @@ public class Intake extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Buttons.Intake.getButton()){
+        if(!running && (Buttons.Intake.getButton() || Robot.autonomous)){
 
             this.reset();
 
         }
 
-        System.out.println("Intake Cycle Start State: " + this.state);
+        // System.out.println("Intake Cycle Start State: " + this.state);
 
         if(!Buttons.Intake.getButton() && running){
 
             this.state = State.end.s;
-            System.out.println("Intake Changed to State: " + this.state);
+            // System.out.println("Intake Changed to State: " + this.state);
 
         }
         
@@ -40,7 +40,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
                 this.started();
                 this.state = State.intake.s;
-                System.out.println("Intake Changed to State: " + this.state);
+                // System.out.println("Intake Changed to State: " + this.state);
                 
             }
 
@@ -51,7 +51,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeArmState(IntakeArmState.down);
             Robot.intake.setIntakeRollerState(IntakeRollerState.intake);
             this.state = State.dead.s;
-            System.out.println("Intake Changed to State: " + this.state);
+            // System.out.println("Intake Changed to State: " + this.state);
 
         }
 
@@ -65,7 +65,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeRollerState(IntakeRollerState.off);
             reset();
             completed();
-            System.out.println("Intake Changed to State: " + this.state);
+            // System.out.println("Intake Changed to State: " + this.state);
 
         }
 

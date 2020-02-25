@@ -75,12 +75,12 @@ public class Robot extends TimedRobot {
 		// System.out.print("OI, ");
 
 		functionProcessor = new FunctionProcessor();
-		// System.out.println("and FunctionProcessor");
+		// // System.out.println("and FunctionProcessor");
 
-		SmartDashboard.putNumber("kf", .05);
-		SmartDashboard.putNumber("kp", 0.125);
-		SmartDashboard.putNumber("ki", 0.000001);
-		SmartDashboard.putNumber("kd", 3.0);
+		 SmartDashboard.putNumber("kf", .05);
+		 SmartDashboard.putNumber("kp", 0.125);
+		 SmartDashboard.putNumber("ki", 0.000001);
+		 SmartDashboard.putNumber("kd", 3.0);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 
-		int desiredAutonMode = 0;
+		int desiredAutonMode = 1;
 
 		try {
 
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
 		} catch (Exception ex) {
 		}
 
-		System.out.println("Running Auton " + desiredAutonMode);
+		// System.out.println("Running Auton " + desiredAutonMode);
 
 		switch (desiredAutonMode) {
 
@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
 
 		}
 
-		SmartDashboard.putNumber("aMode", desiredAutonMode);
+		// SmartDashboard.putNumber("aMode", desiredAutonMode);
 
 	}
 
@@ -246,29 +246,29 @@ public class Robot extends TimedRobot {
 		if (logCounter >= 5) {
 
 			// SmartDashboard Numbers
-			SmartDashboard.putNumber("Loop Period", loopPeriod);
-			SmartDashboard.putNumber("Loop Count", loopCnt);
+			// SmartDashboard.putNumber("Loop Period", loopPeriod);
+			// SmartDashboard.putNumber("Loop Count", loopCnt);
 			SmartDashboard.putNumber("autonMode", 0);
 
-			SmartDashboard.putNumber("Red", RobotMap.colorSensor.getColor().red);
-			SmartDashboard.putNumber("Green", RobotMap.colorSensor.getColor().green);
-			SmartDashboard.putNumber("Blue", RobotMap.colorSensor.getColor().blue);
+			// SmartDashboard.putNumber("Red", RobotMap.colorSensor.getColor().red);
+			// SmartDashboard.putNumber("Green", RobotMap.colorSensor.getColor().green);
+			// SmartDashboard.putNumber("Blue", RobotMap.colorSensor.getColor().blue);
 			
-			SmartDashboard.putNumber("Wheel Shooter Speed", RobotMap.shooter.getSelectedSensorVelocity());
-			SmartDashboard.putNumber("Left Front Encoder Position", RobotMap.frontLeftMotor.getSelectedSensorVelocity());
-			SmartDashboard.putNumber("Left Rear Encoder Position", RobotMap.backLeftMotor.getSelectedSensorVelocity());
-			SmartDashboard.putNumber("Right Front Encoder Position", RobotMap.frontRightMotor.getSelectedSensorVelocity());
-			SmartDashboard.putNumber("Right Rear Encoder Position", RobotMap.backRightMotor.getSelectedSensorVelocity());
+			// SmartDashboard.putNumber("Wheel Shooter Speed", RobotMap.shooter.getSelectedSensorVelocity());
+			// SmartDashboard.putNumber("Left Front Encoder Position", RobotMap.frontLeftMotor.getSelectedSensorVelocity());
+			// SmartDashboard.putNumber("Left Rear Encoder Position", RobotMap.backLeftMotor.getSelectedSensorVelocity());
+			// SmartDashboard.putNumber("Right Front Encoder Position", RobotMap.frontRightMotor.getSelectedSensorVelocity());
+			// SmartDashboard.putNumber("Right Rear Encoder Position", RobotMap.backRightMotor.getSelectedSensorVelocity());
 
-			SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
-			SmartDashboard.putBoolean("Bottom Sensor", RobotMap.indexBottom.get());
-			SmartDashboard.putBoolean("Top Sensor", RobotMap.indexTop.get());
-			SmartDashboard.putBoolean("Shoot Counter Sensor", RobotMap.shootCounter.get());
+			// SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
+			// SmartDashboard.putBoolean("Bottom Sensor", RobotMap.indexBottom.get());
+			// SmartDashboard.putBoolean("Top Sensor", RobotMap.indexTop.get());
+			// SmartDashboard.putBoolean("Shoot Counter Sensor", RobotMap.shootCounter.get());
 
-			SmartDashboard.putNumber("Real NavX Angle", RobotMap.navx.getAngle());
+			// SmartDashboard.putNumber("Real NavX Angle", RobotMap.navx.getAngle());
 
-			SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
-			SmartDashboard.putString("Deployed", "yes");
+			// SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
+			// SmartDashboard.putString("Deployed", "yes");
 			
 
 			logCounter = 0;
