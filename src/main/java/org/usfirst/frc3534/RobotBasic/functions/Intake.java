@@ -19,28 +19,34 @@ public class Intake extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && (Buttons.Intake.getButton() || Robot.autonomous)){
+        if(!running && Buttons.Intake.getButton()){
 
             this.reset();
 
         }
 
-        // System.out.println("Intake Cycle Start State: " + this.state);
+         System.out.println("Intake Cycle Start State: " + this.state);
 
-        if(!Buttons.Intake.getButton() && running){
+        if((!Buttons.Intake.getButton() && !Robot.isAutonomous) && running){
 
             this.state = State.end.s;
-            // System.out.println("Intake Changed to State: " + this.state);
+             System.out.println("Intake Changed to State: " + this.state);
+
+        }
+
+        if((Robot.isAutonomous && Robot.autonomousFunctionsDead) && running){
+
+            this.state = State.end.s;
 
         }
         
         if(this.state == State.ready.s){
 
-            if(Buttons.Intake.getButton()){
+            if(Buttons.Intake.getButton() || (Robot.isAutonomous && !Robot.autonomousFunctionsDead)){
 
                 this.started();
                 this.state = State.intake.s;
-                // System.out.println("Intake Changed to State: " + this.state);
+                 System.out.println("Intake Changed to State: " + this.state);
                 
             }
 
@@ -51,7 +57,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeArmState(IntakeArmState.down);
             Robot.intake.setIntakeRollerState(IntakeRollerState.intake);
             this.state = State.dead.s;
-            // System.out.println("Intake Changed to State: " + this.state);
+             System.out.println("Intake Changed to State: " + this.state);
 
         }
 
@@ -65,7 +71,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
             Robot.intake.setIntakeRollerState(IntakeRollerState.off);
             reset();
             completed();
-            // System.out.println("Intake Changed to State: " + this.state);
+             System.out.println("Intake Changed to State: " + this.state);
 
         }
 

@@ -2,6 +2,8 @@ package Autons;
 
 import org.usfirst.frc3534.RobotBasic.Robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutonCalculations{
 
     public double total_distance = 0, total_time = 0, total_cycles = 0;
@@ -37,6 +39,9 @@ public class AutonCalculations{
         this.finalMovementAngle = getMovementAngle(finalX, finalY);
         this.nextX = currX;
         this.nextY = currY;
+
+        SmartDashboard.putNumber("bot x", currX);
+        SmartDashboard.putNumber("bot y", currY);
 
         reset();
 
@@ -122,7 +127,7 @@ public class AutonCalculations{
 
     public double getMovementAngle(double finalX, double finalY){
 
-        double angle = Math.atan((finalY - currY) / (finalX - currX));
+        double angle = Math.atan(Math.abs(finalY - currY) / Math.abs(finalX - currX));
         double movementAngle = angle;
         if(finalX < currX && finalY > currY) { //quadrant 3
 
@@ -173,8 +178,11 @@ public class AutonCalculations{
     public double getXVelocity(boolean negated){
 
         double velocity = current_velocity * Math.cos(finalMovementAngle);
-        double error = currX - nextX;
-        int multiplier = (negated) ? -1:1;
+        double error = nextX - currX;
+        int multiplier = 1;
+        if(negated){
+            multiplier = -1;
+        }
         nextX += multiplier * velocity * cycle_time;
         velocity += error * kP + sumErrorX * kI + (error - lastErrorX) * kD;
         return velocity;
@@ -183,9 +191,12 @@ public class AutonCalculations{
 
     public double getYVelocity(boolean negated){
 
-        double velocity = current_velocity * Math.sin(finalMovementAngle);
-        double error = currY - nextY;
-        int multiplier = (negated) ? -1:1;
+        double velocity = current_velocity * -1 * Math.sin(finalMovementAngle);
+        double error = nextY - currY;
+        int multiplier = 1;
+        if(negated){
+            multiplier = -1;
+        }
         nextY += multiplier * velocity * cycle_time;
         velocity += error * kP + sumErrorY * kI + (error - lastErrorY) * kD;
         return velocity;

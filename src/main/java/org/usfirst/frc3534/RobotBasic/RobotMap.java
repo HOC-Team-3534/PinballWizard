@@ -136,6 +136,7 @@ public class RobotMap {
 		//elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		//elevator.setSelectedSensorPosition(0, 0, 0);
 		elevator.setInverted(true);
+		elevator.setNeutralMode(NeutralMode.Brake);
 		//elevator.setSensorPhase(true);
 		//elevator.selectProfileSlot(0, 0);
 
@@ -216,9 +217,10 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shoot(14750), //17750
+		shooter_shooter_shootConstant(14400), //17750
+		//shooter_shooter_shootInner(0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581),
 		shooter_topBelt_feed(.75),
-		shooter_indexWheel_feed(0.30),
+		shooter_indexWheel_feed(0.35),
 		shooter_indexWheel_index(0.35),
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),

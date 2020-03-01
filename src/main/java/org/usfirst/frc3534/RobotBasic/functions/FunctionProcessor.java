@@ -11,13 +11,14 @@ public class FunctionProcessor{
 
     public ShootFar shootFar;
     //ShootClose shootClose;
-    Intake intake;
+    public Intake intake;
     RotationControl rotationControl;
     PositionControl positionControl;
     Translate translate;
     Climb climb;
     Elevate elevate;
-    AutoIndex autoIndex;
+    AutoIndexReset autoIndexReset;
+    public AutoIndex autoIndex;
 
     public FunctionProcessor(){
 
@@ -34,6 +35,7 @@ public class FunctionProcessor{
         climb = new Climb();
         elevate = new Elevate();
         autoIndex = new AutoIndex();
+        autoIndexReset = new AutoIndexReset();
 
     }
 
@@ -50,6 +52,11 @@ public class FunctionProcessor{
             // System.out.println("Shoot Far Processing...");
             shootFar.process();
 
+        }
+        if(!shootFar.isRunning()){
+
+            autoIndexReset.process();
+        
         }
         // if(!shootFar.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 

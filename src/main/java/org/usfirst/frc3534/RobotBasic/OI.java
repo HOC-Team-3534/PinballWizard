@@ -129,7 +129,17 @@ public class OI {
 
             }
 
-        });
+        }),
+        IndexReset(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getBackButton());
+
+            }
+
+		});
 		
 		/** Add in Functions Buttons here */
 

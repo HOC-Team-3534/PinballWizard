@@ -38,7 +38,10 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 		case 1:
 		
 			//any initialization code here
-			nextState = 10;
+			Robot.functionProcessor.autoIndex.process();
+			if(Robot.shooter.getDifference() == 2){
+				nextState = 30;
+			}
 			break;
 
 		case 10:
@@ -47,7 +50,7 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 
 			//magic number = 1.537
 
-			part1 = new AutonCalculations(0, 200 , RobotMap.maxVelocity, 0.75, 0.020);
+			part1 = new AutonCalculations(30, -200 , RobotMap.maxVelocity, 0.75, 0.020);
 			part1.calculate();
 
 			nextState = 20;
@@ -76,11 +79,36 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 			// double angle_error = set_angle - Robot.drive.getAngle().getRadians();
 			// double correctional_velocity = angle_error * 0.30 + (angle_error - last_angle_error) * 0;
 			// last_angle_error = angle_error;
-			Robot.drive.drive(part1.getXVelocity(false), part1.getYVelocity(true), rotationalVelocity, true);
+			Robot.drive.drive(part1.getXVelocity(false), part1.getYVelocity(false), rotationalVelocity, true);
 
 			if(part1.isFinished()){
+				nextState = 30;
+			}
+			break;
+		
+		case 30:
+
+			Robot.drive.drive(0.1 * RobotMap.maxVelocity, 0, 0, true);
+
+			if(Robot.drive.getDistance() >= 275){
+				Robot.drive.drive(0, 0, 0, true);
+				nextState = 40;
+			}
+
+			break;
+		
+		case 40:
+
+			Robot.autonomousFunctionsDead = false;
+			
+			Robot.functionProcessor.shootFar.process();
+			
+			if(Robot.shooter.getBallsShot() == 3){
+				Robot.autonomousFunctionsDead = true;
+				Robot.functionProcessor.shootFar.process();
 				nextState = 100;
 			}
+
 			break;
 
 		case 100:

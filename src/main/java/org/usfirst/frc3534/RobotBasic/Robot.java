@@ -12,6 +12,7 @@ import org.usfirst.frc3534.RobotBasic.functions.FunctionProcessor;
 import org.usfirst.frc3534.RobotBasic.systems.*;
 
 import Autons.AutonStateMachine0;
+import Autons.AutonStateMachine1;
 import Autons.AutonStateMachineInterface;
 
 /**
@@ -30,6 +31,9 @@ public class Robot extends TimedRobot {
 	public static Elevator elevator;
 	public static Spinner spinner;
 	public static FunctionProcessor functionProcessor;
+
+	public static boolean autonomousFunctionsDead = true;
+	public static boolean isAutonomous = false;
 
 	private int loopPeriod = 0;
 	private int loopCnt = 0;
@@ -90,6 +94,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 
+		isAutonomous = false;
 		RobotMap.frontLeftMotor.set(ControlMode.Velocity, 0);
 		RobotMap.frontRightMotor.set(ControlMode.Velocity, 0);
 		RobotMap.backLeftMotor.set(ControlMode.Velocity, 0);
@@ -105,11 +110,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 
-		int desiredAutonMode = 1;
+		int desiredAutonMode = 0;
 
 		try {
 
-			desiredAutonMode = (int) SmartDashboard.getNumber("autonMode", 0);
+			desiredAutonMode = (int) SmartDashboard.getNumber("autonMode", 1);
 
 		} catch (Exception ex) {
 		}
@@ -124,6 +129,8 @@ public class Robot extends TimedRobot {
 			break;
 
 		case 1:
+
+			autonStateMachine = new AutonStateMachine1();
 
 			break;
 
@@ -148,6 +155,8 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 
 		long prevLoopTime = 0;
+
+		isAutonomous = this.isAutonomous();
 
 		while (this.isAutonomous()) {
 
@@ -199,6 +208,8 @@ public class Robot extends TimedRobot {
 
 		log();
 
+		isAutonomous = this.isAutonomous();
+
 		long prevLoopTime = 0;
 
 		while (this.isOperatorControl() && this.isEnabled()) {
@@ -248,7 +259,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard Numbers
 			// SmartDashboard.putNumber("Loop Period", loopPeriod);
 			// SmartDashboard.putNumber("Loop Count", loopCnt);
-			SmartDashboard.putNumber("autonMode", 0);
+			SmartDashboard.putNumber("autonMode", 1);
 
 			// SmartDashboard.putNumber("Red", RobotMap.colorSensor.getColor().red);
 			// SmartDashboard.putNumber("Green", RobotMap.colorSensor.getColor().green);
@@ -270,6 +281,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
 			// SmartDashboard.putString("Deployed", "yes");
 			
+			SmartDashboard.putNumber("Distance", Robot.drive.getDistance());
 
 			logCounter = 0;
 

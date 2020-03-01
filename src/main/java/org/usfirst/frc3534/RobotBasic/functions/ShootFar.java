@@ -1,5 +1,7 @@
 package org.usfirst.frc3534.RobotBasic.functions;
 
+import javax.sound.midi.SysexMessage;
+
 import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 import org.usfirst.frc3534.RobotBasic.OI.Buttons;
@@ -21,7 +23,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && (Buttons.ShootFar.getButton() || Buttons.ShootFarBackUp.getButton() || Robot.autonomous)){
+        if(!running && (Buttons.ShootFar.getButton() || Buttons.ShootFarBackUp.getButton())){
 
             this.reset();
 
@@ -29,16 +31,22 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
         
         // System.out.println("ShootFar Cycle Start State: " + this.state);
         
-        if((!Buttons.ShootFar.getButton() && !Buttons.ShootFarBackUp.getButton()) && running){
+        if(((!Buttons.ShootFar.getButton() && !Buttons.ShootFarBackUp.getButton()) && !Robot.isAutonomous) && running){
 
             this.state = State.end.s;
             // System.out.println("ShootFar Changed to State: " + this.state);
 
         }
+
+        if((Robot.isAutonomous && Robot.autonomousFunctionsDead) && running){
+
+            this.state = State.end.s;
+
+        }
         
         if(this.state == State.ready.s){
 
-            if(Buttons.ShootFar.getButton() || Robot.autonomous){
+            if(Buttons.ShootFar.getButton() || (Robot.isAutonomous && !Robot.autonomousFunctionsDead)){
 
                 this.started();
                 this.state = State.prepare.s;
@@ -56,10 +64,10 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.prepare.s) {
 
-            Robot.shooter.setShooterState(ShooterState.shoot);
+            Robot.shooter.setShooterState(ShooterState.shootInner);
             Robot.drive.setDtmEnabled(true);
             //// System.out.println(Robot.shooter.getShooterVelocity());
-            if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power - 250 && Robot.drive.getDtmCorrected()) {
+            if(Robot.shooter.getShooterVelocity() >= (Math.floor((0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581))) - 250 && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
                 // System.out.println("ShootFar Changed to State: " + this.state);
@@ -70,9 +78,9 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
 
         if(this.state == State.prepareBackUp.s) {
 
-            Robot.shooter.setShooterState(ShooterState.shoot);
+            Robot.shooter.setShooterState(ShooterState.shootConstant);
             //// System.out.println(Robot.shooter.getShooterVelocity());
-            if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shoot.power - 250) {
+            if(Robot.shooter.getShooterVelocity() >= RobotMap.PowerOutput.shooter_shooter_shootConstant.power - 250) {
 
                 this.state = State.shoot.s;
                 // System.out.println("ShootFar Changed to State: " + this.state);

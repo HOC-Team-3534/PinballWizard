@@ -44,9 +44,13 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public double setLFVelocity, setLRVelocity, setRFVelocity, setRRVelocity;
 
-	private double KpAim = 0.05;
-	private double KiAim = 0.0;				
-	private double KdAim = 7; 
+	private double KpAim = 0.15;
+	private double KiAim = 0.00045;				
+	private double KdAim = 22.5; 
+
+	private double kMaxError = 1.0;
+
+	private double kOffset = 0.0;
 
 	private boolean dtmEnabled = false;
 	private boolean dtmCorrected = false;
@@ -62,6 +66,7 @@ public class Drive extends SystemBase implements SystemInterface {
 	private double kLimelightToCenterDist = 10.3;
 	private double centerOfRobotY = 0.0;
 	private double centerOfRobotX = 0.0;
+	private double distance;
 
 	private Direction rotDirection;
 	private Direction posDirection;
@@ -76,22 +81,19 @@ public class Drive extends SystemBase implements SystemInterface {
 		// SmartDashboard.putNumber("Odometry X Displacement", odometry.getPoseMeters().getTranslation().getX() / 1.537);
 		// SmartDashboard.putNumber("Odometry Y Displacement", odometry.getPoseMeters().getTranslation().getY() / 1.537);
 
-		if (Robot.teleop && Robot.enabled) {
+		NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+		double regTx = table.getEntry("tx").getDouble(0.0);
+		double tx = table.getEntry("tx").getDouble(0.0) / 180 * Math.PI;
+		double height = table.getEntry("tvert").getDouble(0.0);
+		double width = table.getEntry("thor").getDouble(0.0);
+		double skew = table.getEntry("ts").getDouble(0.0);
 
-			//Network 
-			//Attempt at calling the Network Tables for Limelight and setting it 
-			NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-			double regTx = table.getEntry("tx").getDouble(0.0);
-			double tx = table.getEntry("tx").getDouble(0.0) / 180 * Math.PI;
-			double height = table.getEntry("tvert").getDouble(0.0);
-			double width = table.getEntry("thor").getDouble(0.0);
-			double skew = table.getEntry("ts").getDouble(0.0);
+		double pixelAngle = table.getEntry("ty").getDouble(0.0);
 
-			double pixelAngle = table.getEntry("ty").getDouble(0.0);
+		distance = (heightToTop - heightOfLimeLight) * Math.tan(Math.PI / 180 * (90 - (angleOfLimelight + pixelAngle)));
+		distance = distance / Math.cos(Math.abs(tx) / 180 * Math.PI);
 
-			double distance = (heightToTop - heightOfLimeLight) * Math.tan(Math.PI / 180 * (90 - (angleOfLimelight + pixelAngle)));
-			distance = distance / Math.cos(Math.abs(tx) / 180 * Math.PI);
-			double navxAngle = getRawAngle();
+		double navxAngle = getRawAngle();
 			navxAngle = (navxAngle > Math.PI) ? Math.PI * 2 - navxAngle:navxAngle;
 			posDirection = (skew > -45) ? Direction.right: Direction.left;
 			rotDirection = (getRawAngle() > Math.PI) ? Direction.right: Direction.left;
@@ -136,6 +138,14 @@ public class Drive extends SystemBase implements SystemInterface {
 			double angle3 = Math.PI / 2 - angle2;
 			centerOfRobotY = distance1 * Math.sin(angle3);
 			centerOfRobotX = (subtract) ? limelightX - distance1 * Math.cos(angle3):limelightX + distance1 * Math.cos(angle3);
+
+		if (Robot.teleop && Robot.enabled) {
+
+			//Network 
+			//Attempt at calling the Network Tables for Limelight and setting it 
+
+			
+			
 
 			// SmartDashboard.putNumber("tx", tx);
 			// SmartDashboard.putNumber("navx angle", getAngle().getDegrees());
@@ -188,14 +198,8 @@ public class Drive extends SystemBase implements SystemInterface {
 				latitudinal_output = 0;
 
 			}
-
-			if(System.currentTimeMillis() - prevTime >= 1500){
-
-				rotational_output = 0.0;
-				overall_error = 0.0;
-				prevTime = System.currentTimeMillis();
-	
-			}else if(!dtmEnabled){
+			
+			if(!dtmEnabled){
 
 				overall_error = 0.0;
 				negative = false;
@@ -218,48 +222,59 @@ public class Drive extends SystemBase implements SystemInterface {
 				}
 
 				dtmCorrected = false;
+				overall_error = 0.0;
 
-			}
-			
-			if(dtmEnabled){
+				double total_output = longitudinal_output * latitudinal_output;
+				rotational_output = (2 * Math.pow(total_output, 2) - 2 * total_output + 1) * rotational_output;
+
+			}else if(dtmEnabled){
 
 				//// System.out.println("im getting here");
-				aimError = regTx; // temporary fix;
+				aimError = regTx + kOffset; // temporary fix;
 				double steering_adjust = 0.0;
-				overall_error += aimError;
+				double errorChange = 0;
+				errorChange = aimError - last_error;
+
+				if(Math.abs(aimError) < 1){
+					overall_error += aimError;
+				} else {
+					overall_error = 0;
+				}
+				
+
+				last_error = aimError;
 
 				// System.out.println("...and the aimError is: " + aimError);
 
-				if (aimError > 0.1 ) {
-
-					steering_adjust = KpAim * aimError + KiAim * overall_error + (aimError - last_error) * KdAim;
-					dtmCorrected = false;
-		
-				}else if (aimError < -.1) {
-
-					steering_adjust = KpAim * aimError + KiAim * overall_error + (aimError - last_error) * KdAim;
-					dtmCorrected = false;
-				
-				}else{
-
-					steering_adjust = 0.0;
-					dtmCorrected = true;
-
+				if (aimError > kMaxError){
+					aimError = kMaxError;
+				}else if (aimError < -kMaxError){
+					aimError = -kMaxError;
 				}
 
-				last_error = aimError;
+				steering_adjust = KpAim * aimError + KiAim * overall_error + (errorChange) * KdAim;
+
+				if (Math.abs(steering_adjust) <= .05){
+
+					steering_adjust = 0;
+					dtmCorrected = true;
+
+				} else {
+
+					dtmCorrected = false;
+
+				}
 
 				rotational_output = steering_adjust;
 
 			}
 			
-			double total_output = longitudinal_output * latitudinal_output;
-			rotational_output = (2 * Math.pow(total_output, 2) - 2 * total_output + 1) * rotational_output;
+			
 			// System.out.println("******************Rotational OutPut: " + rotational_output);
 
 			if(Robot.elevator.isCreepModeEnabled()){
 				
-				drive(longitudinal_output * 0.4 * RobotMap.maxVelocity, latitudinal_output * 0.4 * RobotMap.maxVelocity, rotational_output * RobotMap.maxAngularVelocity, true);
+				drive(longitudinal_output * 0.4 * RobotMap.maxVelocity, latitudinal_output * 0.4 * RobotMap.maxVelocity, rotational_output * RobotMap.maxAngularVelocity * 0.5, true);
 
 			}else{
 
@@ -275,7 +290,48 @@ public class Drive extends SystemBase implements SystemInterface {
 
 		} else if (Robot.autonomous) {
 
-			//drive.tankDrive(leftPower, rightPower);
+			if(dtmEnabled){
+
+				/// System.out.println("im getting here");
+				aimError = regTx - kOffset;
+				double steering_adjust = 0.0;
+				double errorChange = 0;
+				errorChange = aimError - last_error;
+
+				if(Math.abs(aimError) < 1){
+					overall_error += aimError;
+				} else {
+					overall_error = 0;
+				}
+				
+
+				last_error = aimError;
+
+				// System.out.println("...and the aimError is: " + aimError);
+
+				if (aimError > kMaxError){
+					aimError = kMaxError;
+				}else if (aimError < -kMaxError){
+					aimError = -kMaxError;
+				}
+
+				steering_adjust = KpAim * aimError + KiAim * overall_error + (errorChange) * KdAim;
+
+				if (Math.abs(steering_adjust) <= .05){
+
+				steering_adjust = 0;
+				dtmCorrected = true;
+
+				} else {
+
+					dtmCorrected = false;
+
+				}
+				rotational_output = steering_adjust;
+
+				drive(0, 0, rotational_output * RobotMap.maxAngularVelocity * 0.5, true);
+
+			}
 
 		}
 
@@ -385,6 +441,10 @@ public class Drive extends SystemBase implements SystemInterface {
 
 		left,right
 
+	}
+	
+	public double getDistance(){
+		return distance;
 	}
 
 	public double getCurrentX(){

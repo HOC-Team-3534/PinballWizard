@@ -1,5 +1,6 @@
 package org.usfirst.frc3534.RobotBasic.systems;
 
+import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -27,10 +28,10 @@ public class Shooter extends SystemBase implements SystemInterface {
     //int initialHoodPosition;
     int indexWheelTargetPosition = 0;
 
-    int ballsIndexed = 0;
+    public int ballsIndexed = 0;
     boolean lastIndexCheck = true;
     boolean lastShootCheck = true;
-    int ballsShot = 0;
+    public int ballsShot = 0;
     int lastDifference = 0;
 
     ShooterState shooterState = ShooterState.off;
@@ -48,9 +49,16 @@ public class Shooter extends SystemBase implements SystemInterface {
     public void process(){
 
         switch(shooterState){
-        case shoot:
+        case shootConstant:
 
             setShooterPower(shooterState.value); 
+
+            break;
+
+        case shootInner:
+
+            setShooterPower(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 17886.2713)));
+           //  System.out.println("Speed: " + Math.floor((0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581)) + " | Distance: " + Robot.drive.getDistance());
 
             break;
 
@@ -134,7 +142,8 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public enum ShooterState{
         
-        shoot(RobotMap.PowerOutput.shooter_shooter_shoot.power),
+        shootConstant(RobotMap.PowerOutput.shooter_shooter_shootConstant.power),
+        shootInner(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 17886.2713))),
         off(0.0);
 
         double value;
@@ -227,6 +236,10 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         return prevShooterVelocity;
 
+    }
+
+    public double getShooterStateVelocity(){
+        return shooterState.value;
     }
 
     // public void setHoodState(HoodState state){
