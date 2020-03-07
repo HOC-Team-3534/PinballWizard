@@ -14,6 +14,8 @@ public class AutonStateMachine1 extends AutonStateMachineBase implements AutonSt
 	int state = 1;
 	int stateCnt = 0;
 
+	double startTime;
+
 	double set_angle = Robot.drive.getAngle().getRadians();
 	double last_angle_error = 0;
 
@@ -39,7 +41,7 @@ public class AutonStateMachine1 extends AutonStateMachineBase implements AutonSt
 		
 			//any initialization code here
 			Robot.functionProcessor.autoIndex.process();
-			if(Robot.shooter.getDifference() == 2){
+			if(Robot.shooter.getDifference() == 1){
 				nextState = 30;
 			}
 			break;
@@ -99,16 +101,27 @@ public class AutonStateMachine1 extends AutonStateMachineBase implements AutonSt
 		case 40:
 
 			Robot.functionProcessor.intake.process();
-			Robot.drive.drive(0.1 * RobotMap.maxVelocity, 0, 0, true);
+			Robot.drive.drive(0.3 * RobotMap.maxVelocity, 0, 0, true);
 
-			if(Robot.drive.getDistance() >= 225){
+			if(Robot.drive.getDistance() >= 245){
+				startTime = System.currentTimeMillis();
 				Robot.drive.drive(0, 0, 0, true);
 				nextState = 50;
 			}
 
 			break;
-		
+
 		case 50:
+		
+			if(System.currentTimeMillis() - startTime >= 900){
+				Robot.autonomousFunctionsDead = true;
+				Robot.functionProcessor.intake.process();
+				nextState = 60;
+			}
+
+			break;
+
+		case 60:
 
 			Robot.autonomousFunctionsDead = false;
 			
@@ -116,7 +129,6 @@ public class AutonStateMachine1 extends AutonStateMachineBase implements AutonSt
 			
 			if(Robot.shooter.getBallsShot() == 5){
 				Robot.autonomousFunctionsDead = true;
-				Robot.functionProcessor.intake.process();
 				Robot.functionProcessor.shootFar.process();
 				nextState = 100;
 			}
@@ -129,7 +141,7 @@ public class AutonStateMachine1 extends AutonStateMachineBase implements AutonSt
 			RobotMap.frontRightMotor.set(ControlMode.Velocity, 0);
 			RobotMap.backLeftMotor.set(ControlMode.Velocity, 0);
 			RobotMap.backRightMotor.set(ControlMode.Velocity, 0);
-
+			Robot.shooter.setBallsShot(0);
 			break;
 		}
 

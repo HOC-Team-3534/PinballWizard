@@ -40,8 +40,8 @@ public class AutonCalculations{
         this.nextX = currX;
         this.nextY = currY;
 
-        SmartDashboard.putNumber("bot x", currX);
-        SmartDashboard.putNumber("bot y", currY);
+       // SmartDashboard.putNumber("bot x", currX);
+       // SmartDashboard.putNumber("bot y", currY);
 
         reset();
 
@@ -90,7 +90,7 @@ public class AutonCalculations{
 
         getCurrentPostion();
 
-        System.out.print(current_cycle);
+       // System.out.print(current_cycle);
 
         if(current_cycle == 0){
 

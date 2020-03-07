@@ -56,8 +56,8 @@ public class Shooter extends SystemBase implements SystemInterface {
             break;
 
         case shootInner:
-
-            setShooterPower(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 17886.2713)));
+  
+            setShooterPower(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 19000)));
            //  System.out.println("Speed: " + Math.floor((0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581)) + " | Distance: " + Robot.drive.getDistance());
 
             break;
@@ -120,6 +120,18 @@ public class Shooter extends SystemBase implements SystemInterface {
                 break;
 
             case index:
+
+                setIndexWheelPower(indexWheelState.value); 
+
+                break;
+
+            case manualIndex:
+
+                setIndexWheelPower(indexWheelState.value); 
+
+                break;
+
+            case reverseIndex:
 
                 setIndexWheelPower(indexWheelState.value); 
 
@@ -196,6 +208,8 @@ public class Shooter extends SystemBase implements SystemInterface {
         
         feed(RobotMap.PowerOutput.shooter_indexWheel_feed.power),
         index(RobotMap.PowerOutput.shooter_indexWheel_index.power),
+        reverseIndex(RobotMap.PowerOutput.shooter_indexWheel_reverseIndex.power),
+        manualIndex(RobotMap.PowerOutput.shooter_indexWheel_manualIndex.power),
         off(0.0);
 
         double value;
@@ -332,6 +346,12 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
+    public void setBallsShot(int balls){
+
+        ballsShot = balls;
+
+    }
+
     public void ballIndexed(){
 
         if(!RobotMap.indexTop.get() && lastIndexCheck) {
@@ -348,6 +368,10 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     public int getDifference(){
 
+        if(Robot.functionProcessor.shootFar.isRunning()){
+            ballsIndexed = 0;
+            ballsShot = 0;
+        }
         return ballsIndexed - ballsShot;
 
     }
@@ -357,6 +381,10 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         lastDifference = getDifference();
 
+    }
+
+    public void setLastDifferenceOverrride(int overrideInput){
+        lastDifference = overrideInput;
     }
 
     public int getLastDifference(){

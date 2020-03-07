@@ -1,16 +1,15 @@
 package org.usfirst.frc3534.RobotBasic.functions;
 
 import org.usfirst.frc3534.RobotBasic.Robot;
-import org.usfirst.frc3534.RobotBasic.OI.Axes;
 import org.usfirst.frc3534.RobotBasic.OI.Buttons;
 import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeArmState;
 import org.usfirst.frc3534.RobotBasic.systems.Intake.IntakeRollerState;
 
-public class Intake extends FunctionBase implements FunctionInterface{
+public class ReverseIntake extends FunctionBase implements FunctionInterface{
 
     long originalTime = 0;
 
-    public Intake(){
+    public ReverseIntake(){
 
         reset();
         completed();
@@ -20,7 +19,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
     @Override
     public void process(){
 
-        if(!running && Buttons.Intake.getButton()){
+        if(!running && Buttons.ReverseIntake.getButton()){
 
             this.reset();
 
@@ -28,35 +27,28 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         // System.out.println("Intake Cycle Start State: " + this.state);
 
-        if((!Buttons.Intake.getButton() && !Robot.isAutonomous) && running){
+        if(!Buttons.ReverseIntake.getButton() && running){
 
             this.state = State.end.s;
             // System.out.println("Intake Changed to State: " + this.state);
 
         }
-
-        if((Robot.isAutonomous && Robot.autonomousFunctionsDead) && running){
-
-            this.state = State.end.s;
-
-        }
         
         if(this.state == State.ready.s){
 
-            if(Buttons.Intake.getButton() || (Robot.isAutonomous && !Robot.autonomousFunctionsDead) && !(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5)){
+            if(Buttons.ReverseIntake.getButton()){
 
                 this.started();
-                this.state = State.intake.s;
+                this.state = State.revereseIntake.s;
                //  System.out.println("Intake Changed to State: " + this.state);
                 
             }
 
         }
 
-        if(this.state == State.intake.s){
+        if(this.state == State.revereseIntake.s){
 
-            Robot.intake.setIntakeArmState(IntakeArmState.down);
-            Robot.intake.setIntakeRollerState(IntakeRollerState.intake);
+            Robot.intake.setIntakeRollerState(IntakeRollerState.reverseIntake);
             this.state = State.dead.s;
             // System.out.println("Intake Changed to State: " + this.state);
 
@@ -66,13 +58,8 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5){
-            this.state = State.end.s;
-        }
-
         if(this.state == State.end.s){
-            
-            Robot.intake.setIntakeArmState(IntakeArmState.up);
+
             Robot.intake.setIntakeRollerState(IntakeRollerState.off);
             reset();
             completed();
@@ -85,7 +72,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
     private enum State{
         dead(-1),
         ready(0),
-        intake(10),
+        revereseIntake(10),
         end(100);
 
         int s;

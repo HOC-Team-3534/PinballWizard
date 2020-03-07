@@ -67,7 +67,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setShooterState(ShooterState.shootInner);
             Robot.drive.setDtmEnabled(true);
             //// System.out.println(Robot.shooter.getShooterVelocity());
-            if(Robot.shooter.getShooterVelocity() >= (Math.floor((0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581))) - 250 && Robot.drive.getDtmCorrected()) {
+            if(Robot.shooter.getShooterVelocity() >= (Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 19000))) - 250 && Robot.drive.getDtmCorrected()) {
 
                 this.state = State.shoot.s;
                 // System.out.println("ShootFar Changed to State: " + this.state);
@@ -108,7 +108,7 @@ public class ShootFar extends FunctionBase implements FunctionInterface{
             Robot.shooter.setShooterState(ShooterState.off);
             Robot.shooter.setTopBeltState(TopBeltState.off);
             Robot.shooter.setIndexWheelState(IndexWheelState.off);
-            Robot.shooter.setLastDifference();
+            Robot.shooter.setLastDifferenceOverrride(0);
             reset();
             completed();
             // System.out.println("ShootFar Changed to State: " + this.state);

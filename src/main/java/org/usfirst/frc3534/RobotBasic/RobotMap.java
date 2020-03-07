@@ -54,7 +54,7 @@ public class RobotMap {
 
 	public static final int shooterVelocityDrop = 0;
 
-	public static final double spikeCurrent = 6.0;
+	public static final double spikeCurrent = 7.0;
 	public static final double rollerSpikeCurrent = 55.0;
 	
 	public static final int elevator_maxHeight = 10000;
@@ -219,15 +219,17 @@ public class RobotMap {
 
 		shooter_shooter_shootConstant(14400), //17750
 		//shooter_shooter_shootInner(0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581),
-		shooter_topBelt_feed(.75),
-		shooter_indexWheel_feed(0.35),
-		shooter_indexWheel_index(0.35),
+		shooter_topBelt_feed(0.80),
+		shooter_indexWheel_feed(0.40),
+		shooter_indexWheel_index(0.40),
+		shooter_indexWheel_reverseIndex(1.0),
+		shooter_indexWheel_manualIndex(-1.0),
 		shooter_hood_far(0.5),
 		shooter_hood_close(-0.5),
 		intake_intakeRoller_intake(.75),
 		intake_intakeRoller_burp(-0.5),
-		intake_intakeArm_armUp(0.75),
-		intake_intakeArm_armDown(-0.75),
+		intake_intakeArm_armUp(0.80),
+		intake_intakeArm_armDown(-0.80),
 		elevator_elevator_maxup(0.9),
 		elevator_elevator_maxdown(0.5),
 		elevator_elevator_stop(0.1),

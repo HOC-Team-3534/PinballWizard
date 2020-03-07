@@ -73,6 +73,12 @@ public class Intake extends SystemBase implements SystemInterface {
     
                 break;
 
+            case reverseIntake:
+
+                setIntakeRollerPower(intakeRollerState.value);
+    
+                break;
+
             case burp:
 
                 if(System.currentTimeMillis() - originalRollerTime >= RobotMap.FunctionStateDelay.intakeRoller_burpDelay.time){
@@ -112,6 +118,7 @@ public class Intake extends SystemBase implements SystemInterface {
     public enum IntakeRollerState{
         
         intake(RobotMap.PowerOutput.intake_intakeRoller_intake.power),
+        reverseIntake(-RobotMap.PowerOutput.intake_intakeRoller_intake.power),
         burp(RobotMap.PowerOutput.intake_intakeRoller_burp.power),
         off(0.0);
 

@@ -105,7 +105,37 @@ public class OI {
             @Override
             public Boolean call() throws Exception{
 
-                return Robot.oi.getController1().getTriggerAxis(Hand.kLeft) >= 0.5;
+                return Boolean.valueOf(Robot.oi.getController1().getTriggerAxis(Hand.kLeft) >= 0.5);
+
+			}
+			
+        }),
+        ReverseIntake(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getXButton());
+
+			}
+			
+        }),
+        ReverseIndex(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getBumper(Hand.kLeft));
+
+			}
+			
+        }),
+        ManualIndex(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getTriggerAxis(Hand.kLeft) >= .5);
 
 			}
 			
@@ -213,7 +243,7 @@ public class OI {
             @Override
             public Double call() throws Exception{
 
-                return -Robot.oi.getController2().getY(Hand.kRight);
+                return -Robot.oi.getController2().getY(Hand.kLeft);
 
 			}
 			
@@ -223,7 +253,7 @@ public class OI {
             @Override
             public Double call() throws Exception{
 
-                return -Robot.oi.getController2().getY(Hand.kLeft);
+                return -Robot.oi.getController2().getY(Hand.kRight);
 
 			}
 			

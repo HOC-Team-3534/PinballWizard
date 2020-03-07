@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-public class AutonStateMachine0 extends AutonStateMachineBase implements AutonStateMachineInterface {
+public class AutonStateMachine2 extends AutonStateMachineBase implements AutonStateMachineInterface {
 
 	int state = 1;
 	int stateCnt = 0;
@@ -25,7 +25,7 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 	//double part1Heading = Math.PI / 6;
 	//double part1Rotation = Math.PI;
 
-	public AutonStateMachine0() {
+	public AutonStateMachine2() {
 
 	}
 
@@ -93,7 +93,7 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 
 			Robot.drive.drive(0.3 * RobotMap.maxVelocity, 0, 0, true);
 
-			if(Robot.drive.getDistance() >= start_distance + 3){
+			if(Robot.drive.getDistance() >= start_distance + 3.0){
 				Robot.drive.drive(0, 0, 0, true);
 				nextState = 40;
 			}

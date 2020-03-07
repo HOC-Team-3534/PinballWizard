@@ -44,16 +44,17 @@ public class Drive extends SystemBase implements SystemInterface {
 
 	public double setLFVelocity, setLRVelocity, setRFVelocity, setRRVelocity;
 
-	private double KpAim = 0.15;
-	private double KiAim = 0.00045;				
+	private double KpAim = 0.045;
+	private double KiAim = 0.000425;				
 	private double KdAim = 22.5; 
 
-	private double kMaxError = 1.0;
-
-	private double kOffset = 0.0;
+	private double kMaxError = 4.0;
+	private double last_steering_adjust = 0.0;
+	private double kOffset = 2.25;
 
 	private boolean dtmEnabled = false;
 	private boolean dtmCorrected = false;
+	private boolean dtmLockedOn = false;
 
 	private long prevTime = System.currentTimeMillis();
 
@@ -229,13 +230,17 @@ public class Drive extends SystemBase implements SystemInterface {
 
 			}else if(dtmEnabled){
 
-				//// System.out.println("im getting here");
-				aimError = regTx + kOffset; // temporary fix;
+				/// System.out.println("im getting here");
+				aimError = regTx + kOffset;
 				double steering_adjust = 0.0;
 				double errorChange = 0;
 				errorChange = aimError - last_error;
 
-				if(Math.abs(aimError) < 1){
+				/*if(Robot.drive.posDirection == Direction.left){
+					aimError += kOffset;
+				}*/
+
+				if(Math.abs(aimError) < 2){
 					overall_error += aimError;
 				} else {
 					overall_error = 0;
@@ -254,9 +259,8 @@ public class Drive extends SystemBase implements SystemInterface {
 
 				steering_adjust = KpAim * aimError + KiAim * overall_error + (errorChange) * KdAim;
 
-				if (Math.abs(steering_adjust) <= .05){
+				if (Math.abs(steering_adjust) <= .05 && Math.abs(errorChange) <= .05){
 
-					steering_adjust = 0;
 					dtmCorrected = true;
 
 				} else {
@@ -265,7 +269,24 @@ public class Drive extends SystemBase implements SystemInterface {
 
 				}
 
+				double steering_adjust_change = steering_adjust - last_steering_adjust;
+				last_steering_adjust = steering_adjust;
+
+				/*if(steering_adjust_change > 0.005 && steering_adjust_change < .01){
+					dtmLockedOn = true;
+				}
+
+				if (dtmLockedOn){
+
+					steering_adjust = 0;
+					dtmCorrected = true;
+
+				}*/
+
 				rotational_output = steering_adjust;
+
+				drive(0, 0, rotational_output * RobotMap.maxAngularVelocity * 0.5, true);
+
 
 			}
 			
@@ -293,12 +314,16 @@ public class Drive extends SystemBase implements SystemInterface {
 			if(dtmEnabled){
 
 				/// System.out.println("im getting here");
-				aimError = regTx - kOffset;
+				aimError = regTx + kOffset;
 				double steering_adjust = 0.0;
 				double errorChange = 0;
 				errorChange = aimError - last_error;
 
-				if(Math.abs(aimError) < 1){
+				/*if(Robot.drive.posDirection == Direction.left){
+					aimError += kOffset;
+				}*/
+
+				if(Math.abs(aimError) < 2){
 					overall_error += aimError;
 				} else {
 					overall_error = 0;
@@ -317,24 +342,37 @@ public class Drive extends SystemBase implements SystemInterface {
 
 				steering_adjust = KpAim * aimError + KiAim * overall_error + (errorChange) * KdAim;
 
-				if (Math.abs(steering_adjust) <= .05){
+				if (Math.abs(steering_adjust) <= .05 && Math.abs(errorChange) <= .05){
 
-				steering_adjust = 0;
-				dtmCorrected = true;
+					dtmCorrected = true;
 
 				} else {
 
 					dtmCorrected = false;
 
 				}
-				rotational_output = steering_adjust;
 
+				double steering_adjust_change = steering_adjust - last_steering_adjust;
+				last_steering_adjust = steering_adjust;
+
+				/*if(steering_adjust_change > 0.005 && steering_adjust_change < .01){
+					dtmLockedOn = true;
+				}
+
+				if (dtmLockedOn){
+
+					steering_adjust = 0;
+					dtmCorrected = true;
+
+				}*/
+
+				rotational_output = steering_adjust;
+				
 				drive(0, 0, rotational_output * RobotMap.maxAngularVelocity * 0.5, true);
 
+			
 			}
-
 		}
-
 		// uncomment the following code to test for max velocity
 		/*
 		 * double velocity;

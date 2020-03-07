@@ -1,6 +1,8 @@
 package org.usfirst.frc3534.RobotBasic.functions;
 
 import org.usfirst.frc3534.RobotBasic.Robot;
+import org.usfirst.frc3534.RobotBasic.OI.Axes;
+import org.usfirst.frc3534.RobotBasic.OI.Buttons;
 import org.usfirst.frc3534.RobotBasic.systems.Shooter.IndexWheelState;
 
 public class AutoIndex extends FunctionBase implements FunctionInterface{
@@ -23,7 +25,7 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
         
         // System.out.println("AutoIndex Cycle Start State: " + this.state);
 
-        if(Robot.shooter.getLastDifference() < 2 && Robot.shooter.getDifference() < 2){
+        if((Robot.shooter.getLastDifference() < 2 && Robot.shooter.getDifference() < 2) && (Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .025)){
 
             if(Robot.shooter.getIndexWheelState() == IndexWheelState.off  && Robot.shooter.isBottomSensorBall()){
 
@@ -58,6 +60,10 @@ public class AutoIndex extends FunctionBase implements FunctionInterface{
 
             Robot.shooter.setIndexWheelState(IndexWheelState.off);
 
+        }
+
+        if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .025){
+            completed();
         }
 
     }

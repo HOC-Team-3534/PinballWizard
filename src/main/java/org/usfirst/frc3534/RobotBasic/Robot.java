@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier; 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import org.usfirst.frc3534.RobotBasic.functions.FunctionProcessor;
 import org.usfirst.frc3534.RobotBasic.systems.*;
 
 import Autons.AutonStateMachine0;
 import Autons.AutonStateMachine1;
+import Autons.AutonStateMachine2;
 import Autons.AutonStateMachineInterface;
 
 /**
@@ -99,6 +101,11 @@ public class Robot extends TimedRobot {
 		RobotMap.frontRightMotor.set(ControlMode.Velocity, 0);
 		RobotMap.backLeftMotor.set(ControlMode.Velocity, 0);
 		RobotMap.backRightMotor.set(ControlMode.Velocity, 0);
+		
+		RobotMap.frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+		RobotMap.frontRightMotor.setNeutralMode(NeutralMode.Coast);
+		RobotMap.backLeftMotor.setNeutralMode(NeutralMode.Coast);
+		RobotMap.backRightMotor.setNeutralMode(NeutralMode.Coast);
 
 	}
 
@@ -110,11 +117,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 
+		RobotMap.frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.frontRightMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.backLeftMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.backRightMotor.setNeutralMode(NeutralMode.Brake);
+
 		int desiredAutonMode = 0;
 
 		try {
 
-			desiredAutonMode = (int) SmartDashboard.getNumber("autonMode", 1);
+			desiredAutonMode = (int) SmartDashboard.getNumber("autonMode", 0);
 
 		} catch (Exception ex) {
 		}
@@ -135,6 +147,8 @@ public class Robot extends TimedRobot {
 			break;
 
 		case 2:
+
+			autonStateMachine = new AutonStateMachine2();
 
 			break;
 
@@ -198,6 +212,11 @@ public class Robot extends TimedRobot {
 		RobotMap.shooter.config_kI(0, SmartDashboard.getNumber("ki", 0.0), 0);
 		RobotMap.shooter.config_kD(0, SmartDashboard.getNumber("kd", 0.0), 0);
 
+		RobotMap.frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.frontRightMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.backLeftMotor.setNeutralMode(NeutralMode.Brake);
+		RobotMap.backRightMotor.setNeutralMode(NeutralMode.Brake);
+
 	}
 
 	/**
@@ -259,7 +278,10 @@ public class Robot extends TimedRobot {
 			// SmartDashboard Numbers
 			// SmartDashboard.putNumber("Loop Period", loopPeriod);
 			// SmartDashboard.putNumber("Loop Count", loopCnt);
-			SmartDashboard.putNumber("autonMode", 1);
+			SmartDashboard.putNumber("autonMode", 0);
+			SmartDashboard.putNumber("Distance", drive.getDistance());
+
+			// SmartDashboard.putNumber("Shooter Speed", Robot.shooter.getShooterVelocity());
 
 			// SmartDashboard.putNumber("Red", RobotMap.colorSensor.getColor().red);
 			// SmartDashboard.putNumber("Green", RobotMap.colorSensor.getColor().green);
@@ -271,7 +293,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putNumber("Right Front Encoder Position", RobotMap.frontRightMotor.getSelectedSensorVelocity());
 			// SmartDashboard.putNumber("Right Rear Encoder Position", RobotMap.backRightMotor.getSelectedSensorVelocity());
 
-			// SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
+			SmartDashboard.putNumber("Index Difference", Robot.shooter.getDifference());
 			// SmartDashboard.putBoolean("Bottom Sensor", RobotMap.indexBottom.get());
 			// SmartDashboard.putBoolean("Top Sensor", RobotMap.indexTop.get());
 			// SmartDashboard.putBoolean("Shoot Counter Sensor", RobotMap.shootCounter.get());
@@ -281,7 +303,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putBoolean("CreepMode", elevator.isCreepModeEnabled());
 			// SmartDashboard.putString("Deployed", "yes");
 			
-			SmartDashboard.putNumber("Distance", Robot.drive.getDistance());
+			// SmartDashboard.putNumber("Distance", Robot.drive.getDistance());
 
 			logCounter = 0;
 

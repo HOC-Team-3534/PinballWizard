@@ -12,12 +12,14 @@ public class FunctionProcessor{
     public ShootFar shootFar;
     //ShootClose shootClose;
     public Intake intake;
+    ReverseIntake reverseIntake;
     RotationControl rotationControl;
     PositionControl positionControl;
     Translate translate;
     Climb climb;
     Elevate elevate;
     AutoIndexReset autoIndexReset;
+    ManualIndex manualIndex;
     public AutoIndex autoIndex;
 
     public FunctionProcessor(){
@@ -28,7 +30,9 @@ public class FunctionProcessor{
 
         shootFar = new ShootFar();
       //  shootClose = new ShootClose();
+        manualIndex = new ManualIndex();
         intake = new Intake();
+        reverseIntake = new ReverseIntake();
         rotationControl = new RotationControl();
         positionControl = new PositionControl();
         translate = new Translate();
@@ -46,11 +50,16 @@ public class FunctionProcessor{
         * Pay special attention to the order in which the function
         * methods are called
         */
-
+        
         if(true){
 
             // System.out.println("Shoot Far Processing...");
             shootFar.process();
+
+        }
+        if(true){
+
+            manualIndex.process();
 
         }
         if(!shootFar.isRunning()){
@@ -69,6 +78,9 @@ public class FunctionProcessor{
             // System.out.println("Intake Processing...");
             intake.process();
 
+        }
+        if(!intake.isRunning()){
+            reverseIntake.process();
         }
         if(!elevate.isRunning() && !climb.isRunning() && !positionControl.isRunning() && !Robot.elevator.isWinchClimbing() && false){
 
@@ -100,7 +112,7 @@ public class FunctionProcessor{
             elevate.process();
 
         }
-        if(!shootFar.isRunning()/* && !shootClose.isRunning()*/){
+        if(!shootFar.isRunning() && !manualIndex.isRunning()/* && !shootClose.isRunning()*/){
 
             // System.out.println("AutoIndex Processing...");
             autoIndex.process();
