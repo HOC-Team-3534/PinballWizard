@@ -160,6 +160,16 @@ public class OI {
             }
 
         }),
+        IntakeOverride(new Callable<Boolean>(){
+
+            @Override
+            public Boolean call() throws Exception{
+
+                return Boolean.valueOf(Robot.oi.getController2().getBButton());
+
+            }
+
+        }),
         IndexReset(new Callable<Boolean>(){
 
             @Override

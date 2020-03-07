@@ -217,7 +217,7 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shootConstant(14400), //17750
+		shooter_shooter_shootConstant(15500), //17750
 		//shooter_shooter_shootInner(0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581),
 		shooter_topBelt_feed(0.80),
 		shooter_indexWheel_feed(0.40),

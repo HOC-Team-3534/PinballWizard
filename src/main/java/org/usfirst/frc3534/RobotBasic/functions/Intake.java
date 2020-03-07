@@ -43,7 +43,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
         
         if(this.state == State.ready.s){
 
-            if(Buttons.Intake.getButton() || (Robot.isAutonomous && !Robot.autonomousFunctionsDead) && !(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5)){
+            if((Buttons.Intake.getButton() || (Robot.isAutonomous && !Robot.autonomousFunctionsDead)) && (!(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5) /*|| Buttons.IntakeOverride.getButton()*/)){
 
                 this.started();
                 this.state = State.intake.s;
@@ -66,7 +66,7 @@ public class Intake extends FunctionBase implements FunctionInterface{
 
         }
 
-        if(Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5){
+        if((Math.abs(Axes.Elevate_UpAndDown.getAxis()) >= .5) || Buttons.IntakeOverride.getButton()){
             this.state = State.end.s;
         }
 

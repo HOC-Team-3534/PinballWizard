@@ -57,7 +57,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
         case shootInner:
   
-            setShooterPower(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 19000)));
+            setShooterPower(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 19325)));
            //  System.out.println("Speed: " + Math.floor((0.1127 * Math.pow((Robot.drive.getDistance()), 2) - (42.1417 * Robot.drive.getDistance()) + 17746.7581)) + " | Distance: " + Robot.drive.getDistance());
 
             break;
@@ -155,7 +155,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     public enum ShooterState{
         
         shootConstant(RobotMap.PowerOutput.shooter_shooter_shootConstant.power),
-        shootInner(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 17886.2713))),
+        shootInner(Math.floor((0.1076 * Math.pow((Robot.drive.getDistance()), 2) - (42.0584 * Robot.drive.getDistance()) + 19325))),
         off(0.0);
 
         double value;

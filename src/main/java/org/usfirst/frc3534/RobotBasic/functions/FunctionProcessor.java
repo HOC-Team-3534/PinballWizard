@@ -1,5 +1,6 @@
 package org.usfirst.frc3534.RobotBasic.functions;
 
+import org.usfirst.frc3534.RobotBasic.OI;
 import org.usfirst.frc3534.RobotBasic.Robot;
 import org.usfirst.frc3534.RobotBasic.RobotMap;
 
@@ -50,7 +51,12 @@ public class FunctionProcessor{
         * Pay special attention to the order in which the function
         * methods are called
         */
-        
+        if(true/*!climb.isRunning() && /*!positionControl.isRunning() && !rotationControl.isRunning() &&*/ /*!translate.isRunning() && !Robot.elevator.isWinchClimbing()*/){
+
+            // System.out.println("Elevate Processing...");
+            elevate.process();
+
+        }
         if(true){
 
             // System.out.println("Shoot Far Processing...");
@@ -73,7 +79,7 @@ public class FunctionProcessor{
         //     shootClose.process();
 
         // }
-        if(!Robot.elevator.isWinchClimbing()){
+        if(!Robot.elevator.isWinchClimbing() && !elevate.isRunning() /*&& OI.Buttons.IntakeOverride.getButton()*/){
 
             // System.out.println("Intake Processing...");
             intake.process();
@@ -106,13 +112,7 @@ public class FunctionProcessor{
             climb.process();
 
         }
-        if(!climb.isRunning() && !positionControl.isRunning() && !rotationControl.isRunning() && !translate.isRunning() && !Robot.elevator.isWinchClimbing()){
-
-            // System.out.println("Elevate Processing...");
-            elevate.process();
-
-        }
-        if(!shootFar.isRunning() && !manualIndex.isRunning()/* && !shootClose.isRunning()*/){
+        if(!shootFar.isRunning() && !manualIndex.isRunning() && !elevate.isRunning()/* && !shootClose.isRunning()*/){
 
             // System.out.println("AutoIndex Processing...");
             autoIndex.process();

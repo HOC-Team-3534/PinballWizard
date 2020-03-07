@@ -41,7 +41,7 @@ public class AutonStateMachine0 extends AutonStateMachineBase implements AutonSt
 		
 			//any initialization code here
 			Robot.functionProcessor.autoIndex.process();
-			if(Robot.shooter.getDifference() == 2){
+			if(Robot.shooter.getDifference() == 1){
 				start_distance = Robot.drive.getDistance();
 				nextState = 30;
 			}

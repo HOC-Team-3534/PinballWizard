@@ -94,8 +94,12 @@ public class Elevator extends SystemBase implements SystemInterface {
 
                 elevatorTargetPower = input * RobotMap.PowerOutput.elevator_elevator_maxup.power;
 
-                elevatorTargetPower = (elevatorTargetPower < RobotMap.PowerOutput.elevator_elevator_stop.power) ? RobotMap.PowerOutput.elevator_elevator_stop.power: elevatorTargetPower;
+                //elevatorTargetPower = (elevatorTargetPower < RobotMap.PowerOutput.elevator_elevator_stop.power) ? RobotMap.PowerOutput.elevator_elevator_stop.power: elevatorTargetPower;
 
+                if(elevatorTargetPower < RobotMap.PowerOutput.elevator_elevator_stop.power){
+                    elevatorTargetPower = RobotMap.PowerOutput.elevator_elevator_stop.power;
+                }
+                
             } else if(input < 0){
 
                 elevatorTargetPower = input * RobotMap.PowerOutput.elevator_elevator_maxdown.power;
